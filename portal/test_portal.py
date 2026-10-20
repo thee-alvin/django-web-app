@@ -1,6 +1,8 @@
 from pathlib import Path
+from tempfile import TemporaryDirectory
+
 from django.conf import settings
-from django.test import SimpleTestCase
+from django.test import Client, SimpleTestCase, override_settings
 from unittest.mock import patch
 
 from django.test import override_settings
@@ -29,6 +31,44 @@ class PortalPageTests(SimpleTestCase):
 
     def test_data_paths_follow_the_configured_mount(self):
         self.assertEqual(DATA_DIR, settings.TLC_DATA_DIR)
+
+    def test_profile_picture_route_serves_from_configured_media_directory(self):
+        with TemporaryDirectory() as media_dir:
+            picture = Path(media_dir) / "TLC_001.jpg"
+            picture.write_bytes(b"test-image")
+            with override_settings(TLC_PROFILE_PICTURE_DIR=media_dir):
+                response = self.client.get(
+                    "/media/profile_pictures/TLC_001.jpg"
+                )
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(
+                    b"".join(response.streaming_content),
+                    b"test-image",
+                )
+                response.close()
+
+    def test_page_sets_csrf_cookie_for_ajax_mutations(self):
+        client = Client(enforce_csrf_checks=True)
+        response = client.get("/login")
+
+        self.assertEqual(response.status_code, 200)
+        csrf_token = response.cookies["csrftoken"].value
+        self.assertContains(response, "/static/js/csrf.js")
+
+        rejected = client.post(
+            "/api/login",
+            data="{}",
+            content_type="application/json",
+        )
+        self.assertEqual(rejected.status_code, 403)
+
+        accepted = client.post(
+            "/api/login",
+            data="{}",
+            content_type="application/json",
+            HTTP_X_CSRFTOKEN=csrf_token,
+        )
+        self.assertEqual(accepted.status_code, 400)
 
     def test_status_endpoint_returns_expected_payload(self):
         response = self.client.get("/api/status")

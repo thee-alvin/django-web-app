@@ -2,6 +2,7 @@ import base64
 import hashlib
 import hmac
 import json
+import logging
 import os
 import re
 from datetime import datetime, timedelta
@@ -15,6 +16,7 @@ from openpyxl import load_workbook
 
 MEMBERS_FILE = Path(settings.TLC_DATA_DIR) / "spreadsheets" / "01_MEMBERS.xlsx"
 ALLOWED_PROFILE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
+logger = logging.getLogger(__name__)
 
 
 def _json_body(request):
@@ -49,7 +51,7 @@ def _member_profile_picture_path(member_id):
     if not safe_id:
         return ""
 
-    directory = Path(settings.TLC_DATA_DIR).parent / "frontend" / "assets" / "profile_pictures"
+    directory = Path(settings.TLC_PROFILE_PICTURE_DIR)
     for extension in (".jpg", ".jpeg", ".png", ".webp"):
         if (directory / f"{safe_id}{extension}").exists():
             return f"{safe_id}{extension}"
@@ -144,8 +146,7 @@ def _record_activity(member_id, action, description):
             category="authentication" if action == "Member Login" else "profile",
         )
     except Exception:
-        # Activity logging must not make an otherwise successful member request fail.
-        pass
+        logger.exception("Unable to record member activity.")
 
 
 def _failure(message, status):
@@ -451,7 +452,7 @@ def update_profile(request):
             extension = Path(filename).suffix.lower()
             if not filename or extension not in ALLOWED_PROFILE_EXTENSIONS:
                 return _failure("Use JPG, JPEG, PNG or WEBP for your profile picture.", 400)
-            picture_dir = Path(settings.TLC_DATA_DIR).parent / "frontend" / "assets" / "profile_pictures"
+            picture_dir = Path(settings.TLC_PROFILE_PICTURE_DIR)
             picture_dir.mkdir(parents=True, exist_ok=True)
             safe_id = member_id.replace("/", "_").replace("\\", "_")
             for old_extension in ALLOWED_PROFILE_EXTENSIONS:

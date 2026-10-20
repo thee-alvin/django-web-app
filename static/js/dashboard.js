@@ -102,7 +102,7 @@ function setAvatar(element, member) {
     }
 
     const imageUrl =
-        "/static/assets/profile_pictures/" +
+        "/media/profile_pictures/" +
         encodeURIComponent(safeName);
 
     element.textContent = "";

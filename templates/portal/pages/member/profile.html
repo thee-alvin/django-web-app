@@ -826,7 +826,7 @@ function loadProfilePhoto(member) {
     }
 
     const imageUrl =
-        "/static/assets/profile_pictures/" +
+        "/media/profile_pictures/" +
         encodeURIComponent(safeName);
 
     photo.onload = function () {
@@ -1039,7 +1039,7 @@ function openEditProfile() {
     ) {
 
         preview.src =
-            "/static/assets/profile_pictures/" +
+            "/media/profile_pictures/" +
             encodeURIComponent(
                 currentMember.profile_picture
             );

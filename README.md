@@ -20,8 +20,8 @@ For local HTTP development, set `DJANGO_DEBUG=True` and
 For production, set `DJANGO_DEBUG=False`, provide the deployed hostname in
 `DJANGO_ALLOWED_HOSTS`, set HTTPS origins in `DJANGO_CSRF_TRUSTED_ORIGINS`, and
 provide unique credentials through environment variables. Set `DATABASE_URL` to the
-hosting provider's PostgreSQL connection string and mount `TLC_DATA_DIR` as persistent
-storage. The included `Procfile` runs database migrations and collects static files
+hosting provider's PostgreSQL connection string and mount `TLC_DATA_DIR` and
+`TLC_PROFILE_PICTURE_DIR` as persistent storage. The included `Procfile` runs database migrations and collects static files
 for the web service and starts a separate worker service for background jobs. It also
 installs Chromium for the existing receipt PDF renderer. For a container host, install
 the operating-system libraries required by Playwright Chromium during the image build.

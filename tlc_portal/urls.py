@@ -14,5 +14,10 @@ urlpatterns = [
     path("system-health/", views.system_health),
     path("api/status", views.status, name="status"),
     path("api/status/", views.status),
+    path(
+        "media/profile_pictures/<path:file_name>",
+        views.profile_picture,
+        name="profile-picture",
+    ),
     path("<path:page_path>", views.page, name="page"),
 ]

@@ -117,6 +117,15 @@ TLC_DATA_DIR = Path(os.getenv("TLC_DATA_DIR", str(BASE_DIR / "data")))
 if not TLC_DATA_DIR.is_absolute():
     TLC_DATA_DIR = (BASE_DIR / TLC_DATA_DIR).resolve()
 
+TLC_PROFILE_PICTURE_DIR = Path(
+    os.getenv(
+        "TLC_PROFILE_PICTURE_DIR",
+        str(BASE_DIR / "media" / "profile_pictures"),
+    )
+)
+if not TLC_PROFILE_PICTURE_DIR.is_absolute():
+    TLC_PROFILE_PICTURE_DIR = (BASE_DIR / TLC_PROFILE_PICTURE_DIR).resolve()
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SAMESITE = "Lax"
