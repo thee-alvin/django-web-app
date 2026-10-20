@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TLC Constitution</title>
+
+    <link rel="stylesheet" href="/static/assets/constitution.css">
+</head>
+
+<body>
+
+<div class="constitution-app">
+
+    <aside class="constitution-sidebar">
+
+        <div class="sidebar-brand">
+
+            <img
+                src="/static/assets/tlc_logo.jpeg"
+                alt="TLC"
+                class="sidebar-logo"
+            >
+
+            <div>
+                <div class="brand-name">THE LEGACY CIRCLE</div>
+                <div class="brand-subtitle">MEMBERS PORTAL</div>
+            </div>
+
+        </div>
+
+        <nav class="constitution-nav">
+
+            <a href="/dashboard">
+                <span class="nav-icon">⌂</span>
+                Dashboard
+            </a>
+
+            <a href="/member/constitution" class="active">
+                <span class="nav-icon">▣</span>
+                Constitution
+            </a>
+
+        </nav>
+
+        <div class="sidebar-footer">
+            <div>United in Purpose.</div>
+            <div>Built to Last.</div>
+        </div>
+
+    </aside>
+
+
+    <main class="constitution-main">
+
+        <header class="page-header">
+
+            <div>
+                <div class="page-eyebrow">
+                    GROUP DOCUMENT
+                </div>
+
+                <h1>
+                    TLC Constitution
+                </h1>
+
+                <p>
+                    The official governing document of The Legacy Circle
+                </p>
+            </div>
+
+            <div class="header-badge">
+                OFFICIAL
+            </div>
+
+        </header>
+
+
+        <section class="constitution-overview">
+
+            <div class="overview-card">
+                <span class="overview-label">
+                    ORGANIZATION
+                </span>
+
+                <strong>
+                    The Legacy Circle
+                </strong>
+            </div>
+
+            <div class="overview-card">
+                <span class="overview-label">
+                    FOUNDING DATE
+                </span>
+
+                <strong>
+                    1 September 2026
+                </strong>
+            </div>
+
+            <div class="overview-card">
+                <span class="overview-label">
+                    DOCUMENT
+                </span>
+
+                <strong>
+                    Official Constitution
+                </strong>
+            </div>
+
+        </section>
+
+
+        <section class="constitution-toolbar">
+
+            <div class="search-box">
+                <span>⌕</span>
+
+                <input
+                    type="search"
+                    id="constitutionSearch"
+                    placeholder="Search the Constitution..."
+                    autocomplete="off"
+                >
+            </div>
+
+            <button
+                type="button"
+                id="expandAllButton"
+                class="toolbar-button">
+                Expand All
+            </button>
+
+            <button
+                type="button"
+                id="collapseAllButton"
+                class="toolbar-button">
+                Collapse All
+            </button>
+
+        </section>
+
+
+        <section class="constitution-container">
+
+            <div class="constitution-intro">
+
+                <div class="intro-icon">
+                    TLC
+                </div>
+
+                <div>
+                    <h2>
+                        Official Constitution
+                    </h2>
+
+                    <p>
+                        This section contains the official constitutional
+                        provisions governing The Legacy Circle.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div id="constitutionContent">
+
+                <div class="constitution-loading">
+                    Loading Constitution...
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <footer class="constitution-footer">
+
+            <div>
+                Powered by Alvin Tech Solutions
+            </div>
+
+            <div>
+                © 2026 Thee Alvin Tech Solutions — All Rights Reserved
+            </div>
+
+        </footer>
+
+    </main>
+
+</div>
+
+<script src="/static/js/constitution.js"></script>
+
+</body>
+</html>
+
+
+<script src="/static/js/constitution_actions.js"></script>

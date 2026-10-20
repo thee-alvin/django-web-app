@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>TLC | Activity Center</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/css/dashboard.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/static/assets/responsive.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/static/css/activity.css"
+    >
+
+</head>
+
+<body>
+
+<main class="activity-page">
+
+    <div class="activity-shell">
+
+        <!-- HEADER -->
+
+        <header class="activity-header">
+
+            <div class="activity-brand">
+
+                <div class="activity-brand-mark">
+                    TLC
+                </div>
+
+                <div>
+                    <span class="activity-eyebrow">
+                        THE LEGACY CIRCLE
+                    </span>
+
+                    <h1>
+                        Activity Center
+                    </h1>
+
+                    <p>
+                        Track your latest activity across the TLC Member Portal.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="activity-header-actions">
+
+                <a
+                    href="/dashboard"
+                    class="activity-dashboard-link"
+                >
+                    <span>←</span>
+                    Dashboard
+                </a>
+
+                <button
+                    type="button"
+                    id="refreshActivity"
+                    class="activity-refresh"
+                >
+                    <span>↻</span>
+                    Refresh
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- SUMMARY -->
+
+        <section class="activity-summary">
+
+            <article class="activity-stat-card">
+
+                <div class="stat-icon">
+                    ◷
+                </div>
+
+                <div>
+
+                    <span>
+                        TOTAL EVENTS
+                    </span>
+
+                    <strong id="activityTotal">
+                        0
+                    </strong>
+
+                </div>
+
+            </article>
+
+
+            <article class="activity-stat-card">
+
+                <div class="stat-icon">
+                    ✓
+                </div>
+
+                <div>
+
+                    <span>
+                        LATEST ACTIVITY
+                    </span>
+
+                    <strong id="activityLatest">
+                        —
+                    </strong>
+
+                </div>
+
+            </article>
+
+
+            <article class="activity-stat-card">
+
+                <div class="stat-icon">
+                    🔐
+                </div>
+
+                <div>
+
+                    <span>
+                        ACCOUNT SECURITY
+                    </span>
+
+                    <strong>
+                        Protected
+                    </strong>
+
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <!-- MAIN ACTIVITY CARD -->
+
+        <section class="activity-card">
+
+            <div class="activity-card-header">
+
+                <div>
+
+                    <span class="activity-section-label">
+                        YOUR TIMELINE
+                    </span>
+
+                    <h2>
+                        Recent Account Activity
+                    </h2>
+
+                    <p>
+                        A chronological record of actions performed on your TLC account.
+                    </p>
+
+                </div>
+
+
+                <div class="activity-status">
+
+                    <span class="status-dot"></span>
+
+                    Live Activity
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="activityList"
+                class="activity-list"
+            >
+
+                <div class="activity-loading">
+
+                    <div class="loading-spinner"></div>
+
+                    <span>
+                        Loading your activity...
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+
+        <footer class="activity-footer">
+
+            <span>
+                Secure Member Activity
+            </span>
+
+            <span class="footer-divider">
+                •
+            </span>
+
+            <span>
+                The Legacy Circle
+            </span>
+
+        </footer>
+
+    </div>
+
+</main>
+
+
+<script src="/static/js/member/activity.js"></script>
+
+</body>
+</html>

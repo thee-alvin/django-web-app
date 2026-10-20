@@ -1,0 +1,2206 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>TLC Analytics</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #07111F;
+    color: #ffffff;
+}
+
+.container {
+    max-width: 1400px;
+    margin: auto;
+    padding: 25px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+h1 {
+    margin: 0 0 6px 0;
+}
+
+.subtitle {
+    opacity: .7;
+}
+
+button,
+select,
+input {
+    font: inherit;
+}
+
+button {
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    cursor: pointer;
+}
+
+.filters {
+    display: grid;
+    grid-template-columns:
+        1.2fr
+        1fr
+        1fr
+        1fr
+        1fr
+        auto;
+    gap: 12px;
+    background: #0d1b2a;
+    border: 1px solid #1d3557;
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 20px;
+}
+
+input,
+select {
+    width: 100%;
+    background: #07111F;
+    color: #ffffff;
+    border: 1px solid #1d3557;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns:
+        repeat(5, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.card {
+    background: #0d1b2a;
+    border: 1px solid #1d3557;
+    border-radius: 14px;
+    padding: 18px;
+}
+
+.label {
+    font-size: 12px;
+    opacity: .7;
+}
+
+.value {
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 7px;
+}
+
+.member-summary {
+    display: none;
+    grid-template-columns:
+        1.2fr
+        1fr
+        1fr
+        1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.section-title {
+    margin-top: 0;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns:
+        1fr
+        1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.small-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.small-list li {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #1d3557;
+    padding: 9px 0;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 12px;
+    border-bottom: 1px solid #1d3557;
+    text-align: left;
+    white-space: nowrap;
+}
+
+th {
+    opacity: .7;
+    font-size: 12px;
+}
+
+.muted {
+    opacity: .65;
+}
+
+@media (max-width: 1100px) {
+
+    .filters {
+        grid-template-columns:
+            repeat(3, 1fr);
+    }
+
+    .stats {
+        grid-template-columns:
+            repeat(3, 1fr);
+    }
+
+    .member-summary {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 700px) {
+
+    .container {
+        padding: 15px;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .filters {
+        grid-template-columns: 1fr;
+    }
+
+    .stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 450px) {
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .member-summary {
+        grid-template-columns: 1fr;
+    }
+}
+
+        .member-search {
+            position: relative;
+        }
+
+        .member-results {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: calc(100% + 4px);
+            background: #0d1b2a;
+            border: 1px solid #1d3557;
+            border-radius: 8px;
+            max-height: 260px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+
+        .member-result {
+            padding: 10px 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #1d3557;
+        }
+
+        .member-result:hover {
+            background: #13263b;
+        }
+
+        .selected-member {
+            margin-top: 6px;
+            font-size: 12px;
+            opacity: .7;
+        }
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .chart-card {
+            background: #0d1b2a;
+            border: 1px solid #1d3557;
+            border-radius: 14px;
+            padding: 18px;
+            min-height: 330px;
+        }
+
+        .chart-title {
+            margin: 0 0 15px 0;
+        }
+
+        .chart-subtitle {
+            opacity: .6;
+            font-size: 12px;
+            margin-bottom: 18px;
+        }
+
+        .bar-chart {
+            display: flex;
+            align-items: end;
+            gap: 6px;
+            height: 220px;
+            border-bottom: 1px solid #1d3557;
+            padding: 10px 4px 0 4px;
+            overflow-x: auto;
+        }
+
+        .bar-group {
+            flex: 1 0 18px;
+            min-width: 18px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+            align-items: center;
+        }
+
+        .bar {
+            width: 100%;
+            min-height: 2px;
+            border-radius: 4px 4px 0 0;
+            background: #1687F7;
+        }
+
+        .bar.login-bar {
+            background: #D4AF37;
+        }
+
+        .bar-label {
+            font-size: 9px;
+            opacity: .65;
+            margin-top: 6px;
+            white-space: nowrap;
+            transform: rotate(-45deg);
+        }
+
+        .horizontal-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .horizontal-row {
+            display: grid;
+            grid-template-columns: 150px 1fr 35px;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .horizontal-label {
+            font-size: 12px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .horizontal-track {
+            height: 12px;
+            background: #07111F;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .horizontal-fill {
+            height: 100%;
+            background: #1687F7;
+            border-radius: 10px;
+        }
+
+        .horizontal-count {
+            text-align: right;
+            font-size: 12px;
+        }
+
+        .empty-chart {
+            opacity: .55;
+            text-align: center;
+            padding-top: 80px;
+        }
+
+        @media (max-width: 900px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* TLC-ANALYTICS-CHARTS-CSS */
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+            margin: 20px 0;
+        }
+
+        .chart-card {
+            background: #0d1b2a;
+            border: 1px solid #1d3557;
+            border-radius: 14px;
+            padding: 20px;
+            min-height: 300px;
+        }
+
+        .chart-card h2 {
+            margin: 0 0 6px;
+        }
+
+        .chart-description {
+            font-size: 12px;
+            opacity: .65;
+            margin-bottom: 18px;
+        }
+
+        .daily-chart {
+            width: 100%;
+            height: 205px;
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+            overflow: hidden;
+            padding: 10px 4px 28px;
+            border-bottom: 1px solid #1d3557;
+            position: relative;
+        }
+
+        .daily-column {
+            flex: 1 1 0;
+            min-width: 0;
+            height: 100%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            position: relative;
+        }
+
+        .daily-bar {
+            width: 72%;
+            min-width: 3px;
+            max-width: 16px;
+            min-height: 3px;
+            border-radius: 4px 4px 0 0;
+            background: #1687F7;
+        }
+
+        .daily-bar.login {
+            background: #D4AF37;
+        }
+
+        .daily-column:hover .daily-bar {
+            opacity: .85;
+        }
+
+        .daily-label {
+            position: absolute;
+            bottom: -25px;
+            font-size: 8px;
+            opacity: .6;
+            white-space: nowrap;
+        }
+
+        .daily-column:nth-child(even) .daily-label {
+            display: none;
+        }
+
+        .metric-list {
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+        }
+
+        .metric-row {
+            display: grid;
+            grid-template-columns: 150px minmax(0, 1fr) 35px;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .metric-name {
+            font-size: 12px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .metric-track {
+            height: 12px;
+            background: #07111F;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .metric-fill {
+            height: 100%;
+            min-width: 2px;
+            border-radius: 20px;
+            background: #1687F7;
+        }
+
+        .metric-count {
+            text-align: right;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .chart-empty {
+            width: 100%;
+            text-align: center;
+            padding-top: 70px;
+            opacity: .5;
+        }
+
+        @media (max-width: 900px) {
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .chart-card {
+                padding: 15px;
+            }
+
+            .daily-chart {
+                height: 185px;
+            }
+
+            .metric-row {
+                grid-template-columns: 105px minmax(0, 1fr) 28px;
+            }
+
+        }
+
+
+
+        .executive-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .executive-grid .value {
+            font-size: 22px;
+            line-height: 1.25;
+            margin-top: 7px;
+        }
+
+        .executive-grid .muted {
+            margin-top: 6px;
+            font-size: 11px;
+            opacity: .6;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 1000px) {
+            .executive-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 600px) {
+            .executive-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+        /* TLC-LIVE-MONITOR-CSS */
+
+        .live-monitor {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+            font-size: 12px;
+        }
+
+        .live-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 11px;
+            border: 1px solid #1d3557;
+            border-radius: 999px;
+            background: #0d1b2a;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #20c997;
+        }
+
+        .live-dot.paused {
+            background: #d4af37;
+        }
+
+        .live-time {
+            opacity: .6;
+        }
+
+        .live-new-activity {
+            position: fixed;
+            right: 22px;
+            bottom: 22px;
+            z-index: 5000;
+            background: #0d1b2a;
+            border: 1px solid #1d3557;
+            border-radius: 10px;
+            padding: 13px 16px;
+            box-shadow: 0 12px 35px rgba(0,0,0,.35);
+            display: none;
+            max-width: 340px;
+        }
+
+        .live-new-activity strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+</style>
+
+
+<style>
+#liveToggle {
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
+    cursor: pointer;
+}
+</style>
+
+<style>
+.header {
+    position: relative !important;
+    z-index: 999999 !important;
+}
+
+.live-monitor {
+    position: relative !important;
+    z-index: 1000000 !important;
+    pointer-events: auto !important;
+}
+
+.live-monitor .live-status,
+.live-monitor .live-time,
+.live-monitor #liveToggle {
+    position: relative !important;
+    z-index: 1000001 !important;
+    pointer-events: auto !important;
+}
+
+#liveToggle {
+    cursor: pointer !important;
+    user-select: none !important;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <div>
+            <h1>TLC Analytics</h1>
+
+            <div class="subtitle">
+                <div class="live-monitor" id="liveMonitor">
+                    <div class="live-status">
+                        <span class="live-dot" id="liveDot"></span>
+                        <span id="liveState">Live monitoring ON</span>
+                    </div>
+
+                    <span class="live-time">
+                        Last updated:
+                        <span id="analyticsUpdated">-</span>
+                    </span>
+
+                    <button
+                        type="button"
+                        id="liveToggle" >
+                        Pause Live
+                    </button>
+                </div>
+                Private TLC administrator activity monitor
+            </div>
+        </div>
+
+        <button onclick="resetAnalytics()">
+            Refresh
+        </button>
+
+    </div>
+
+
+    <div class="filters">
+
+        <div class="member-search">
+            <input
+                id="memberSearch"
+                type="text"
+                placeholder="Search member name or ID..."
+                autocomplete="off"
+                oninput="filterMembers()"
+            >
+
+            <input
+                id="memberFilter"
+                type="hidden"
+                value=""
+            >
+
+            <div
+                id="memberResults"
+                class="member-results"
+            ></div>
+        </div>
+
+        <select id="actionFilter">
+            <option value="">All Actions</option>
+        </select>
+
+        <select id="categoryFilter">
+            <option value="">All Categories</option>
+        </select>
+
+        <input
+            id="dateFrom"
+            type="date"
+            title="From date"
+        >
+
+        <input
+            id="dateTo"
+            type="date"
+            title="To date"
+        >
+
+        <button onclick="applyFilters()">
+            Apply
+        </button>
+
+    </div>
+
+
+    <div class="stats">
+
+        <div class="card">
+            <div class="label">
+                Total Members
+            </div>
+            <div
+                class="value"
+                id="totalMembers"
+            >
+                0
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="label">
+                Activities
+            </div>
+            <div
+                class="value"
+                id="totalActivities"
+            >
+                0
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="label">
+                Logins
+            </div>
+            <div
+                class="value"
+                id="totalLogins"
+            >
+                0
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="label">
+                Today's Logins
+            </div>
+            <div
+                class="value"
+                id="todayLogins"
+            >
+                0
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="label">
+                Members in Results
+            </div>
+            <div
+                class="value"
+                id="uniqueMembers"
+            >
+                0
+            </div>
+        </div>
+
+    </div>
+
+
+    <div
+        class="member-summary"
+        id="memberSummary"
+    >
+
+        <div class="card">
+            <div class="label">
+                Selected Member
+            </div>
+            <div
+                class="value"
+                id="memberName"
+            >
+                —
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="label">
+                Member ID
+            </div>
+            <div
+                class="value"
+                id="memberId"
+            >
+                —
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="label">
+                Last Login
+            </div>
+            <div
+                class="value"
+                id="lastLogin"
+            >
+                —
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="label">
+                Filtered Activities
+            </div>
+            <div
+                class="value"
+                id="memberActivities"
+            >
+                0
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- TLC-ANALYTICS-CHARTS -->
+
+
+    <div
+        class="executive-grid"
+        id="executiveSummary"
+    >
+
+        <div class="card">
+            <div class="label">
+                Most Active Member
+            </div>
+            <div
+                class="value"
+                id="mostActiveMember"
+            >
+                -
+            </div>
+            <div
+                class="muted"
+                id="mostActiveCount"
+            >
+                0 activities
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="label">
+                Peak Activity Day
+            </div>
+            <div
+                class="value"
+                id="peakActivityDay"
+            >
+                -
+            </div>
+            <div
+                class="muted"
+                id="peakActivityCount"
+            >
+                0 activities
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="label">
+                Latest Activity
+            </div>
+            <div
+                class="value"
+                id="latestActivity"
+            >
+                -
+            </div>
+            <div
+                class="muted"
+                id="latestActivityTime"
+            >
+                No activity
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="label">
+                Login Events
+            </div>
+            <div
+                class="value"
+                id="loginEvents"
+            >
+                0
+            </div>
+            <div
+                class="muted"
+            >
+                Recorded login activity
+            </div>
+        </div>
+
+    </div>
+
+    <div class="charts-grid">
+
+        <div class="chart-card">
+            <h2>Activity - Last 30 Days</h2>
+
+            <div class="chart-description">
+                Member activity recorded by TLC.
+            </div>
+
+            <div
+                id="activityTrendChart"
+                class="daily-chart"
+            ></div>
+        </div>
+
+        <div class="chart-card">
+            <h2>Logins - Last 30 Days</h2>
+
+            <div class="chart-description">
+                Member login activity by day.
+            </div>
+
+            <div
+                id="loginTrendChart"
+                class="daily-chart"
+            ></div>
+        </div>
+
+        <div class="chart-card">
+            <h2>Activity by Category</h2>
+
+            <div class="chart-description">
+                Where members are spending time in TLC.
+            </div>
+
+            <div
+                id="categoryBarsChart"
+                class="metric-list"
+            ></div>
+        </div>
+
+        <div class="chart-card">
+            <h2>Activity by Action</h2>
+
+            <div class="chart-description">
+                Most frequently recorded member actions.
+            </div>
+
+            <div
+                id="actionBarsChart"
+                class="metric-list"
+            ></div>
+        </div>
+
+    </div>
+
+    <div class="summary-grid">
+
+        <div class="card">
+
+            <h2 class="section-title">
+                Activity by Category
+            </h2>
+
+            <ul
+                class="small-list"
+                id="categorySummary"
+            ></ul>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2 class="section-title">
+                Activity by Action
+            </h2>
+
+            <ul
+                class="small-list"
+                id="actionSummary"
+            ></ul>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2 class="section-title">
+            Recent Activity
+        </h2>
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Member</th>
+                        <th>Action</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Time</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="activityBody"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function escapeHtml(value) {
+
+    return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+
+function formatTime(value) {
+
+    if (!value) {
+        return "—";
+    }
+
+    try {
+
+        return new Date(value)
+            .toLocaleString(
+                undefined,
+                {
+                    dateStyle: "medium",
+                    timeStyle: "short"
+                }
+            );
+
+    } catch {
+
+        return value;
+    }
+}
+
+
+function populateMembers(members) {
+
+    const select =
+        document.getElementById(
+            "memberFilter"
+        );
+
+    const current =
+        select.value;
+
+    select.innerHTML =
+        '<option value="">All Members</option>';
+
+    members.forEach(
+        member => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value =
+                member.member_id;
+
+            option.textContent =
+                `${member.name} (${member.member_id})`;
+
+            select.appendChild(option);
+        }
+    );
+
+    select.value = current;
+}
+
+
+function populateSelect(
+    elementId,
+    values,
+    label
+) {
+
+    const select =
+        document.getElementById(
+            elementId
+        );
+
+    const current =
+        select.value;
+
+    select.innerHTML =
+        `<option value="">${label}</option>`;
+
+    values.forEach(
+        value => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value = value;
+            option.textContent = value;
+
+            select.appendChild(
+                option
+            );
+        }
+    );
+
+    select.value = current;
+}
+
+
+function applyFilters() {
+    loadAnalyticsNow();
+}
+
+
+async function resetAnalytics() {
+
+    try {
+
+        const response = await fetch(
+            "/api/tlc/analytics/reset",
+            {
+                method: "POST",
+                credentials: "same-origin"
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+
+            alert(
+                data.message ||
+                "Unable to reset analytics."
+            );
+
+            return;
+        }
+
+        await loadAnalyticsNow();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Unable to reset analytics."
+        );
+    }
+}
+
+
+function renderDailyChart(
+    elementId,
+    series,
+    valueKey,
+    loginMode
+) {
+
+    const element =
+        document.getElementById(
+            elementId
+        );
+
+    if (!element) {
+        return;
+    }
+
+    element.innerHTML = "";
+
+    if (!Array.isArray(series) || !series.length) {
+
+        element.innerHTML =
+            '<div class="chart-empty">No chart data available.</div>';
+
+        return;
+    }
+
+    const values = series.map(
+        item =>
+            Number(
+                item[valueKey] || 0
+            )
+    );
+
+    const maximum = Math.max(
+        1,
+        ...values
+    );
+
+    series.forEach(
+        (item, index) => {
+
+            const value = Number(
+                item[valueKey] || 0
+            );
+
+            const column =
+                document.createElement(
+                    "div"
+                );
+
+            column.className =
+                "daily-column";
+
+            const bar =
+                document.createElement(
+                    "div"
+                );
+
+            bar.className =
+                loginMode
+                    ? "daily-bar login"
+                    : "daily-bar";
+
+            const percentage =
+                value > 0
+                    ? (value / maximum) * 100
+                    : 1.5;
+
+            bar.style.height =
+                `${percentage}%`;
+
+            bar.title =
+                `${item.date}: ${value}`;
+
+            const label =
+                document.createElement(
+                    "div"
+                );
+
+            label.className =
+                "daily-label";
+
+            label.textContent =
+                String(
+                    item.date || ""
+                ).slice(5);
+
+            column.appendChild(
+                bar
+            );
+
+            column.appendChild(
+                label
+            );
+
+            element.appendChild(
+                column
+            );
+        }
+    );
+}
+
+function renderMetricBars(
+    elementId,
+    data
+) {
+
+    const element =
+        document.getElementById(
+            elementId
+        );
+
+    if (!element) {
+        return;
+    }
+
+    element.innerHTML = "";
+
+    const entries =
+        Object.entries(
+            data || {}
+        ).sort(
+            (a, b) =>
+                Number(b[1])
+                - Number(a[1])
+        );
+
+    if (entries.length === 0) {
+
+        element.innerHTML =
+            '<div class="chart-empty">No chart data available.</div>';
+
+        return;
+    }
+
+    const maximum =
+        Math.max(
+            1,
+            ...entries.map(
+                entry =>
+                    Number(entry[1])
+            )
+        );
+
+    entries.forEach(
+        ([name, value]) => {
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+            row.className =
+                "metric-row";
+
+            const label =
+                document.createElement(
+                    "div"
+                );
+
+            label.className =
+                "metric-name";
+
+            label.textContent =
+                name;
+
+            label.title =
+                name;
+
+            const track =
+                document.createElement(
+                    "div"
+                );
+
+            track.className =
+                "metric-track";
+
+            const fill =
+                document.createElement(
+                    "div"
+                );
+
+            fill.className =
+                "metric-fill";
+
+            fill.style.width =
+                `${(
+                    Number(value)
+                    / maximum
+                ) * 100}%`;
+
+            const count =
+                document.createElement(
+                    "div"
+                );
+
+            count.className =
+                "metric-count";
+
+            count.textContent =
+                value;
+
+            track.appendChild(
+                fill
+            );
+
+            row.appendChild(
+                label
+            );
+
+            row.appendChild(
+                track
+            );
+
+            row.appendChild(
+                count
+            );
+
+            element.appendChild(
+                row
+            );
+        }
+    );
+}
+
+
+async function loadAnalyticsNow() {
+
+    try {
+
+        const params =
+            new URLSearchParams();
+
+        const member =
+            document.getElementById(
+                "memberFilter"
+            ).value;
+
+        const action =
+            document.getElementById(
+                "actionFilter"
+            ).value;
+
+        const category =
+            document.getElementById(
+                "categoryFilter"
+            ).value;
+
+        const dateFrom =
+            document.getElementById(
+                "dateFrom"
+            ).value;
+
+        const dateTo =
+            document.getElementById(
+                "dateTo"
+            ).value;
+
+        if (member) {
+            params.set(
+                "member_id",
+                member
+            );
+        }
+
+        if (action) {
+            params.set(
+                "action",
+                action
+            );
+        }
+
+        if (category) {
+            params.set(
+                "category",
+                category
+            );
+        }
+
+        if (dateFrom) {
+            params.set(
+                "date_from",
+                dateFrom
+            );
+        }
+
+        if (dateTo) {
+            params.set(
+                "date_to",
+                dateTo
+            );
+        }
+
+        const response =
+            await fetch(
+                `/api/tlc/analytics?${params.toString()}`,
+                {
+                    credentials:
+                        "same-origin"
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (
+            !response.ok
+            || !data.success
+        ) {
+
+            alert(
+                data.message ||
+                "Unable to load analytics."
+            );
+
+            return;
+        }
+
+
+        document.getElementById(
+            "totalMembers"
+        ).textContent =
+            data.summary.total_members;
+
+        document.getElementById(
+            "totalActivities"
+        ).textContent =
+            data.summary.total_activities;
+
+        document.getElementById(
+            "totalLogins"
+        ).textContent =
+            data.summary.total_logins;
+
+        document.getElementById(
+            "todayLogins"
+        ).textContent =
+            data.summary.today_logins;
+
+        document.getElementById(
+            "uniqueMembers"
+        ).textContent =
+            data.summary.unique_members;
+
+
+        const activeMember =
+            data.summary.most_active_member;
+
+        document.getElementById(
+            "mostActiveMember"
+        ).textContent =
+            activeMember
+                ? activeMember.name
+                : "-";
+
+        document.getElementById(
+            "mostActiveCount"
+        ).textContent =
+            activeMember
+                ? `${activeMember.activities} activities`
+                : "0 activities";
+
+
+        const peakDay =
+            data.summary.peak_activity_day;
+
+        document.getElementById(
+            "peakActivityDay"
+        ).textContent =
+            peakDay
+                ? peakDay.date
+                : "-";
+
+        document.getElementById(
+            "peakActivityCount"
+        ).textContent =
+            peakDay
+                ? `${peakDay.activities} activities`
+                : "0 activities";
+
+
+        const latest =
+            data.summary.latest_activity;
+
+        document.getElementById(
+            "latestActivity"
+        ).textContent =
+            latest
+                ? (
+                    latest.action
+                    || "Activity"
+                )
+                : "-";
+
+        document.getElementById(
+            "latestActivityTime"
+        ).textContent =
+            latest
+                ? formatTime(
+                    latest.timestamp
+                )
+                : "No activity";
+
+
+        document.getElementById(
+            "loginEvents"
+        ).textContent =
+            data.summary.login_events || 0;
+
+
+
+        populateMembers(
+            data.members || []
+        );
+
+
+        populateSelect(
+            "actionFilter",
+            Object.keys(
+                data.actions || {}
+            ).sort(),
+            "All Actions"
+        );
+
+
+        populateSelect(
+            "categoryFilter",
+            Object.keys(
+                data.categories || {}
+            ).sort(),
+            "All Categories"
+        );
+
+
+        const memberSummary =
+            document.getElementById(
+                "memberSummary"
+            );
+
+
+        if (data.member) {
+
+            memberSummary.style.display =
+                "grid";
+
+            document.getElementById(
+                "memberName"
+            ).textContent =
+                data.member.name;
+
+            document.getElementById(
+                "memberId"
+            ).textContent =
+                data.member.member_id;
+
+            document.getElementById(
+                "lastLogin"
+            ).textContent =
+                formatTime(
+                    data.summary.member_last_login
+                );
+
+            document.getElementById(
+                "memberActivities"
+            ).textContent =
+                data.summary.total_activities;
+
+        } else {
+
+            memberSummary.style.display =
+                "none";
+        }
+
+
+
+        renderDailyChart(
+            "activityTrendChart",
+            data.daily_series || [],
+            "activities",
+            false
+        );
+
+        renderDailyChart(
+            "loginTrendChart",
+            data.daily_series || [],
+            "logins",
+            true
+        );
+
+        renderMetricBars(
+            "categoryBarsChart",
+            data.categories || {}
+        );
+
+        renderMetricBars(
+            "actionBarsChart",
+            data.actions || {}
+        );
+
+        renderSummary(
+            "categorySummary",
+            data.categories || {}
+        );
+
+        renderSummary(
+            "actionSummary",
+            data.actions || {}
+        );
+
+
+        const body =
+            document.getElementById(
+                "activityBody"
+            );
+
+        body.innerHTML = "";
+
+
+        if (
+            !data.activities
+            || data.activities.length === 0
+        ) {
+
+            body.innerHTML =
+                '<tr><td colspan="5" class="muted">No activity found for the selected filters.</td></tr>';
+
+            return;
+        }
+
+
+        data.activities.forEach(
+            activity => {
+
+                const row =
+                    document.createElement(
+                        "tr"
+                    );
+
+                row.innerHTML = `
+                    <td>${escapeHtml(activity.member_id || "")}</td>
+                    <td>${escapeHtml(activity.action || "")}</td>
+                    <td>${escapeHtml(activity.category || "")}</td>
+                    <td>${escapeHtml(activity.description || "")}</td>
+                    <td>${escapeHtml(formatTime(activity.timestamp))}</td>
+                `;
+
+                body.appendChild(row);
+            }
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Unable to load TLC analytics."
+        );
+    }
+}
+
+
+function renderSummary(
+    elementId,
+    values
+) {
+
+    const element =
+        document.getElementById(
+            elementId
+        );
+
+    element.innerHTML = "";
+
+    const entries =
+        Object.entries(values)
+            .sort(
+                (a, b) =>
+                    b[1] - a[1]
+            );
+
+    if (
+        entries.length === 0
+    ) {
+
+        element.innerHTML =
+            '<li class="muted">No data</li>';
+
+        return;
+    }
+
+    entries.forEach(
+        ([name, count]) => {
+
+            const li =
+                document.createElement(
+                    "li"
+                );
+
+            li.innerHTML = `
+                <span>${escapeHtml(name)}</span>
+                <strong>${count}</strong>
+            `;
+
+            element.appendChild(
+                li
+            );
+        }
+    );
+}
+
+
+loadAnalyticsNow();
+
+
+// TLC-LIVE-MONITOR-JS
+
+let liveMonitoringEnabled = true;
+let liveRefreshTimer = null;
+let firstLiveLoad = true;
+let lastActivitySignature = null;
+
+function getLatestActivitySignature(data) {
+
+    if (
+        !data
+        || !Array.isArray(data.activities)
+        || data.activities.length === 0
+    ) {
+        return null;
+    }
+
+    const latest = data.activities[0];
+
+    return String(
+        latest.id
+        || (
+            String(latest.member_id || "")
+            + "|"
+            + String(latest.action || "")
+            + "|"
+            + String(latest.timestamp || "")
+        )
+    );
+}
+
+
+function showLiveNotice(activity) {
+
+    const notice =
+        document.getElementById(
+            "liveActivityNotice"
+        );
+
+    if (!notice || !activity) {
+        return;
+    }
+
+    notice.innerHTML = `
+        <strong>New TLC activity detected</strong>
+        <span>
+            ${escapeHtml(activity.member_id || "")}
+            - ${escapeHtml(activity.action || "Activity")}
+        </span>
+    `;
+
+    notice.style.display = "block";
+
+    window.clearTimeout(
+        showLiveNotice.timer
+    );
+
+    showLiveNotice.timer =
+        window.setTimeout(
+            () => {
+                notice.style.display = "none";
+            },
+            5000
+        );
+}
+
+
+function updateLiveStatus() {
+
+    const dot =
+        document.getElementById(
+            "liveDot"
+        );
+
+    const state =
+        document.getElementById(
+            "liveState"
+        );
+
+    const button =
+        document.getElementById(
+            "liveToggle"
+        );
+
+    if (!dot || !state || !button) {
+        return;
+    }
+
+    if (liveMonitoringEnabled) {
+
+        dot.classList.remove(
+            "paused"
+        );
+
+        state.textContent =
+            "Live monitoring ON";
+
+        button.textContent =
+            "Pause Live";
+
+    } else {
+
+        dot.classList.add(
+            "paused"
+        );
+
+        state.textContent =
+            "Live monitoring PAUSED";
+
+        button.textContent =
+            "Resume Live";
+    }
+}
+
+
+function toggleLiveMonitoring() {
+
+    liveMonitoringEnabled = !liveMonitoringEnabled;
+
+    if (!liveMonitoringEnabled) {
+
+        window.clearTimeout(liveRefreshTimer);
+        liveRefreshTimer = null;
+
+        updateLiveStatus();
+        return;
+    }
+
+    updateLiveStatus();
+    scheduleLiveRefresh();
+}
+
+
+function scheduleLiveRefresh() {
+
+    window.clearTimeout(liveRefreshTimer);
+    liveRefreshTimer = null;
+
+    if (!liveMonitoringEnabled) {
+        return;
+    }
+
+    liveRefreshTimer = window.setTimeout(
+        async () => {
+
+            if (!liveMonitoringEnabled) {
+                liveRefreshTimer = null;
+                return;
+            }
+
+            await refreshLiveAnalytics();
+
+            if (liveMonitoringEnabled) {
+                scheduleLiveRefresh();
+            } else {
+                liveRefreshTimer = null;
+            }
+
+        },
+        10000
+    );
+}
+
+
+async function refreshLiveAnalytics() {
+
+    try {
+
+        const previousSignature =
+            lastActivitySignature;
+
+        await loadAnalyticsNow();
+
+        const response =
+            await fetch(
+                buildAnalyticsUrl(),
+                {
+                    credentials:
+                        "same-origin"
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (
+            !response.ok
+            || !data.success
+        ) {
+            return;
+        }
+
+        const currentSignature =
+            getLatestActivitySignature(
+                data
+            );
+
+        if (
+            !firstLiveLoad
+            && currentSignature
+            && previousSignature
+            && currentSignature !== previousSignature
+            && data.activities
+            && data.activities.length
+        ) {
+
+            showLiveNotice(
+                data.activities[0]
+            );
+        }
+
+        lastActivitySignature =
+            currentSignature;
+
+        firstLiveLoad = false;
+
+        const updated =
+            document.getElementById(
+                "analyticsUpdated"
+            );
+
+        if (updated) {
+
+            updated.textContent =
+                new Date().toLocaleTimeString();
+        }
+
+    } catch (error) {
+
+        console.error(
+            "TLC live analytics refresh failed:",
+            error
+        );
+    }
+}
+
+
+function buildAnalyticsUrl() {
+
+    const params =
+        new URLSearchParams();
+
+    const member =
+        document.getElementById(
+            "memberFilter"
+        )?.value || "";
+
+    const action =
+        document.getElementById(
+            "actionFilter"
+        )?.value || "";
+
+    const category =
+        document.getElementById(
+            "categoryFilter"
+        )?.value || "";
+
+    const dateFrom =
+        document.getElementById(
+            "dateFrom"
+        )?.value || "";
+
+    const dateTo =
+        document.getElementById(
+            "dateTo"
+        )?.value || "";
+
+    if (member) {
+        params.set(
+            "member_id",
+            member
+        );
+    }
+
+    if (action) {
+        params.set(
+            "action",
+            action
+        );
+    }
+
+    if (category) {
+        params.set(
+            "category",
+            category
+        );
+    }
+
+    if (dateFrom) {
+        params.set(
+            "date_from",
+            dateFrom
+        );
+    }
+
+    if (dateTo) {
+        params.set(
+            "date_to",
+            dateTo
+        );
+    }
+
+    return (
+        "/api/tlc/analytics?"
+        + params.toString()
+    );
+}
+
+
+
+
+/* ============================================================
+   LIVE MONITORING CONTROL
+   ============================================================ */
+
+function bindLiveMonitoringControl() {
+
+    const liveButton =
+        document.getElementById("liveToggle");
+
+    if (!liveButton) {
+        return;
+    }
+
+    liveButton.type = "button";
+
+    liveButton.addEventListener(
+        "click",
+        function (event) {
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            toggleLiveMonitoring();
+        }
+    );
+
+    updateLiveStatus();
+}
+
+if (document.readyState === "loading") {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        bindLiveMonitoringControl
+    );
+
+} else {
+
+    bindLiveMonitoringControl();
+}
+
+</script>
+
+
+        <div
+            id="liveActivityNotice"
+            class="live-new-activity"
+        ></div>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+

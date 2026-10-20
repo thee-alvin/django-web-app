@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TLC | My Receipts</title>
+
+    <link rel="stylesheet" href="/static/css/member/receipts.css">
+    <link rel="stylesheet" href="/static/assets/responsive.css">
+</head>
+
+<body>
+
+<main class="receipts-page">
+
+    <header class="receipts-header">
+
+        <div>
+            <span class="page-kicker">MY FINANCIAL RECORDS</span>
+
+            <h1>My Receipts</h1>
+
+            <p>
+                View and manage your TLC payment receipts.
+            </p>
+        </div>
+
+        <a href="/dashboard" class="back-button">
+            ← Dashboard
+        </a>
+
+    </header>
+
+
+    <section class="receipt-summary">
+
+        <article class="summary-card">
+            <span class="summary-label">TOTAL RECEIPTS</span>
+            <strong id="totalReceipts">0</strong>
+            <small>All recorded receipts</small>
+        </article>
+
+        <article class="summary-card">
+            <span class="summary-label">TOTAL PAID</span>
+            <strong id="totalPaid">KES 0.00</strong>
+            <small>Total recorded payments</small>
+        </article>
+
+        <article class="summary-card">
+            <span class="summary-label">LATEST PAYMENT</span>
+            <strong id="latestPayment">—</strong>
+            <small>Most recent receipt</small>
+        </article>
+
+    </section>
+
+
+    <section class="receipts-panel">
+
+        <div class="panel-header">
+
+            <div>
+                <span class="panel-kicker">PAYMENT HISTORY</span>
+                <h2>Receipt History</h2>
+            </div>
+
+            <button
+                type="button"
+                class="refresh-button"
+                id="refreshReceipts"
+            >
+                ↻ Refresh
+            </button>
+
+        </div>
+
+
+        <div class="receipt-tools">
+
+            <label class="search-box">
+                <span>Search receipts</span>
+
+                <input
+                    type="search"
+                    id="receiptSearch"
+                    placeholder="Receipt number or payment type"
+                    autocomplete="off"
+                >
+            </label>
+
+            <label class="filter-box">
+                <span>Payment Type</span>
+
+                <select id="paymentTypeFilter">
+                    <option value="">All Payments</option>
+                    <option value="Contribution">Contribution</option>
+                    <option value="Fine">Fine</option>
+                    <option value="Registration">Registration Fee</option>
+                    <option value="Other">Other</option>
+                </select>
+            </label>
+
+        </div>
+
+
+        <div class="receipt-table-wrapper">
+
+            <table class="receipt-table">
+
+                <thead>
+                    <tr>
+                        <th>Receipt No.</th>
+                        <th>Date</th>
+                        <th>Payment Type</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="receiptTableBody">
+
+                    <tr id="receiptEmptyState">
+                        <td colspan="6">
+
+                            <div class="empty-state">
+
+                                <div class="empty-icon">
+                                    🧾
+                                </div>
+
+                                <h3>No receipts yet</h3>
+
+                                <p>
+                                    Your TLC payment receipts will appear
+                                    here once payments have been recorded.
+                                </p>
+
+                            </div>
+
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <footer class="receipts-footer">
+
+        <p>
+            THE LEGACY CIRCLE (TLC)
+        </p>
+
+        <span>
+            © 2026 All Rights Reserved.
+        </span>
+
+        <strong>
+            Powered by THEE ALVIN TECH SOLUTIONS
+        </strong>
+
+    </footer>
+
+</main>
+
+<script src="/static/js/member/receipts.js"></script>
+
+</body>
+</html>

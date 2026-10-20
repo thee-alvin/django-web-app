@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TLC | Treasurer Command Center</title>
+
+<style>
+:root{
+--bg:#050a12;
+--panel:#0a1625;
+--panel2:#0d1d30;
+--gold:#d4af37;
+--gold2:#f0d878;
+--cyan:#22c7ff;
+--green:#55dfa0;
+--red:#ff6d79;
+--text:#f6f9fc;
+--muted:#8ea4ba;
+--line:rgba(255,255,255,.08);
+}
+
+*{box-sizing:border-box}
+
+body{
+margin:0;
+color:var(--text);
+font-family:"Segoe UI",Arial,sans-serif;
+background:
+radial-gradient(circle at 10% 0%,rgba(212,175,55,.13),transparent 24%),
+radial-gradient(circle at 90% 0%,rgba(34,199,255,.13),transparent 26%),
+linear-gradient(180deg,#040910,#071321 55%,#040910);
+min-height:100vh;
+}
+
+.wrap{
+max-width:1450px;
+margin:auto;
+padding:20px;
+}
+
+.top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:15px;
+padding:14px 18px;
+background:rgba(8,20,34,.9);
+border:1px solid var(--line);
+border-radius:18px;
+backdrop-filter:blur(15px);
+box-shadow:0 20px 60px #0008;
+}
+
+.brand{
+display:flex;
+align-items:center;
+gap:13px;
+}
+
+.logo{
+width:55px;
+height:55px;
+border-radius:14px;
+background:#fff url('/static/assets/tlc_logo.jpeg') center/contain no-repeat;
+border:1px solid #d4af3766;
+}
+
+.brand h1{
+margin:0;
+font-size:18px;
+letter-spacing:.7px;
+}
+
+.brand p{
+margin:4px 0 0;
+font-size:10px;
+color:var(--muted);
+letter-spacing:.7px;
+}
+
+.nav{
+display:flex;
+gap:7px;
+flex-wrap:wrap;
+}
+
+.nav a{
+text-decoration:none;
+color:#d8e5f0;
+font-size:11px;
+font-weight:800;
+padding:9px 12px;
+border:1px solid var(--line);
+border-radius:9px;
+background:#ffffff03;
+}
+
+.nav a.active{
+color:#79dfff;
+border-color:#22c7ff55;
+background:#22c7ff0d;
+}
+
+.hero{
+margin-top:17px;
+padding:30px;
+border-radius:23px;
+border:1px solid #d4af3735;
+background:
+radial-gradient(circle at 84% 25%,#22c7ff18,transparent 28%),
+linear-gradient(135deg,#0c2138,#071421 70%,#09111c);
+box-shadow:0 30px 80px #0008;
+position:relative;
+overflow:hidden;
+}
+
+.hero small{
+color:var(--gold2);
+font-size:10px;
+font-weight:900;
+letter-spacing:1.5px;
+}
+
+.hero h2{
+font-size:36px;
+margin:8px 0;
+}
+
+.hero p{
+color:#a9bdd0;
+max-width:850px;
+font-size:13px;
+line-height:1.7;
+margin:0;
+}
+
+.live{
+display:inline-flex;
+align-items:center;
+gap:7px;
+margin-top:17px;
+padding:7px 11px;
+border-radius:999px;
+background:#55dfa00f;
+border:1px solid #55dfa033;
+color:#79ebb3;
+font-size:9px;
+font-weight:900;
+}
+
+.dot{
+width:7px;
+height:7px;
+background:var(--green);
+border-radius:50%;
+box-shadow:0 0 12px var(--green);
+}
+
+.summary{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:13px;
+margin:17px 0;
+}
+
+.stat{
+padding:20px;
+border:1px solid var(--line);
+border-radius:16px;
+background:linear-gradient(180deg,#ffffff07,#ffffff02);
+position:relative;
+overflow:hidden;
+}
+
+.stat:before{
+content:"";
+position:absolute;
+left:0;
+top:0;
+bottom:0;
+width:3px;
+background:var(--cyan);
+}
+
+.stat.gold:before{background:var(--gold)}
+.stat.green:before{background:var(--green)}
+.stat.red:before{background:var(--red)}
+
+.stat-label{
+font-size:9px;
+color:var(--muted);
+font-weight:900;
+letter-spacing:.9px;
+text-transform:uppercase;
+}
+
+.stat strong{
+display:block;
+font-size:27px;
+margin-top:8px;
+}
+
+.workspace{
+display:grid;
+grid-template-columns:minmax(0,1.5fr) minmax(330px,.5fr);
+gap:17px;
+}
+
+.card{
+border:1px solid var(--line);
+border-radius:18px;
+background:linear-gradient(180deg,#0a192a,#071321);
+box-shadow:0 20px 55px #0006;
+overflow:hidden;
+}
+
+.head{
+padding:18px 20px;
+border-bottom:1px solid var(--line);
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:12px;
+}
+
+.head h3{
+margin:0;
+font-size:16px;
+}
+
+.head p{
+margin:4px 0 0;
+font-size:10px;
+color:var(--muted);
+}
+
+.badge{
+padding:6px 9px;
+border-radius:99px;
+font-size:8px;
+font-weight:900;
+color:#7fe0ff;
+border:1px solid #22c7ff30;
+background:#22c7ff0a;
+}
+
+.filters{
+padding:17px;
+display:grid;
+grid-template-columns:1.4fr 1fr 1fr 1fr;
+gap:10px;
+border-bottom:1px solid var(--line);
+}
+
+.filters input,.filters select{
+width:100%;
+padding:11px 12px;
+border-radius:9px;
+border:1px solid var(--line);
+background:#06121f;
+color:#fff;
+outline:none;
+font-size:11px;
+}
+
+.table-wrap{
+overflow:auto;
+max-height:650px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+min-width:950px;
+}
+
+th,td{
+padding:12px 10px;
+text-align:left;
+border-bottom:1px solid var(--line);
+font-size:10px;
+white-space:nowrap;
+}
+
+th{
+position:sticky;
+top:0;
+z-index:2;
+background:#0d2033;
+color:var(--gold2);
+font-size:8px;
+letter-spacing:.8px;
+text-transform:uppercase;
+}
+
+td{
+color:#c6d4e1;
+}
+
+tbody tr:hover td{
+background:#ffffff04;
+}
+
+.amount{
+color:#77dfff;
+font-weight:900;
+}
+
+.status{
+padding:5px 7px;
+border-radius:99px;
+font-size:8px;
+font-weight:900;
+}
+
+.status.ok{
+background:#55dfa012;
+border:1px solid #55dfa033;
+color:#76eeb0;
+}
+
+.controls{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+padding:15px 17px;
+border-bottom:1px solid var(--line);
+}
+
+.btn{
+border:0;
+border-radius:9px;
+padding:10px 13px;
+font-size:10px;
+font-weight:900;
+cursor:pointer;
+}
+
+.btn-gold{
+background:linear-gradient(135deg,var(--gold),var(--gold2));
+color:#07111c;
+}
+
+.btn-dark{
+background:#ffffff05;
+border:1px solid var(--line);
+color:#d9e5ef;
+}
+
+.btn-cyan{
+background:#22c7ff12;
+border:1px solid #22c7ff33;
+color:#73ddff;
+}
+
+.side{
+display:grid;
+gap:17px;
+align-content:start;
+}
+
+.side-body{
+padding:18px;
+}
+
+.side-title{
+font-size:10px;
+font-weight:900;
+color:var(--gold2);
+letter-spacing:1px;
+text-transform:uppercase;
+margin-bottom:12px;
+}
+
+.report-box{
+padding:17px;
+border-radius:13px;
+background:#ffffff04;
+border:1px solid var(--line);
+}
+
+.report-row{
+display:flex;
+justify-content:space-between;
+gap:12px;
+padding:10px 0;
+border-bottom:1px solid var(--line);
+font-size:11px;
+color:#b8c8d7;
+}
+
+.report-row:last-child{
+border-bottom:0;
+}
+
+.report-row strong{
+color:#fff;
+}
+
+.form-link{
+display:block;
+width:100%;
+padding:12px;
+text-align:center;
+text-decoration:none;
+font-size:11px;
+font-weight:900;
+border-radius:9px;
+background:linear-gradient(135deg,var(--gold),var(--gold2));
+color:#07111c;
+}
+
+.footer{
+text-align:center;
+padding:25px 0 5px;
+color:#60758c;
+font-size:10px;
+}
+
+.empty{
+padding:45px 20px;
+text-align:center;
+color:var(--muted);
+}
+
+@media(max-width:1100px){
+.summary{grid-template-columns:repeat(2,1fr)}
+.workspace{grid-template-columns:1fr}
+.filters{grid-template-columns:1fr 1fr}
+}
+
+@media(max-width:700px){
+.wrap{padding:12px}
+.top{flex-direction:column;align-items:flex-start}
+.nav{width:100%}
+.nav a{flex:1;text-align:center}
+.hero{padding:24px 19px}
+.hero h2{font-size:29px}
+.summary{grid-template-columns:1fr}
+.filters{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+<header class="top">
+<div class="brand">
+<div class="logo"></div>
+<div>
+<h1>THE LEGACY CIRCLE</h1>
+<p>TREASURER • FINANCIAL CONTROL CENTER</p>
+</div>
+</div>
+
+<nav class="nav">
+<a href="/dashboard">Dashboard</a>
+<a href="/tlc-financial-register">Financial Register</a>
+<a href="/tlc-disbursements" class="active">Money Out</a>
+</nav>
+</header>
+
+<section class="hero">
+<small>TREASURER COMMAND CENTER</small>
+<h2>Money Out Management</h2>
+<p>
+Monitor, search, filter, export and report every TLC disbursement from one official workspace.
+The ledger below represents the Money Out records feeding the TLC Financial Register.
+</p>
+<div class="live"><span class="dot"></span> LIVE FINANCIAL REGISTER</div>
+</section>
+
+<section class="summary">
+
+<div class="stat gold">
+<div class="stat-label">Total Money Out</div>
+<strong id="total">KSh 0.00</strong>
+</div>
+
+<div class="stat">
+<div class="stat-label">Disbursements</div>
+<strong id="count">0</strong>
+</div>
+
+<div class="stat green">
+<div class="stat-label">Average Disbursement</div>
+<strong id="average">KSh 0.00</strong>
+</div>
+
+<div class="stat red">
+<div class="stat-label">Largest Disbursement</div>
+<strong id="largest">KSh 0.00</strong>
+</div>
+
+</section>
+
+<div class="workspace">
+
+<section class="card">
+
+<div class="head">
+<div>
+<h3>Official Money Out Ledger</h3>
+<p id="ledgerCaption">All recorded disbursements</p>
+</div>
+<span class="badge">TREASURER VIEW</span>
+</div>
+
+<div class="filters">
+
+<input id="search" placeholder="Search purpose, payee, reference, category...">
+
+<select id="categoryFilter">
+<option value="">All Categories</option>
+<option>Welfare</option>
+<option>Meeting</option>
+<option>Transport</option>
+<option>Refreshments</option>
+<option>Administration</option>
+<option>Emergency</option>
+<option>Bank / Transaction Charges</option>
+<option>Other</option>
+</select>
+
+<select id="methodFilter">
+<option value="">All Payment Methods</option>
+<option>M-PESA</option>
+<option>Bank</option>
+<option>Cash</option>
+<option>Airtel Money</option>
+<option>Other</option>
+</select>
+
+<select id="dateFilter">
+<option value="">All Dates</option>
+<option value="today">Today</option>
+<option value="7">Last 7 Days</option>
+<option value="30">Last 30 Days</option>
+<option value="year">This Year</option>
+</select>
+
+</div>
+
+<div class="controls">
+<button class="btn btn-gold" id="downloadCsv">Download CSV</button>
+<button class="btn btn-cyan" id="printReport">Print / Save PDF</button>
+<button class="btn btn-dark" id="shareReport">Share Summary</button>
+<button class="btn btn-dark" id="refresh">Refresh</button>
+<a href="#record" class="btn btn-gold" style="text-decoration:none">+ Record Money Out</a>
+</div>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Time</th>
+<th>Disbursement ID</th>
+<th>Category</th>
+<th>Purpose</th>
+<th>Paid To</th>
+<th>Method</th>
+<th>Reference</th>
+<th>Amount</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody id="rows"></tbody>
+</table>
+</div>
+
+</section>
+
+<aside class="side">
+
+<section class="card">
+<div class="head">
+<div>
+<h3>Report Snapshot</h3>
+<p>Current displayed records</p>
+</div>
+</div>
+
+<div class="side-body">
+<div class="report-box">
+<div class="report-row">
+<span>Displayed Records</span>
+<strong id="displayed">0</strong>
+</div>
+<div class="report-row">
+<span>Displayed Total</span>
+<strong id="displayedTotal">KSh 0.00</strong>
+</div>
+<div class="report-row">
+<span>Current Filter</span>
+<strong id="currentFilter">All</strong>
+</div>
+</div>
+</div>
+</section>
+
+<section class="card">
+<div class="head">
+<div>
+<h3>Treasurer Actions</h3>
+<p>Financial workflow</p>
+</div>
+</div>
+
+<div class="side-body">
+<a class="form-link" href="#record">Record New Money Out</a>
+<br>
+<a class="form-link" href="/tlc-financial-register">Open Financial Register</a>
+</div>
+</section>
+
+<section class="card">
+<div class="head">
+<div>
+<h3>Reporting Notes</h3>
+<p>Prepare your report</p>
+</div>
+</div>
+
+<div class="side-body">
+<div class="side-title">Recommended flow</div>
+<p style="font-size:11px;color:#aebfd0;line-height:1.8;margin:0">
+Filter the period → verify the displayed total → download the CSV or print/save as PDF → send the report.
+</p>
+</div>
+</section>
+
+</aside>
+</div>
+
+<div class="card" id="record" style="margin-top:17px">
+
+<div class="head">
+<div>
+<h3>Record New Money Out</h3>
+<p>Enter an official TLC disbursement.</p>
+</div>
+<span class="badge">NEW ENTRY</span>
+</div>
+
+<form id="f" style="padding:20px">
+
+<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:13px">
+
+<div>
+<label style="display:block;font-size:9px;color:#f1d66e;font-weight:900;margin-bottom:6px">AMOUNT (KSH)</label>
+<input id="amount" type="number" min="1" step="0.01" required style="width:100%;padding:12px;border-radius:9px;border:1px solid var(--line);background:#06121f;color:white">
+</div>
+
+<div>
+<label style="display:block;font-size:9px;color:#f1d66e;font-weight:900;margin-bottom:6px">CATEGORY</label>
+<select id="category" required style="width:100%;padding:12px;border-radius:9px;border:1px solid var(--line);background:#06121f;color:white">
+<option value="">Select category</option>
+<option>Welfare</option>
+<option>Meeting</option>
+<option>Transport</option>
+<option>Refreshments</option>
+<option>Administration</option>
+<option>Emergency</option>
+<option>Bank / Transaction Charges</option>
+<option>Other</option>
+</select>
+</div>
+
+<div style="grid-column:1/-1">
+<label style="display:block;font-size:9px;color:#f1d66e;font-weight:900;margin-bottom:6px">PURPOSE</label>
+<input id="purpose" required placeholder="Reason for expenditure" style="width:100%;padding:12px;border-radius:9px;border:1px solid var(--line);background:#06121f;color:white">
+</div>
+
+<div>
+<label style="display:block;font-size:9px;color:#f1d66e;font-weight:900;margin-bottom:6px">PAID TO</label>
+<input id="paid_to" required placeholder="Person / organization" style="width:100%;padding:12px;border-radius:9px;border:1px solid var(--line);background:#06121f;color:white">
+</div>
+
+<div>
+<label style="display:block;font-size:9px;color:#f1d66e;font-weight:900;margin-bottom:6px">PAYMENT METHOD</label>
+<select id="payment_method" required style="width:100%;padding:12px;border-radius:9px;border:1px solid var(--line);background:#06121f;color:white">
+<option value="">Select method</option>
+<option>M-PESA</option>
+<option>Bank</option>
+<option>Cash</option>
+<option>Airtel Money</option>
+<option>Other</option>
+</select>
+</div>
+
+<div>
+<label style="display:block;font-size:9px;color:#f1d66e;font-weight:900;margin-bottom:6px">REFERENCE</label>
+<input id="reference" placeholder="Transaction reference" style="width:100%;padding:12px;border-radius:9px;border:1px solid var(--line);background:#06121f;color:white">
+</div>
+
+<div>
+<label style="display:block;font-size:9px;color:#f1d66e;font-weight:900;margin-bottom:6px">AUTHORIZED BY</label>
+<input id="authorized_by" required placeholder="Authorizing officer" style="width:100%;padding:12px;border-radius:9px;border:1px solid var(--line);background:#06121f;color:white">
+</div>
+
+<div>
+<label style="display:block;font-size:9px;color:#f1d66e;font-weight:900;margin-bottom:6px">RECORDED BY</label>
+<input id="recorded_by" required placeholder="Treasurer / officer" style="width:100%;padding:12px;border-radius:9px;border:1px solid var(--line);background:#06121f;color:white">
+</div>
+
+<div>
+<label style="display:block;font-size:9px;color:#f1d66e;font-weight:900;margin-bottom:6px">DATE</label>
+<input id="transaction_date" type="date" required style="width:100%;padding:12px;border-radius:9px;border:1px solid var(--line);background:#06121f;color:white">
+</div>
+
+<div>
+<label style="display:block;font-size:9px;color:#f1d66e;font-weight:900;margin-bottom:6px">TIME</label>
+<input id="transaction_time" type="time" required style="width:100%;padding:12px;border-radius:9px;border:1px solid var(--line);background:#06121f;color:white">
+</div>
+
+<div style="grid-column:1/-1">
+<label style="display:block;font-size:9px;color:#f1d66e;font-weight:900;margin-bottom:6px">NOTES</label>
+<textarea id="notes" style="width:100%;min-height:80px;padding:12px;border-radius:9px;border:1px solid var(--line);background:#06121f;color:white"></textarea>
+</div>
+
+</div>
+
+<div style="margin-top:15px;display:flex;align-items:center;gap:12px">
+<button id="save" type="submit" class="btn btn-gold">Record Money Out</button>
+<span id="status" style="font-size:11px;font-weight:800"></span>
+</div>
+
+</form>
+</div>
+
+<div class="footer">
+Powered by <b>Thee Alvin Tech Solutions</b> · The Legacy Circle
+</div>
+
+</div>
+
+<script src="/static/assets/tlc_disbursements.js"></script>
+</body>
+</html>

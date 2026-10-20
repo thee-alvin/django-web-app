@@ -1,0 +1,258 @@
+﻿/* ============================================================
+   TLC PORTAL — GLOBAL RESPONSIVE DESIGN
+   The Legacy Circle
+   ============================================================ */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* Images must never overflow their container */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Tables become scrollable instead of breaking the page */
+table {
+    max-width: 100%;
+}
+
+.table-container,
+.table-wrapper,
+.data-table-container {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Forms */
+input,
+select,
+textarea,
+button {
+    max-width: 100%;
+}
+
+/* ============================================================
+   TABLET
+   ============================================================ */
+
+@media (max-width: 900px) {
+
+    .container,
+    .wrapper,
+    .content,
+    .main-content {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .card {
+        max-width: 100%;
+    }
+
+    .grid,
+    .cards,
+    .dashboard-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 600px) {
+
+    body {
+        padding: 0;
+        margin: 0;
+        font-size: 15px;
+    }
+
+    .container,
+    .wrapper,
+    .content,
+    .main-content {
+        width: 100%;
+        max-width: 100%;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .card,
+    .login-card,
+    .form-card,
+    .panel {
+        width: 100%;
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 22px 18px;
+    }
+
+    /* Headings */
+    h1 {
+        font-size: 28px;
+        line-height: 1.2;
+    }
+
+    h2 {
+        font-size: 23px;
+        line-height: 1.25;
+    }
+
+    h3 {
+        font-size: 19px;
+    }
+
+    /* Forms become single column */
+    form {
+        width: 100%;
+    }
+
+    form > div,
+    .form-row,
+    .form-group,
+    .input-row {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    input,
+    select,
+    textarea {
+        width: 100%;
+        min-width: 0;
+        font-size: 16px;
+    }
+
+    button,
+    .btn,
+    .button {
+        max-width: 100%;
+    }
+
+    /* Grids become one column */
+    .grid,
+    .cards,
+    .dashboard-grid,
+    .features,
+    .stats-grid,
+    .form-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Flex rows become vertical */
+    .row,
+    .form-row,
+    .action-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    /* Navigation */
+    nav {
+        width: 100%;
+    }
+
+    nav ul {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    nav a {
+        display: block;
+        width: 100%;
+    }
+
+    /* Header */
+    header {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    /* Login / authentication pages */
+    .auth-container,
+    .login-container,
+    .auth-card {
+        width: calc(100% - 24px);
+        max-width: 470px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Prevent long text from creating horizontal scrolling */
+    p,
+    span,
+    label,
+    a,
+    h1,
+    h2,
+    h3,
+    h4 {
+        overflow-wrap: anywhere;
+    }
+
+    /* Footer */
+    footer {
+        width: 100%;
+        text-align: center;
+        padding: 20px 14px;
+    }
+
+}
+
+
+/* ============================================================
+   VERY SMALL PHONES
+   ============================================================ */
+
+@media (max-width: 380px) {
+
+    .container,
+    .wrapper,
+    .content,
+    .main-content {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .card,
+    .login-card,
+    .form-card,
+    .panel {
+        padding: 18px 14px;
+        border-radius: 12px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    h2 {
+        font-size: 21px;
+    }
+
+    button,
+    .btn,
+    .button {
+        width: 100%;
+    }
+
+}

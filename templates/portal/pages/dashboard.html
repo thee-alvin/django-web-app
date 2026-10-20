@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TLC | Member Dashboard</title>
+
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+    <link rel="stylesheet" href="/static/assets/responsive.css">
+</head>
+
+<body>
+
+<div class="dashboard-shell">
+
+    <!-- MOBILE OVERLAY -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-brand">
+
+            <div class="brand-logo">
+                <img src="/static/assets/tlc_logo.jpeg" alt="TLC Logo">
+            </div>
+
+            <div class="brand-text">
+                <h1>THE LEGACY</h1>
+                <span>CIRCLE</span>
+            </div>
+
+        </div>
+
+        <div class="member-mini-profile">
+
+            <div class="member-avatar" id="memberAvatar">
+                M
+            </div>
+
+            <div class="member-mini-info">
+                <strong id="sidebarMemberName">TLC Member</strong>
+                <span id="sidebarMemberId">Member ID</span>
+            </div>
+
+        </div>
+
+        <nav class="sidebar-navigation">
+
+            <p class="nav-heading">MAIN MENU</p>
+
+            <a href="/dashboard" class="nav-item active">
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="/member/profile" class="nav-item">
+               <span class="nav-icon">◉</span>
+               <span>My Profile</span>
+            </a>
+
+            <a href="/member/contributions" class="nav-item">
+               <span class="nav-icon">₵</span>
+               <span>Contributions</span>
+            </a>
+<a href="/member/payment-statements" class="nav-item">
+               <span class="nav-icon">₵</span>
+               <span>Payment Statements</span>
+            </a>
+
+            <a href="/member/financial-summary" class="nav-item">
+               <span class="nav-icon">▣</span>
+               <span>Financial Summary</span>
+            </a>
+            <a href="/member/receipts" class="nav-item">
+               <span class="nav-icon">▤</span>
+               <span>Receipts</span>
+            </a>
+
+            <a href="/member/welfare" class="nav-item">
+               <span class="nav-icon">♥</span>
+               <span>Welfare</span>
+            </a>
+
+            <p class="nav-heading">GROUP</p>
+
+            <a href="/member/meetings" class="nav-item">
+               <span class="nav-icon">◷</span>
+               <span>Meetings</span>
+            </a>
+
+            <a href="/member/announcements" class="nav-item">
+               <span class="nav-icon">◈</span>
+               <span>Announcements</span>
+            </a>
+
+            <a href="/member/documents" class="nav-item">
+               <span class="nav-icon">▣</span>
+               <span>Documents</span>
+            </a>
+
+            <a href="/member/constitution" class="nav-item">
+                <span class="nav-icon">▣</span>
+                <span>Constitution</span>
+              </a>
+
+              <a href="/member/elections" class="nav-item">
+               <span class="nav-icon">✓</span>
+               <span>Elections</span>
+            </a>
+
+            <a href="/member/notifications" class="nav-item">
+               <span class="nav-icon">♢</span>
+               <span>Notifications</span>
+            </a>
+
+            
+            <div id="tlcHealthAccess" style="display:none;"><p class="nav-heading">SYSTEM</p><a href="/system-health" class="nav-item"><span class="nav-icon">◉</span><span>System Health</span></a></div>
+<div id="tlcAnalyticsAccess" style="display:none;">
+                <p class="nav-heading">ADMINISTRATION</p>
+
+                <a href="/tlc-analytics" class="nav-item">
+                    <span class="nav-icon">▥</span>
+                    <span>Analytics</span>
+                </a>
+            </div>
+            <div id="tlcFinancialRegisterAccess" style="display:none;">
+
+    <button
+        type="button"
+        id="financialAdministrationToggle"
+        class="nav-item"
+        aria-expanded="false"
+        style="
+            width:100%;
+            border:0;
+            cursor:pointer;
+            text-align:left;
+            background:transparent;
+        "
+    >
+        <span class="nav-icon">₣</span>
+
+        <span style="flex:1;">
+            Financial Administration
+        </span>
+
+        <span
+            id="financialAdministrationArrow"
+            style="
+                margin-left:auto;
+                font-size:0.78rem;
+                transition:transform 0.2s ease;
+            "
+        >
+            ▸
+        </span>
+    </button>
+
+
+    <div
+        id="financialAdministrationSubmenu"
+        style="
+            display:none;
+            margin-left:12px;
+            padding-left:10px;
+            border-left:1px solid rgba(212,175,55,0.22);
+        "
+    >
+
+        <a href="/tlc-financial-register" class="nav-item">
+            <span class="nav-icon">▤</span>
+            <span>Financial Register</span>
+        </a>
+
+        <a href="/tlc-member-statements" class="nav-item">
+            <span class="nav-icon">▥</span>
+            <span>Member Statements</span>
+        </a>
+
+        <a href="/tlc-receipt-verification" class="nav-item">
+            <span class="nav-icon">✓</span>
+            <span>Receipt Verification</span>
+        </a>
+
+        <a href="/tlc-financial-reconciliation" class="nav-item">
+            <span class="nav-icon">⇄</span>
+            <span>Financial Reconciliation</span>
+        </a>
+
+        <a href="/tlc-fines-register" class="nav-item">
+            <span class="nav-icon">₣</span>
+            <span>Fines Register</span>
+        </a>
+
+        <a href="/tlc-contribution-monitoring" class="nav-item">
+            <span class="nav-icon">◈</span>
+            <span>Contribution Monitoring</span>
+        </a>
+
+        <a href="/tlc-financial-audit-trail" class="nav-item">
+            <span class="nav-icon">⌘</span>
+            <span>Financial Audit Trail</span>
+        </a>
+
+    </div>
+
+</div>
+
+</nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="portal-security">
+                <span>🔒</span>
+                <div>
+                    <strong>Secure Portal</strong>
+                    <small>TLC Member Access</small>
+                </div>
+            </div>
+
+            <button type="button" class="logout-button" id="logoutButton">
+                <span>↪</span>
+                Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN AREA -->
+    <main class="main-area">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+
+            <button type="button" class="menu-button" id="menuButton" aria-label="Open menu">
+                ☰
+            </button>
+
+            <div class="topbar-title">
+                <span>MEMBER PORTAL</span>
+                <strong>Dashboard</strong>
+            </div>
+
+            <div class="topbar-actions">
+
+                <button type="button" class="notification-button" aria-label="Notifications">
+                    🔔
+                    <span class="notification-badge">0</span>
+                </button>
+
+                <div class="topbar-profile">
+                    <div class="top-avatar" id="topAvatar">M</div>
+
+                    <div class="top-profile-text">
+                        <strong id="topMemberName">TLC Member</strong>
+                        <span id="topMemberStatus">Member</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+        <section class="dashboard-content">
+
+            <!-- WELCOME -->
+            <section class="welcome-banner">
+
+                <div class="welcome-content">
+
+                    <span class="welcome-label">
+                        THE LEGACY CIRCLE • MEMBER PORTAL
+                    </span>
+
+                    <h2>
+                        Welcome back,
+                        <span id="welcomeMemberName">Member</span>.
+                    </h2>
+
+                    <p>
+                        Your membership, contributions and group activities
+                        are all in one place.
+                    </p>
+
+                </div>
+
+                <div class="welcome-status">
+
+                    <span class="status-label">ACCOUNT STATUS</span>
+
+                    <div class="status-pill" id="accountStatus">
+                        <span class="status-dot"></span>
+                        Active Member
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- QUICK SUMMARY -->
+            <section class="summary-grid">
+
+                <article class="summary-card contribution-card">
+
+                    <div class="summary-icon">₵</div>
+
+                    <div class="summary-info">
+                        <span>Total Contributions</span>
+                        <strong id="totalContributions">KES 0</strong>
+                    </div>
+
+                    <span class="summary-arrow">→</span>
+
+                </article>
+
+
+                <article class="summary-card welfare-card">
+
+                    <div class="summary-icon">♥</div>
+
+                    <div class="summary-info">
+                        <span>Welfare Support</span>
+                        <strong id="welfareAmount">KES 0</strong>
+                    </div>
+
+                    <span class="summary-arrow">→</span>
+
+                </article>
+
+
+                <article class="summary-card receipt-card">
+
+                    <div class="summary-icon">▤</div>
+
+                    <div class="summary-info">
+                        <span>Receipts</span>
+                        <strong id="receiptCount">0</strong>
+                    </div>
+
+                    <span class="summary-arrow">→</span>
+
+                </article>
+
+
+                <article class="summary-card notification-card">
+
+                    <div class="summary-icon">🔔</div>
+
+                    <div class="summary-info">
+                        <span>Notifications</span>
+                        <strong id="notificationCount">0</strong>
+                    </div>
+
+                    <span class="summary-arrow">→</span>
+
+                </article>
+
+            </section>
+
+
+            <!-- MAIN GRID -->
+            <section class="dashboard-grid">
+
+
+                <!-- MEMBER PROFILE -->
+                <article class="dashboard-panel profile-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <span class="panel-kicker">MY ACCOUNT</span>
+                            <h3>Membership Profile</h3>
+                        </div>
+
+                        <a href="/member/profile" class="panel-action">
+                            View Profile
+                        </a>
+
+                    </div>
+
+
+                    <div class="profile-main">
+
+                        <div class="large-avatar" id="profileAvatar">
+                            M
+                        </div>
+
+                        <div class="profile-identity">
+                            <h4 id="profileName">TLC Member</h4>
+                            <span id="profileMemberId">Member ID</span>
+
+                            <div class="membership-badge">
+                                <span></span>
+                                <strong id="profileMembershipStatus">
+                                    Active Membership
+                                </strong>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="profile-details">
+
+                        <div class="detail-item">
+                            <span>PHONE NUMBER</span>
+                            <strong id="profilePhone">—</strong>
+                        </div>
+
+                        <div class="detail-item">
+                            <span>EMAIL ADDRESS</span>
+                            <strong id="profileEmail">—</strong>
+                        </div>
+
+                        <div class="detail-item">
+                            <span>MEMBERSHIP SINCE</span>
+                            <strong id="profileRegistrationDate">—</strong>
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- QUICK ACTIONS -->
+                <article class="dashboard-panel actions-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <span class="panel-kicker">QUICK ACCESS</span>
+                            <h3>Member Services</h3>
+                        </div>
+
+                    </div>
+
+
+                    <div class="service-grid">
+
+                        <button type="button" class="service-card">
+                            <span class="service-icon">₵</span>
+                            <span>
+                                <strong>Contributions</strong>
+                                <small>View your giving history</small>
+                            </span>
+                        </button>
+
+                        <button type="button" class="service-card">
+                            <span class="service-icon">▤</span>
+                            <span>
+                                <strong>Receipts</strong>
+                                <small>Access your receipts</small>
+                            </span>
+                        </button>
+
+                        <button type="button" class="service-card">
+                            <span class="service-icon">♥</span>
+                            <span>
+                                <strong>Welfare</strong>
+                                <small>View welfare activity</small>
+                            </span>
+                        </button>
+
+                        <button type="button" class="service-card">
+                            <span class="service-icon">◷</span>
+                            <span>
+                                <strong>Meetings</strong>
+                                <small>View group meetings</small>
+                            </span>
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+                <!-- ANNOUNCEMENTS -->
+                <article class="dashboard-panel announcements-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <span class="panel-kicker">STAY INFORMED</span>
+                            <h3>Latest Announcements</h3>
+                        </div>
+
+                        <a href="/member/announcements" class="panel-action">
+                            View All
+                        </a>
+
+                    </div>
+
+
+                    <div class="announcement-list" id="announcementList">
+
+                        <div class="empty-state">
+
+                            <div class="empty-icon">📢</div>
+
+                            <strong>No announcements yet</strong>
+
+                            <p>
+                                Important TLC updates will appear here.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </article>
+                <!-- RECENT ACTIVITY SHORTCUT -->
+                <article class="dashboard-panel activity-shortcut-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+                            <span class="panel-kicker">YOUR ACTIVITY</span>
+                            <h3>Recent Activity</h3>
+                        </div>
+
+                        <a href="/member/activity" class="panel-action">
+                            View All
+                        </a>
+
+                    </div>
+
+                    <div class="activity-shortcut-content">
+
+                        <div class="activity-shortcut-icon">◷</div>
+
+                        <p class="activity-shortcut-description">
+                            Stay up to date with your latest account activity
+                            and access your complete activity history.
+                        </p>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <!-- FOOTER -->
+            <footer class="dashboard-footer">
+
+                <div>
+                    <strong>THE LEGACY CIRCLE (TLC)</strong>
+                    <span>© 2026 All Rights Reserved.</span>
+                </div>
+
+                <div class="powered-by">
+                    Powered by <strong>THEE ALVIN TECH SOLUTIONS</strong>
+                </div>
+
+            </footer>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="/static/js/dashboard.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", async function () {
+    const analyticsAccess = document.getElementById("tlcAnalyticsAccess");
+    const healthAccess = document.getElementById("tlcHealthAccess");
+    const financialRegisterAccess = document.getElementById("tlcFinancialRegisterAccess");
+
+    if (!analyticsAccess && !healthAccess && !financialRegisterAccess) {
+        return;
+    }
+
+    try {
+        const response = await fetch("/api/tlc/analytics", {
+            method: "GET",
+            credentials: "same-origin",
+            cache: "no-store"
+        });
+
+        if (response.ok) {
+            analyticsAccess.style.display = "block";
+        }
+    } catch (error) {
+        console.log("Analytics access check unavailable.");
+    }
+    if (healthAccess) {
+        try {
+            const healthResponse = await fetch("/api/tlc/health", {
+                method: "GET",
+                credentials: "same-origin",
+                cache: "no-store"
+            });
+
+            if (healthResponse.ok) {
+                healthAccess.style.display = "block";
+            }
+        } catch (error) {
+            console.log("System Health access check unavailable.");
+        }
+    }
+
+    if (financialRegisterAccess) {
+        try {
+            const financialResponse = await fetch(
+                "/api/tlc/financial-register",
+                {
+                    method: "GET",
+                    credentials: "same-origin",
+                    cache: "no-store"
+                }
+            );
+
+            if (financialResponse.ok) {
+                financialRegisterAccess.style.display = "block";
+            }
+        } catch (error) {
+            console.log(
+                "Financial Register access check unavailable."
+            );
+        }
+    }
+});
+</script>
+<script>
+/* TLC_FINANCIAL_ADMIN_ACCORDION */
+document.addEventListener("DOMContentLoaded", function () {
+
+    const toggle =
+        document.getElementById(
+            "financialAdministrationToggle"
+        );
+
+    const submenu =
+        document.getElementById(
+            "financialAdministrationSubmenu"
+        );
+
+    const arrow =
+        document.getElementById(
+            "financialAdministrationArrow"
+        );
+
+    if (!toggle || !submenu || !arrow) {
+        return;
+    }
+
+    toggle.addEventListener("click", function (event) {
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        const isOpen =
+            submenu.style.display === "block";
+
+        submenu.style.display =
+            isOpen ? "none" : "block";
+
+        toggle.setAttribute(
+            "aria-expanded",
+            String(!isOpen)
+        );
+
+        arrow.textContent =
+            isOpen ? "▸" : "▾";
+
+    });
+
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

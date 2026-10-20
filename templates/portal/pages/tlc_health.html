@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TLC System Health</title>
+
+    <link rel="stylesheet" href="/static/assets/responsive.css">
+
+    <style>
+        :root {
+            --bg: #07111f;
+            --panel: #0d1b2e;
+            --panel-2: #10243b;
+            --border: rgba(255,255,255,0.08);
+            --text: #eef6ff;
+            --muted: #91a4b8;
+            --healthy: #20c997;
+            --warning: #f0ad4e;
+            --error: #ff5c5c;
+            --blue: #1687f7;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .health-page {
+            min-height: 100vh;
+            padding: 28px;
+        }
+
+        .health-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .title-area h1 {
+            margin: 0;
+            font-size: 30px;
+        }
+
+        .title-area p {
+            margin: 7px 0 0;
+            color: var(--muted);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .refresh-btn {
+            border: 1px solid var(--border);
+            background: var(--panel-2);
+            color: var(--text);
+            padding: 11px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .refresh-btn:hover {
+            border-color: var(--blue);
+        }
+
+        .overall-card {
+            background: linear-gradient(
+                135deg,
+                var(--panel),
+                var(--panel-2)
+            );
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 22px;
+        }
+
+        .overall-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .overall-label {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .overall-status {
+            font-size: 30px;
+            font-weight: 700;
+            margin-top: 6px;
+        }
+
+        .last-check {
+            color: var(--muted);
+            font-size: 13px;
+            text-align: right;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-top: 20px;
+        }
+
+        .metric {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .metric-label {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .metric-value {
+            font-size: 26px;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+
+        .checks-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .check-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px;
+        }
+
+        .check-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .check-name {
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .status-badge {
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .status-healthy {
+            color: var(--healthy);
+            background: rgba(32,201,151,0.10);
+        }
+
+        .status-warning {
+            color: var(--warning);
+            background: rgba(240,173,78,0.10);
+        }
+
+        .status-error {
+            color: var(--error);
+            background: rgba(255,92,92,0.10);
+        }
+
+        .check-message {
+            margin-top: 10px;
+            color: var(--muted);
+            line-height: 1.5;
+            font-size: 13px;
+        }
+
+        .check-details {
+            margin-top: 12px;
+            font-size: 12px;
+            color: #b9c7d6;
+            white-space: pre-wrap;
+        }
+
+        .loading,
+        .empty,
+        .error-box {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 22px;
+            color: var(--muted);
+        }
+
+        @media (max-width: 900px) {
+            .metrics {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .checks-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .health-header,
+            .overall-top {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .last-check {
+                text-align: left;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .health-page {
+                padding: 16px;
+            }
+
+            .metrics {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="health-page">
+
+    <div class="health-header">
+        <div class="title-area">
+            <h1>TLC SYSTEM HEALTH</h1>
+            <p>Real-time monitoring of The Legacy Circle portal.</p>
+        </div>
+
+        <div class="header-actions">
+            <button class="refresh-btn" onclick="loadHealth()">
+                Refresh
+            </button>
+        </div>
+    </div>
+
+    <div id="overallContainer" class="overall-card">
+        <div class="loading">
+            Checking TLC system health...
+        </div>
+    </div>
+
+    <div id="checksContainer" class="checks-grid">
+        <div class="loading">
+            Loading system checks...
+        </div>
+    </div>
+
+</div>
+
+<script src="/static/js/tlc-health.js"></script>
+
+</body>
+</html>

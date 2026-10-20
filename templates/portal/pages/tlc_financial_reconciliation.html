@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>TLC Financial Reconciliation</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/assets/tlc_financial_reconciliation.css?v=20260926-2"
+    >
+</head>
+
+<body>
+
+<div class="page-shell">
+
+    <header class="page-header">
+
+        <div class="header-brand">
+            <div class="brand-mark"><img src="/static/assets/tlc_logo.jpeg" alt="The Legacy Circle"></div>
+
+            <div>
+                <span class="eyebrow">
+                    TREASURY CONTROL
+                </span>
+
+                <h1>
+                    Financial Reconciliation
+                </h1>
+
+                <p>
+                    Official integrity review of the TLC financial register
+                </p>
+            </div>
+        </div>
+
+        <button
+            id="refreshButton"
+            class="refresh-button"
+            type="button"
+        >
+            ↻ Refresh Check
+        </button>
+
+    </header>
+
+
+    <main>
+
+        <section
+            id="statusCard"
+            class="status-card loading"
+        >
+            <div class="status-icon">
+                …
+            </div>
+
+            <div>
+                <span class="status-label">
+                    RECONCILIATION STATUS
+                </span>
+
+                <h2 id="statusTitle">
+                    Checking Financial Records
+                </h2>
+
+                <p id="statusMessage">
+                    Comparing the contribution register with the official
+                    TLC ledger rules.
+                </p>
+            </div>
+        </section>
+
+
+        <section class="summary-grid">
+
+            <article class="summary-card">
+                <span>REGISTER RECORDS</span>
+                <strong id="totalRecords">—</strong>
+            </article>
+
+            <article class="summary-card">
+                <span>CONTRIBUTIONS</span>
+                <strong id="totalContributions">—</strong>
+            </article>
+
+            <article class="summary-card">
+                <span>FINES</span>
+                <strong id="fines">—</strong>
+            </article>
+
+            <article class="summary-card">
+                <span>TOTAL TLC FUNDS</span>
+                <strong id="totalFunds">—</strong>
+            </article>
+
+        </section>
+
+
+        <section class="comparison-card">
+
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">
+                        CONTROL CHECKS
+                    </span>
+
+                    <h2>
+                        Reconciliation Controls
+                    </h2>
+                </div>
+            </div>
+
+
+            <div class="control-grid">
+
+                <div
+                    id="controlAmount"
+                    class="control-item"
+                >
+                    <span class="control-icon">✓</span>
+
+                    <div>
+                        <strong>
+                            Total Amounts
+                        </strong>
+
+                        <small>
+                            Register totals match the ledger.
+                        </small>
+                    </div>
+
+                    <b>—</b>
+                </div>
+
+
+                <div
+                    id="controlCategory"
+                    class="control-item"
+                >
+                    <span class="control-icon">✓</span>
+
+                    <div>
+                        <strong>
+                            Payment Categories
+                        </strong>
+
+                        <small>
+                            Fees, contributions and fines reconcile.
+                        </small>
+                    </div>
+
+                    <b>—</b>
+                </div>
+
+
+                <div
+                    id="controlReceipts"
+                    class="control-item"
+                >
+                    <span class="control-icon">✓</span>
+
+                    <div>
+                        <strong>
+                            Receipt References
+                        </strong>
+
+                        <small>
+                            Receipts are present and unique.
+                        </small>
+                    </div>
+
+                    <b>—</b>
+                </div>
+
+
+                <div
+                    id="controlIds"
+                    class="control-item"
+                >
+                    <span class="control-icon">✓</span>
+
+                    <div>
+                        <strong>
+                            Contribution IDs
+                        </strong>
+
+                        <small>
+                            Financial records have contribution IDs.
+                        </small>
+                    </div>
+
+                    <b>—</b>
+                </div>
+
+
+                <div
+                    id="controlMembers"
+                    class="control-item"
+                >
+                    <span class="control-icon">✓</span>
+
+                    <div>
+                        <strong>
+                            Member Integrity
+                        </strong>
+
+                        <small>
+                            Transactions belong to valid TLC members.
+                        </small>
+                    </div>
+
+                    <b>—</b>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section class="issues-card">
+
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">
+                        EXCEPTIONS
+                    </span>
+
+                    <h2>
+                        Items Requiring Review
+                    </h2>
+                </div>
+            </div>
+
+            <div id="issuesArea">
+
+                <div class="empty-state">
+                    Checking for exceptions…
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section class="authority-card">
+
+            <div class="authority-seals">
+
+                <div class="seal">
+                    <img
+                        src="/static/assets/tlc_official_stamp.jpeg"
+                        alt="The Legacy Circle Official Seal"
+                    >
+
+                    <span>
+                        OFFICIAL TLC SEAL
+                    </span>
+                </div>
+
+
+                <div class="seal">
+                    <img
+                        src="/static/assets/tlc_treasury_seal.jpeg"
+                        alt="The Legacy Circle Treasury Seal"
+                    >
+
+                    <span>
+                        GROUP TREASURY SEAL
+                    </span>
+                </div>
+
+            </div>
+
+
+            <div class="authority-text">
+
+                <span class="eyebrow">
+                    FINANCIAL CONTROL AUTHORITY
+                </span>
+
+                <strong>
+                    Alvin Owuor
+                </strong>
+
+                <span>
+                    Treasurer
+                </span>
+
+                <small>
+                    The Legacy Circle (TLC)
+                </small>
+
+                <div class="signature">
+                    Alvin Owuor
+                </div>
+
+                <div class="signature-line"></div>
+
+                <small>
+                    Authorized Treasurer
+                </small>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        Powered by Thee Alvin Tech Solutions
+    </footer>
+
+</div>
+
+<script
+    src="/static/assets/tlc_financial_reconciliation.js?v=20260926-1"
+></script>
+
+</body>
+</html>
+

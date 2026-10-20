@@ -1,0 +1,956 @@
+﻿const profileElements = {
+    sidebarName: document.getElementById("sidebarMemberName"),
+    sidebarId: document.getElementById("sidebarMemberId"),
+
+    topName: document.getElementById("topMemberName"),
+    topStatus: document.getElementById("topMemberStatus"),
+
+    welcomeName: document.getElementById("welcomeMemberName"),
+    accountStatus: document.getElementById("accountStatus"),
+
+    profileName: document.getElementById("profileName"),
+    profileId: document.getElementById("profileMemberId"),
+    profileStatus: document.getElementById("profileMembershipStatus"),
+    profilePhone: document.getElementById("profilePhone"),
+    profileEmail: document.getElementById("profileEmail"),
+    profileDate: document.getElementById("profileRegistrationDate"),
+
+    memberAvatar: document.getElementById("memberAvatar"),
+    topAvatar: document.getElementById("topAvatar"),
+    profileAvatar: document.getElementById("profileAvatar")
+};
+
+
+function getInitials(name) {
+
+    const words = String(name || "Member")
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean);
+
+    if (words.length === 1) {
+        return words[0]
+            .charAt(0)
+            .toUpperCase();
+    }
+
+    return (
+        words[0].charAt(0) +
+        words[words.length - 1].charAt(0)
+    ).toUpperCase();
+}
+
+
+function setText(element, value, fallback = "—") {
+
+    if (!element) {
+        return;
+    }
+
+    const text =
+        String(value ?? "").trim();
+
+    element.textContent =
+        text || fallback;
+}
+
+
+function setAvatar(element, member) {
+
+    if (!element) {
+        return;
+    }
+
+    const initials =
+        getInitials(member.full_name);
+
+    const picture =
+        String(
+            member.profile_picture || ""
+        ).trim();
+
+    if (!picture) {
+
+        element.textContent =
+            initials;
+
+        element.style.backgroundImage =
+            "";
+
+        element.style.backgroundSize =
+            "";
+
+        element.style.backgroundPosition =
+            "";
+
+        return;
+    }
+
+    const safeName =
+        picture
+            .split("\\")
+            .pop()
+            .split("/")
+            .pop();
+
+    if (!safeName) {
+
+        element.textContent =
+            initials;
+
+        return;
+    }
+
+    const imageUrl =
+        "/assets/profile_pictures/" +
+        encodeURIComponent(safeName);
+
+    element.textContent = "";
+
+    element.style.backgroundImage =
+        `url("${imageUrl}")`;
+
+    element.style.backgroundSize =
+        "cover";
+
+    element.style.backgroundPosition =
+        "center";
+
+    element.style.backgroundRepeat =
+        "no-repeat";
+}
+
+
+function populateMember(member) {
+
+    const name =
+        member.full_name ||
+        "TLC Member";
+
+    const memberId =
+        member.member_id ||
+        "Member ID";
+
+    const membershipStatus =
+        member.membership_status ||
+        "Member";
+
+    const phone =
+        member.phone ||
+        "—";
+
+    const email =
+        member.email ||
+        "—";
+
+    const registrationDate =
+        member.registration_date ||
+        "—";
+
+    const accountStatus =
+        member.account_status ||
+        "Active";
+
+    setText(
+        profileElements.sidebarName,
+        name,
+        "TLC Member"
+    );
+
+    setText(
+        profileElements.sidebarId,
+        memberId,
+        "Member ID"
+    );
+
+    setText(
+        profileElements.topName,
+        name,
+        "TLC Member"
+    );
+
+    setText(
+        profileElements.topStatus,
+        membershipStatus,
+        "Member"
+    );
+
+    setText(
+        profileElements.welcomeName,
+        name,
+        "Member"
+    );
+
+    setText(
+        profileElements.profileName,
+        name,
+        "TLC Member"
+    );
+
+    setText(
+        profileElements.profileId,
+        memberId,
+        "Member ID"
+    );
+
+    setText(
+        profileElements.profileStatus,
+        membershipStatus,
+        "Active Membership"
+    );
+
+    setText(
+        profileElements.profilePhone,
+        phone
+    );
+
+    setText(
+        profileElements.profileEmail,
+        email
+    );
+
+    setText(
+        profileElements.profileDate,
+        registrationDate
+    );
+
+    setText(
+        profileElements.accountStatus,
+        accountStatus,
+        "Active Member"
+    );
+
+    setAvatar(
+        profileElements.memberAvatar,
+        member
+    );
+
+    setAvatar(
+        profileElements.topAvatar,
+        member
+    );
+
+    setAvatar(
+        profileElements.profileAvatar,
+        member
+    );
+}
+
+
+async function loadMemberProfile() {
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/member/profile",
+                {
+                    method: "GET",
+
+                    credentials: "same-origin",
+
+                    headers: {
+                        "Accept":
+                            "application/json"
+                    },
+
+                    cache: "no-store"
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (
+            !response.ok ||
+            !data.success ||
+            !data.member
+        ) {
+
+            if (
+                response.status === 401
+            ) {
+
+                window.location.href =
+                    "/login";
+
+                return;
+            }
+
+            console.error(
+                "Unable to load member profile:",
+                data.message
+            );
+
+            return;
+        }
+
+        populateMember(
+            data.member
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Member profile connection failed:",
+            error
+        );
+    }
+}
+
+
+function setupNavigation() {
+
+    const links =
+        document.querySelectorAll(
+            ".sidebar-navigation .nav-item"
+        );
+
+    links.forEach(
+        (link) => {
+
+            link.addEventListener(
+                "click",
+                (event) => {
+
+                    const href =
+                        link.getAttribute(
+                            "href"
+                        );
+
+                    if (
+                        !href ||
+                        href === "#"
+                    ) {
+                        event.preventDefault();
+                    }
+                }
+            );
+        }
+    );
+
+
+    const summaryCards =
+        document.querySelectorAll(
+            ".summary-card"
+        );
+
+    summaryCards.forEach(
+        (card) => {
+
+            card.addEventListener(
+                "click",
+                () => {
+
+                    if (
+                        card.classList.contains(
+                            "contribution-card"
+                        )
+                    ) {
+                        window.location.href =
+                            "/member/contributions";
+                    }
+
+                    if (
+                        card.classList.contains(
+                            "welfare-card"
+                        )
+                    ) {
+                        window.location.href =
+                            "/member/welfare";
+                    }
+
+                    if (
+                        card.classList.contains(
+                            "receipt-card"
+                        )
+                    ) {
+                        window.location.href =
+                            "/member/receipts";
+                    }
+
+                    if (
+                        card.classList.contains(
+                            "notification-card"
+                        )
+                    ) {
+                        window.location.href =
+                            "/member/notifications";
+                    }
+                }
+            );
+        }
+    );
+
+
+    const serviceCards =
+        document.querySelectorAll(
+            ".service-card"
+        );
+
+    serviceCards.forEach(
+        (card) => {
+
+            card.addEventListener(
+                "click",
+                () => {
+
+                    const title =
+                        card.querySelector(
+                            "strong"
+                        )
+                        ?.textContent
+                        ?.trim()
+                        .toLowerCase();
+
+                    const routes = {
+                        contributions:
+                            "/member/contributions",
+
+                        receipts:
+                            "/member/receipts",
+
+                        welfare:
+                            "/member/welfare",
+
+                        meetings:
+                            "/member/meetings"
+                    };
+
+                    if (
+                        title &&
+                        routes[title]
+                    ) {
+                        window.location.href =
+                            routes[title];
+                    }
+                }
+            );
+        }
+    );
+
+
+    const profileButton =
+        document.querySelector(
+            ".profile-panel .panel-action"
+        );
+
+    if (profileButton) {
+
+        profileButton.addEventListener(
+            "click",
+            () => {
+
+                window.location.href =
+                    "/member/profile";
+            }
+        );
+    }
+
+
+    const logoutButton =
+        document.getElementById(
+            "logoutButton"
+        );
+
+    if (logoutButton) {
+
+        logoutButton.addEventListener(
+            "click",
+            async () => {
+
+                try {
+
+                    await fetch(
+                        "/api/logout",
+                        {
+                            method: "POST",
+                            credentials:
+                                "same-origin"
+                        }
+                    );
+
+                } catch (error) {
+
+                    console.error(
+                        "Logout request failed:",
+                        error
+                    );
+
+                } finally {
+
+                    window.location.href =
+                        "/login";
+                }
+            }
+        );
+    }
+}
+
+
+function setupMobileMenu() {
+
+    const menuButton =
+        document.getElementById(
+            "menuButton"
+        );
+
+    const sidebar =
+        document.getElementById(
+            "sidebar"
+        );
+
+    const overlay =
+        document.getElementById(
+            "sidebarOverlay"
+        );
+
+    if (
+        !menuButton ||
+        !sidebar ||
+        !overlay
+    ) {
+        return;
+    }
+
+
+    function closeMenu() {
+
+        sidebar.classList.remove(
+            "open"
+        );
+
+        overlay.classList.remove(
+            "active"
+        );
+    }
+
+
+    menuButton.addEventListener(
+        "click",
+        () => {
+
+            sidebar.classList.toggle(
+                "open"
+            );
+
+            overlay.classList.toggle(
+                "active"
+            );
+        }
+    );
+
+
+    overlay.addEventListener(
+        "click",
+        closeMenu
+    );
+
+
+    sidebar
+        .querySelectorAll(
+            ".nav-item"
+        )
+        .forEach(
+            (item) => {
+
+                item.addEventListener(
+                    "click",
+                    closeMenu
+                );
+            }
+        );
+}
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        setupNavigation();
+
+        setupMobileMenu();
+
+        loadMemberProfile();
+        loadContributionSummary();
+            refreshDashboardWelfare();
+            loadWelfareSummary();
+    }
+);
+
+async function loadContributionSummary() {
+
+    const totalElement =
+        document.getElementById("totalContributions");
+
+    if (!totalElement) {
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/member/contributions",
+                {
+                    method: "GET",
+                    credentials: "same-origin",
+                    headers: {
+                        "Accept": "application/json"
+                    }
+                }
+            );
+
+        if (!response.ok) {
+            throw new Error(
+                "Contribution summary request failed."
+            );
+        }
+
+        const data =
+            await response.json();
+
+        if (!data.success) {
+            throw new Error(
+                data.message ||
+                "Contribution summary unavailable."
+            );
+        }
+
+        const total =
+            Number(
+                data.summary?.total || 0
+            );
+
+        totalElement.textContent =
+            "KES " +
+            total.toLocaleString(
+                "en-KE",
+                {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }
+            );
+
+    } catch (error) {
+
+        console.error(
+            "Contribution summary error:",
+            error
+        );
+
+        totalElement.textContent =
+            "KES 0.00";
+    }
+}
+
+async function loadWelfareSummary() {
+    try {
+        const response = await fetch(
+            "/api/member/welfare",
+            {
+                method: "GET",
+                credentials: "same-origin",
+                headers: {
+                    "Accept": "application/json"
+                }
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            return;
+        }
+
+        const summary = data.summary || {};
+
+        const welfareCount =
+            document.getElementById("welfareRequestCount");
+
+        if (welfareCount) {
+            welfareCount.textContent =
+                summary.request_count || 0;
+        }
+
+    } catch (error) {
+        console.error(
+            "Welfare dashboard summary error:",
+            error
+        );
+    }
+}
+
+
+async function refreshDashboardWelfare() {
+    try {
+        const response = await fetch(
+            "/api/member/welfare",
+            {
+                method: "GET",
+                credentials: "same-origin",
+                headers: {
+                    "Accept": "application/json"
+                }
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            return;
+        }
+
+        const supportRecords =
+            Array.isArray(data.welfare?.support)
+                ? data.welfare.support
+                : [];
+
+        const totalSupport =
+            supportRecords.reduce(
+                (total, item) => {
+                    const amount =
+                        Number(item["Amount / Value"]);
+
+                    return Number.isFinite(amount)
+                        ? total + amount
+                        : total;
+                },
+                0
+            );
+
+        const welfareAmount =
+            document.getElementById("welfareAmount");
+
+        if (welfareAmount) {
+            welfareAmount.textContent =
+                "KES " +
+                totalSupport.toLocaleString(
+                    "en-KE",
+                    {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 2
+                    }
+                );
+        }
+
+    } catch (error) {
+        console.error(
+            "Dashboard welfare loading error:",
+            error
+        );
+    }
+}
+
+/* ============================================================
+   LIVE TLC NOTIFICATIONS
+   ============================================================ */
+
+async function loadDashboardNotifications() {
+    try {
+        const response = await fetch("/api/member/notifications");
+
+        if (!response.ok) {
+            throw new Error("Notification API unavailable");
+        }
+
+        const data = await response.json();
+
+        if (!data.success) {
+            throw new Error("Notification request failed");
+        }
+
+        const notifications = data.notifications || [];
+
+        const countElement =
+            document.getElementById("notificationCount");
+
+        const badgeElement =
+            document.querySelector(".notification-badge");
+
+        const count = notifications.length;
+
+        if (countElement) {
+            countElement.textContent = count;
+        }
+
+        if (badgeElement) {
+            badgeElement.textContent = count;
+            badgeElement.style.display = count > 0 ? "inline-flex" : "none";
+        }
+
+    } catch (error) {
+        console.error("Dashboard notifications:", error);
+    }
+}
+
+document.addEventListener(
+    "DOMContentLoaded",
+    loadDashboardNotifications
+);
+
+
+/* ============================================================
+   NOTIFICATION BELL
+   ============================================================ */
+
+document.addEventListener("DOMContentLoaded", () => {
+    const notificationButton =
+        document.querySelector(".notification-button");
+
+    if (notificationButton) {
+        notificationButton.style.cursor = "pointer";
+
+        notificationButton.addEventListener("click", () => {
+            window.location.href = "/member/notifications";
+        });
+    }
+});
+
+
+/* ============================================================
+   RECENT ACTIVITY
+   ============================================================ */
+
+async function loadRecentActivity() {
+
+    const list =
+        document.getElementById(
+            "activityList"
+        );
+
+    if (!list) {
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/member/activity",
+                {
+                    method: "GET",
+                    credentials: "same-origin",
+                    headers: {
+                        "Accept":
+                            "application/json"
+                    },
+                    cache: "no-store"
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (
+            response.status === 401
+        ) {
+            window.location.href =
+                "/login";
+            return;
+        }
+
+        if (
+            !response.ok ||
+            !data.success
+        ) {
+            return;
+        }
+
+        const activities =
+            Array.isArray(data.activities)
+                ? data.activities
+                    .filter((activity) => {
+                        const action =
+                            String(
+                                activity.action || ""
+                            ).trim().toLowerCase();
+
+                        return !action.startsWith("viewed ");
+                    })
+                    .slice(0, 5)
+                : [];
+
+        if (!activities.length) {
+            return;
+        }
+
+        list.innerHTML =
+            activities
+                .map(
+                    (activity) => {
+
+                        const date =
+                            new Date(
+                                activity.timestamp
+                            );
+
+                        const formattedDate =
+                            Number.isNaN(
+                                date.getTime()
+                            )
+                                ? activity.timestamp
+                                : date.toLocaleString(
+                                    "en-KE",
+                                    {
+                                        dateStyle:
+                                            "medium",
+                                        timeStyle:
+                                            "short"
+                                    }
+                                );
+
+                        return `
+                            <div class="activity-item">
+
+                                <div class="activity-icon">
+                                    ●
+                                </div>
+
+                                <div class="activity-content">
+
+                                    <strong>
+                                        ${
+                                            String(
+                                                activity.action ||
+                                                "Account Activity"
+                                            )
+                                        }
+                                    </strong>
+
+                                    <p>
+                                        ${
+                                            String(
+                                                activity.description ||
+                                                ""
+                                            )
+                                        }
+                                    </p>
+
+                                    <small>
+                                        ${formattedDate}
+                                    </small>
+
+                                </div>
+
+                            </div>
+                        `;
+                    }
+                )
+                .join("");
+
+    } catch (error) {
+
+        console.error(
+            "Recent activity loading:",
+            error
+        );
+    }
+}
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    loadRecentActivity
+);
+

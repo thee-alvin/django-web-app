@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TLC Receipt Verification</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/assets/tlc_receipt_verification.css?v=20260925-3"
+    >
+</head>
+
+<body>
+
+<div class="verification-page">
+
+    <header class="verification-header">
+
+        <div class="brand">
+
+            <img
+                src="/static/assets/tlc_logo.jpeg"
+                alt="The Legacy Circle"
+            >
+
+            <div>
+                <span>
+                    THE LEGACY CIRCLE
+                </span>
+
+                <h1>
+                    Receipt Verification
+                </h1>
+
+                <p>
+                    Private Treasury verification desk
+                </p>
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <section class="search-panel">
+
+        <div class="section-label">
+            TREASURY RECEIPT CONTROL
+        </div>
+
+        <h2>
+            Verify an Official TLC Receipt
+        </h2>
+
+        <p>
+            Enter the receipt reference exactly as it appears
+            on the official TLC receipt.
+        </p>
+
+
+        <div class="search-row">
+
+            <input list="receiptOptions"
+                id="receiptInput"
+                type="text"
+                autocomplete="on"
+                placeholder="TLC/RCPT/2026/000024"
+            >
+            <datalist id="receiptOptions"></datalist>
+
+            <button
+                id="verifyButton"
+                type="button"
+            >
+                Verify Receipt
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <main id="resultArea">
+
+        <section class="empty-state">
+
+            <div class="empty-icon">
+                ✓
+            </div>
+
+            <h2>
+                Ready for Verification
+            </h2>
+
+            <p>
+                Enter a TLC receipt reference above.
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        <span>
+            PRIVATE TREASURER RECORD
+        </span>
+
+        <span>
+            Powered by Thee Alvin Tech Solutions
+        </span>
+
+    </footer>
+
+</div>
+
+
+<script src="/static/assets/tlc_receipt_verification.js?v=20260925-3"></script>
+
+</body>
+</html>
+
+
+
+
+
+
+

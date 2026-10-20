@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TLC | Member Login</title>
+    <link rel="stylesheet" href="/static/css/login.css">
+    <link rel="stylesheet" href="/static/assets/responsive.css">`r`n</head>
+
+<body>
+
+<div class="login-page">
+
+    <div class="login-card">
+
+        <div class="logo-area">
+            <img src="/static/assets/tlc_logo.jpeg" alt="TLC Logo">
+        </div>
+
+        <h1>THE LEGACY CIRCLE</h1>
+        <p class="subtitle">MEMBER PORTAL</p>
+
+        <div class="welcome">
+            <h2>Welcome Back</h2>
+            <p>Sign in to access your TLC account.</p>
+        </div>
+
+        <form id="loginForm">
+
+            <label for="memberId">Member ID</label>
+            <input
+                type="text"
+                id="memberId"
+                placeholder="Enter your Member ID"
+                autocomplete="username"
+                required
+            >
+
+            <label for="password">Password</label>
+
+            <div class="password-box">
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                    required
+                >
+
+                <button type="button" id="togglePassword">
+                    Show
+                </button>
+            </div>
+
+            <div class="login-options">
+                <label class="remember">
+                    <input type="checkbox" id="remember">
+                    <span>Remember me</span>
+                </label>
+
+                <a href="#"><a href="/forgot-password">Forgot Password?</a></a>
+            </div>
+
+            <button type="submit" class="login-submit">
+                LOGIN
+            </button>
+
+            <div id="loginMessage"></div>
+
+        </form>
+
+        <div class="activate-account"><p>First time using the TLC Portal?</p><a href="/activate">ACTIVATE MY ACCOUNT</a></div><div class="security">
+            🔒 Secure TLC Member Access
+        </div>
+
+        <div class="footer">
+            <p>THE LEGACY CIRCLE (TLC)</p>
+            <span>© 2026 All Rights Reserved.</span>
+            <strong>Powered by THEE ALVIN TECH SOLUTIONS</strong>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="/static/js/auth.js"></script>
+
+</body>
+</html>
+
+
+

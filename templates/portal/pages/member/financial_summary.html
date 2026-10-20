@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Financial Summary | The Legacy Circle</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/assets/financial-summary.css"
+    >
+</head>
+
+<body>
+
+<main class="financial-page">
+
+    <header class="page-heading">
+
+        <div>
+            <div class="eyebrow">
+                THE LEGACY CIRCLE
+            </div>
+
+            <h1>My Financial Summary</h1>
+
+            <p>
+                A personal overview of your contribution activity
+                and financial records.
+            </p>
+
+            <div
+                class="member-label"
+                id="memberId"
+            >
+                Member ID: —
+            </div>
+        </div>
+
+        <div class="heading-actions">
+
+            <button
+                type="button"
+                id="refreshSummary"
+                class="header-button"
+            >
+                ↻ Refresh
+            </button>
+
+            <a
+                href="/member/contributions"
+                class="back-link"
+            >
+                Contributions →
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <section
+        id="loadingState"
+        class="loading-state"
+    >
+        Loading your financial summary...
+    </section>
+
+
+    <section
+        id="errorState"
+        class="error-state hidden"
+    >
+        Unable to load your financial summary.
+        Please refresh and try again.
+    </section>
+
+
+    <section
+        id="mainContent"
+        class="hidden"
+    >
+
+        <section class="hero-summary">
+
+            <div class="hero-content">
+
+                <div class="hero-label">
+                    TOTAL CONTRIBUTED
+                </div>
+
+                <div
+                    id="totalAmount"
+                    class="hero-amount"
+                >
+                    KES 0.00
+                </div>
+
+                <div class="hero-note">
+                    Your recorded contribution value
+                </div>
+
+            </div>
+
+            <div class="hero-mark">
+                TLC
+            </div>
+
+        </section>
+
+
+        <section class="stat-grid">
+
+            <article class="stat-card">
+
+                <div class="stat-icon">
+                    MONTH
+                </div>
+
+                <div class="stat-label">
+                    THIS MONTH
+                </div>
+
+                <div
+                    id="thisMonth"
+                    class="stat-value"
+                >
+                    KES 0.00
+                </div>
+
+            </article>
+
+
+            <article class="stat-card">
+
+                <div class="stat-icon">
+                    YEAR
+                </div>
+
+                <div class="stat-label">
+                    THIS YEAR
+                </div>
+
+                <div
+                    id="thisYear"
+                    class="stat-value"
+                >
+                    KES 0.00
+                </div>
+
+            </article>
+
+
+            <article class="stat-card">
+
+                <div class="stat-icon">
+                    PAY
+                </div>
+
+                <div class="stat-label">
+                    PAYMENT COUNT
+                </div>
+
+                <div
+                    id="paymentCount"
+                    class="stat-value"
+                >
+                    0
+                </div>
+
+            </article>
+
+
+            <article class="stat-card">
+
+                <div class="stat-icon">
+                    AVG
+                </div>
+
+                <div class="stat-label">
+                    AVERAGE PAYMENT
+                </div>
+
+                <div
+                    id="averageAmount"
+                    class="stat-value"
+                >
+                    KES 0.00
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <section class="section-card">
+
+            <div class="section-header">
+                <div>
+                    <div class="section-kicker">
+                        CONTRIBUTION ACTIVITY
+                    </div>
+
+                    <h2>Payment Timeline</h2>
+                </div>
+
+                <div
+                    id="lastUpdated"
+                    class="updated-label"
+                >
+                    Not updated yet
+                </div>
+            </div>
+
+
+            <div class="timeline-grid">
+
+                <article class="timeline-card">
+
+                    <div class="timeline-dot first">
+                        01
+                    </div>
+
+                    <div>
+                        <div class="timeline-label">
+                            FIRST CONTRIBUTION
+                        </div>
+
+                        <div
+                            id="firstAmount"
+                            class="timeline-amount"
+                        >
+                            KES 0.00
+                        </div>
+
+                        <div
+                            id="firstDate"
+                            class="timeline-date"
+                        >
+                            —
+                        </div>
+                    </div>
+
+                </article>
+
+
+                <article class="timeline-card">
+
+                    <div class="timeline-dot latest">
+                        02
+                    </div>
+
+                    <div>
+                        <div class="timeline-label">
+                            LATEST CONTRIBUTION
+                        </div>
+
+                        <div
+                            id="latestAmount"
+                            class="timeline-amount"
+                        >
+                            KES 0.00
+                        </div>
+
+                        <div
+                            id="latestDate"
+                            class="timeline-date"
+                        >
+                            —
+                        </div>
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <section class="section-card">
+
+            <div class="section-header">
+
+                <div>
+                    <div class="section-kicker">
+                        LATEST RECORD
+                    </div>
+
+                    <h2>Most Recent Contribution</h2>
+                </div>
+
+            </div>
+
+
+            <div id="latestRecord">
+
+                <div class="record-grid">
+
+                    <div class="record-item">
+                        <span>Contribution ID</span>
+                        <strong id="recordId">—</strong>
+                    </div>
+
+                    <div class="record-item">
+                        <span>Contribution Type</span>
+                        <strong id="recordType">—</strong>
+                    </div>
+
+                    <div class="record-item">
+                        <span>Description</span>
+                        <strong id="recordDescription">—</strong>
+                    </div>
+
+                    <div class="record-item">
+                        <span>Payment Method</span>
+                        <strong id="recordMethod">—</strong>
+                    </div>
+
+                    <div class="record-item">
+                        <span>Transaction Reference</span>
+                        <strong
+                            id="recordReference"
+                            class="reference"
+                        >
+                            —
+                        </strong>
+                    </div>
+
+                    <div class="record-item">
+                        <span>Status</span>
+                        <strong id="recordStatus">—</strong>
+                    </div>
+
+                </div>
+
+                <div class="latest-footer">
+
+                    <div>
+                        <span class="amount-caption">
+                            AMOUNT
+                        </span>
+
+                        <strong
+                            id="recordAmount"
+                            class="latest-total"
+                        >
+                            KES 0.00
+                        </strong>
+                    </div>
+
+                    <a
+                        href="/member/contributions"
+                        class="view-button"
+                    >
+                        View Full History
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div
+                id="noRecord"
+                class="empty-state hidden"
+            >
+                No contribution record is available yet.
+            </div>
+
+        </section>
+
+
+        <section class="footer-note">
+
+            <span class="footer-line"></span>
+
+            <p>
+                Your financial summary is generated from your
+                recorded TLC contribution history.
+            </p>
+
+            <span class="footer-line"></span>
+
+        </section>
+
+    </section>
+
+</main>
+
+
+<script src="/static/js/financial_summary.js"></script>
+
+</body>
+</html>

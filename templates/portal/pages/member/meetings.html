@@ -1,0 +1,358 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>TLC | Meetings</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/assets/meetings.css"
+    >
+</head>
+
+<body>
+
+<main class="meetings-page">
+
+    <header class="meetings-header">
+
+        <div class="header-branding">
+
+            <div class="page-kicker">
+                THE LEGACY CIRCLE GROUP
+            </div>
+
+            <h1>Meetings</h1>
+
+            <p>
+                View upcoming and previous TLC meetings,
+                meeting schedules, agendas, venues and official records.
+            </p>
+
+        </div>
+
+        <div class="heading-actions">
+
+            <button
+                type="button"
+                id="refreshMeetings"
+                class="header-button"
+            >
+                Refresh
+            </button>
+
+            <a
+                href="/dashboard"
+                class="back-link"
+            >
+                Dashboard
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <section
+        id="loadingState"
+        class="state-card loading-card"
+    >
+        <div class="loading-dot"></div>
+        <span>Loading meetings...</span>
+    </section>
+
+
+    <section
+        id="errorState"
+        class="state-card error-state hidden"
+    >
+        Unable to load meetings.
+    </section>
+
+
+    <section
+        id="mainContent"
+        class="hidden"
+    >
+
+        <!-- SUMMARY -->
+
+        <div class="summary-grid">
+
+            <article class="summary-card">
+
+                <div class="summary-icon">
+                    M
+                </div>
+
+                <div>
+                    <span class="summary-label">
+                        TOTAL MEETINGS
+                    </span>
+
+                    <strong id="totalMeetings">
+                        0
+                    </strong>
+
+                    <span class="summary-note">
+                        All recorded meetings
+                    </span>
+                </div>
+
+            </article>
+
+
+            <article class="summary-card">
+
+                <div class="summary-icon">
+                    U
+                </div>
+
+                <div>
+                    <span class="summary-label">
+                        SCHEDULED
+                    </span>
+
+                    <strong id="scheduledMeetings">
+                        0
+                    </strong>
+
+                    <span class="summary-note">
+                        Upcoming meetings
+                    </span>
+                </div>
+
+            </article>
+
+
+            <article class="summary-card">
+
+                <div class="summary-icon">
+                    C
+                </div>
+
+                <div>
+                    <span class="summary-label">
+                        COMPLETED
+                    </span>
+
+                    <strong id="completedMeetings">
+                        0
+                    </strong>
+
+                    <span class="summary-note">
+                        Completed meetings
+                    </span>
+                </div>
+
+            </article>
+
+        </div>
+
+
+        <!-- MEETING RECORDS -->
+
+        <section class="section-card">
+
+            <div class="section-header">
+
+                <div>
+                    <div class="section-kicker">
+                        TLC MEETINGS
+                    </div>
+
+                    <h2>
+                        Meeting Schedule &amp; Records
+                    </h2>
+
+                    <p class="section-description">
+                        Official meetings recorded by The Legacy Circle Group.
+                    </p>
+                </div>
+
+                <div
+                    id="meetingRecordCount"
+                    class="record-count"
+                >
+                    0 records
+                </div>
+
+            </div>
+
+
+            <div
+                id="meetingsEmpty"
+                class="empty-state hidden"
+            >
+                <div class="empty-icon">
+                    M
+                </div>
+
+                <h3>No Meetings Recorded</h3>
+
+                <p>
+                    No meetings have been added to the TLC meetings register yet.
+                </p>
+            </div>
+
+
+            <div
+                id="meetingsTableWrap"
+                class="table-wrap hidden"
+            >
+
+                <table class="meetings-table">
+
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Meeting Type</th>
+                            <th>Venue</th>
+                            <th>Agenda</th>
+                            <th>Status</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="meetingsTableBody"></tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </section>
+
+
+    <!-- MEETING DETAILS -->
+
+    <div
+        id="meetingDetails"
+        class="meeting-modal hidden"
+        aria-hidden="true"
+    >
+
+        <div
+            class="meeting-modal-backdrop"
+            id="closeMeetingBackdrop"
+        ></div>
+
+
+        <div
+            class="meeting-modal-card"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="meetingDetailsTitle"
+        >
+
+            <div class="modal-header">
+
+                <div>
+                    <div class="section-kicker">
+                        TLC OFFICIAL RECORD
+                    </div>
+
+                    <h3 id="meetingDetailsTitle">
+                        Meeting Details
+                    </h3>
+                </div>
+
+                <button
+                    type="button"
+                    id="closeMeetingDetails"
+                    class="modal-close"
+                    aria-label="Close meeting details"
+                >
+                    X
+                </button>
+
+            </div>
+
+
+            <div class="details-grid">
+
+                <div class="detail-item">
+                    <span>Meeting ID</span>
+                    <strong id="detailMeetingId">?</strong>
+                </div>
+
+                <div class="detail-item">
+                    <span>Status</span>
+                    <strong id="detailMeetingStatus">?</strong>
+                </div>
+
+                <div class="detail-item">
+                    <span>Meeting Date</span>
+                    <strong id="detailMeetingDate">?</strong>
+                </div>
+
+                <div class="detail-item">
+                    <span>Meeting Time</span>
+                    <strong id="detailMeetingTime">?</strong>
+                </div>
+
+                <div class="detail-item">
+                    <span>Meeting Type</span>
+                    <strong id="detailMeetingType">?</strong>
+                </div>
+
+                <div class="detail-item">
+                    <span>Venue</span>
+                    <strong id="detailMeetingVenue">?</strong>
+                </div>
+
+                <div class="detail-item">
+                    <span>Chairperson</span>
+                    <strong id="detailChairperson">?</strong>
+                </div>
+
+                <div class="detail-item">
+                    <span>Secretary</span>
+                    <strong id="detailSecretary">?</strong>
+                </div>
+
+                <div class="detail-item full">
+                    <span>Agenda</span>
+                    <div id="detailAgenda">?</div>
+                </div>
+
+                <div class="detail-item full">
+                    <span>Minutes</span>
+                    <div id="detailMinutes">?</div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <footer class="page-footer">
+
+        <span>
+            Powered by Alvin Tech Solutions
+        </span>
+
+        <span>
+            &copy; 2026 Thee Alvin Tech Solutions ? All Rights Reserved
+        </span>
+
+    </footer>
+
+</main>
+
+
+<script src="/static/js/meetings.js"></script>
+
+</body>
+</html>

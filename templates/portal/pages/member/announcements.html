@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>TLC | Announcements</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/assets/announcements.css"
+    >
+</head>
+
+<body>
+
+<main class="announcements-page">
+
+    <header class="announcements-header">
+
+        <div>
+            <div class="page-kicker">
+                THE LEGACY CIRCLE GROUP
+            </div>
+
+            <h1>Announcements</h1>
+
+            <p>
+                Official notices, updates and important information
+                from The Legacy Circle Group.
+            </p>
+        </div>
+
+        <div class="heading-actions">
+
+            <button
+                type="button"
+                id="refreshAnnouncements"
+                class="header-button"
+            >
+                Refresh
+            </button>
+
+            <a
+                href="/dashboard"
+                class="back-link"
+            >
+                Dashboard
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <section
+        id="loadingState"
+        class="state-card loading-card"
+    >
+        <span class="loading-dot"></span>
+        <span>Loading announcements...</span>
+    </section>
+
+
+    <section
+        id="errorState"
+        class="state-card error-state hidden"
+    >
+        Unable to load announcements.
+    </section>
+
+
+    <section
+        id="mainContent"
+        class="hidden"
+    >
+
+        <div class="summary-grid">
+
+            <article class="summary-card">
+
+                <div class="summary-icon">A</div>
+
+                <div>
+                    <span class="summary-label">
+                        TOTAL ANNOUNCEMENTS
+                    </span>
+
+                    <strong id="totalAnnouncements">
+                        0
+                    </strong>
+
+                    <span class="summary-note">
+                        Published notices
+                    </span>
+                </div>
+
+            </article>
+
+
+            <article class="summary-card">
+
+                <div class="summary-icon">N</div>
+
+                <div>
+                    <span class="summary-label">
+                        NEWEST
+                    </span>
+
+                    <strong id="newestAnnouncement">
+                        ?
+                    </strong>
+
+                    <span class="summary-note">
+                        Latest announcement date
+                    </span>
+                </div>
+
+            </article>
+
+
+            <article class="summary-card">
+
+                <div class="summary-icon">!</div>
+
+                <div>
+                    <span class="summary-label">
+                        HIGH PRIORITY
+                    </span>
+
+                    <strong id="highPriorityAnnouncements">
+                        0
+                    </strong>
+
+                    <span class="summary-note">
+                        High or urgent notices
+                    </span>
+                </div>
+
+            </article>
+
+        </div>
+
+
+        <section class="section-card">
+
+            <div class="section-header">
+
+                <div>
+                    <div class="section-kicker">
+                        TLC OFFICIAL NOTICES
+                    </div>
+
+                    <h2>Latest Announcements</h2>
+
+                    <p class="section-description">
+                        Information published for TLC members.
+                    </p>
+                </div>
+
+                <div
+                    id="announcementRecordCount"
+                    class="record-count"
+                >
+                    0 records
+                </div>
+
+            </div>
+
+
+            <div
+                id="announcementsEmpty"
+                class="empty-state hidden"
+            >
+                <div class="empty-icon">A</div>
+
+                <h3>No Announcements</h3>
+
+                <p>
+                    There are no published announcements at the moment.
+                </p>
+            </div>
+
+
+            <div
+                id="announcementsList"
+                class="announcements-list"
+            ></div>
+
+        </section>
+
+    </section>
+
+
+    <footer class="page-footer">
+
+        <span>
+            Powered by Alvin Tech Solutions
+        </span>
+
+        <span>
+            &copy; 2026 Thee Alvin Tech Solutions ? All Rights Reserved
+        </span>
+
+    </footer>
+
+</main>
+
+
+<script src="/static/js/announcements.js?v=october-poster-20261001"></script>
+
+</body>
+</html>
+

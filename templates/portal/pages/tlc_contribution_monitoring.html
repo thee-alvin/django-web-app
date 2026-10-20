@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>TLC Contribution Monitoring</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/assets/tlc_contribution_monitoring.css?v=20260926-1"
+    >
+</head>
+
+<body>
+
+<div class="page-shell">
+
+    <header class="page-header">
+
+        <div class="header-brand">
+
+            <div class="brand-mark">
+                <img
+                    src="/static/assets/tlc_logo.jpeg"
+                    alt="The Legacy Circle"
+                >
+            </div>
+
+            <div>
+
+                <span class="eyebrow">
+                    TREASURY ADMINISTRATION
+                </span>
+
+                <h1>
+                    Contribution Monitoring
+                </h1>
+
+                <p>
+                    Live weekly contribution control and member payment monitoring.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <button
+            id="refreshButton"
+            class="refresh-button"
+            type="button"
+        >
+            ↻ Refresh
+        </button>
+
+    </header>
+
+
+    <main>
+
+        <section class="cycle-card">
+
+            <div>
+
+                <span class="eyebrow">
+                    CURRENT CONTRIBUTION CYCLE
+                </span>
+
+                <h2 id="cycleTitle">
+                    Loading current cycle…
+                </h2>
+
+                <p id="cycleMessage">
+                    Checking the official TLC contribution register.
+                </p>
+
+            </div>
+
+
+            <div class="cycle-amount">
+
+                <span>
+                    WEEKLY AMOUNT
+                </span>
+
+                <strong id="weeklyAmount">
+                    —
+                </strong>
+
+            </div>
+
+        </section>
+
+
+        <section class="summary-grid">
+
+            <article class="summary-card">
+
+                <span>
+                    MEMBERS
+                </span>
+
+                <strong id="totalMembers">
+                    —
+                </strong>
+
+            </article>
+
+
+            <article class="summary-card paid">
+
+                <span>
+                    PAID
+                </span>
+
+                <strong id="paidCount">
+                    —
+                </strong>
+
+            </article>
+
+
+            <article class="summary-card partial">
+
+                <span>
+                    PARTIAL
+                </span>
+
+                <strong id="partialCount">
+                    —
+                </strong>
+
+            </article>
+
+
+            <article class="summary-card unpaid">
+
+                <span>
+                    UNPAID
+                </span>
+
+                <strong id="unpaidCount">
+                    —
+                </strong>
+
+            </article>
+
+
+            <article class="summary-card">
+
+                <span>
+                    EXPECTED
+                </span>
+
+                <strong id="expectedAmount">
+                    —
+                </strong>
+
+            </article>
+
+
+            <article class="summary-card featured">
+
+                <span>
+                    COLLECTED
+                </span>
+
+                <strong id="paidAmount">
+                    —
+                </strong>
+
+            </article>
+
+
+            <article class="summary-card outstanding">
+
+                <span>
+                    OUTSTANDING
+                </span>
+
+                <strong id="outstandingAmount">
+                    —
+                </strong>
+
+            </article>
+
+
+            <article class="summary-card rate">
+
+                <span>
+                    COLLECTION RATE
+                </span>
+
+                <strong id="collectionRate">
+                    —
+                </strong>
+
+            </article>
+
+        </section>
+
+
+        <section class="progress-card">
+
+            <div class="progress-heading">
+
+                <div>
+
+                    <span class="eyebrow">
+                        WEEKLY COLLECTION
+                    </span>
+
+                    <h2>
+                        Current Cycle Progress
+                    </h2>
+
+                </div>
+
+                <strong id="progressRate">
+                    0%
+                </strong>
+
+            </div>
+
+
+            <div class="progress-track">
+
+                <div
+                    id="progressBar"
+                    class="progress-bar"
+                    style="width: 0%;"
+                ></div>
+
+            </div>
+
+            <p id="progressMessage">
+                Loading collection progress…
+            </p>
+
+        </section>
+
+
+        <section class="members-card">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="eyebrow">
+                        MEMBER CONTROL
+                    </span>
+
+                    <h2>
+                        Weekly Contribution Status
+                    </h2>
+
+                </div>
+
+                <span
+                    id="memberCount"
+                    class="record-count"
+                >
+                    0 members
+                </span>
+
+            </div>
+
+
+            <div id="membersArea">
+
+                <div class="loading-state">
+                    Loading contribution monitoring…
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section class="history-card">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="eyebrow">
+                        COLLECTION HISTORY
+                    </span>
+
+                    <h2>
+                        Recent Weekly Cycles
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="historyArea"
+                class="history-grid"
+            >
+
+                <div class="loading-state">
+                    Loading weekly history…
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section class="authority-card">
+
+            <div class="authority-seals">
+
+                <div class="seal">
+
+                    <img
+                        src="/static/assets/tlc_official_stamp.jpeg"
+                        alt="The Legacy Circle Official Seal"
+                    >
+
+                    <span>
+                        OFFICIAL TLC SEAL
+                    </span>
+
+                </div>
+
+
+                <div class="seal">
+
+                    <img
+                        src="/static/assets/tlc_treasury_seal.jpeg"
+                        alt="The Legacy Circle Treasury Seal"
+                    >
+
+                    <span>
+                        GROUP TREASURY SEAL
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="authority-text">
+
+                <span class="eyebrow">
+                    FINANCIAL AUTHORITY
+                </span>
+
+                <strong>
+                    Alvin Owuor
+                </strong>
+
+                <span>
+                    Treasurer
+                </span>
+
+                <small>
+                    The Legacy Circle (TLC)
+                </small>
+
+                <div class="signature">
+                    Alvin Owuor
+                </div>
+
+                <div class="signature-line"></div>
+
+                <small>
+                    Authorized Treasurer
+                </small>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        Powered by Thee Alvin Tech Solutions
+    </footer>
+
+</div>
+
+
+<script
+    src="/static/assets/tlc_contribution_monitoring.js?v=20260926-3"
+></script>
+
+</body>
+</html>
+
+

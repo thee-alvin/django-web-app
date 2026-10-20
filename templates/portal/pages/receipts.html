@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TLC | My Receipts</title>
+
+    <link rel="stylesheet" href="/static/css/member/receipts.css">
+</head>
+
+<body>
+
+<main class="receipts-page">
+
+    <!-- PAGE HEADER -->
+    <header class="receipts-header">
+
+        <div>
+            <span class="page-kicker">FINANCIAL RECORDS</span>
+
+            <h1>My Receipts</h1>
+
+            <p>
+                View and manage your TLC payment receipts.
+            </p>
+        </div>
+
+        <button
+            type="button"
+            id="refreshReceipts"
+            class="refresh-button"
+        >
+            ↻ Refresh
+        </button>
+
+    </header>
+
+
+    <!-- SUMMARY -->
+    <section class="receipt-summary">
+
+        <article class="summary-card">
+
+            <div class="summary-icon">
+                🧾
+            </div>
+
+            <div>
+                <span>Total Receipts</span>
+                <strong id="totalReceipts">0</strong>
+            </div>
+
+        </article>
+
+
+        <article class="summary-card">
+
+            <div class="summary-icon">
+                KES
+            </div>
+
+            <div>
+                <span>Total Paid</span>
+                <strong id="totalPaid">KES 0.00</strong>
+            </div>
+
+        </article>
+
+
+        <article class="summary-card">
+
+            <div class="summary-icon">
+                ◷
+            </div>
+
+            <div>
+                <span>Latest Payment</span>
+                <strong id="latestPayment">—</strong>
+            </div>
+
+        </article>
+
+    </section>
+
+
+    <!-- RECEIPTS PANEL -->
+    <section class="receipts-panel">
+
+        <div class="panel-header">
+
+            <div>
+                <span class="panel-kicker">PAYMENT HISTORY</span>
+
+                <h2>Receipt History</h2>
+            </div>
+
+            <div class="receipt-filters">
+
+                <input
+                    type="search"
+                    id="receiptSearch"
+                    placeholder="Search receipts..."
+                    autocomplete="off"
+                >
+
+                <select id="paymentTypeFilter">
+                    <option value="">All Payment Types</option>
+                    <option value="Registration Fee">
+                        Registration Fee
+                    </option>
+                    <option value="Contribution">
+                        Contribution
+                    </option>
+                    <option value="Fine">
+                        Fine
+                    </option>
+                    <option value="Welfare">
+                        Welfare
+                    </option>
+                    <option value="Other">
+                        Other
+                    </option>
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- RECEIPT TABLE -->
+        <div class="receipt-table-wrapper">
+
+            <table class="receipt-table">
+
+                <thead>
+                    <tr>
+                        <th>Receipt No.</th>
+                        <th>Date</th>
+                        <th>Payment Type</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="receiptTableBody">
+
+                    <tr>
+                        <td colspan="6">
+
+                            <div class="empty-state">
+
+                                <div class="empty-icon">
+                                    🧾
+                                </div>
+
+                                <h3>Loading receipts...</h3>
+
+                                <p>
+                                    Please wait while we retrieve
+                                    your payment records.
+                                </p>
+
+                            </div>
+
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- INFORMATION -->
+    <section class="receipt-information">
+
+        <div class="information-icon">
+            ℹ
+        </div>
+
+        <div>
+            <strong>About your receipts</strong>
+
+            <p>
+                Every confirmed TLC payment will have an
+                electronically generated receipt. Your receipt
+                number can be used as a reference for your
+                payment.
+            </p>
+        </div>
+
+    </section>
+
+</main>
+
+
+<script src="/static/js/member/receipts.js"></script>
+
+</body>
+</html>

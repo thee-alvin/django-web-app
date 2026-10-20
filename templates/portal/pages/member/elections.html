@@ -1,0 +1,599 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TLC | Elections</title>
+
+    <link rel="stylesheet" href="/static/assets/elections.css">
+</head>
+
+<body>
+
+<main class="elections-page">
+
+    <header class="elections-header">
+
+        <div>
+            <div class="page-kicker">
+                THE LEGACY CIRCLE GROUP
+            </div>
+
+            <h1 id="pageElectionTitle">General Election</h1>
+
+            <p>
+                Official TLC election information, positions and candidates.
+            </p>
+        </div>
+
+        <div class="heading-actions">
+
+            <button
+                type="button"
+                id="refreshElections"
+                class="header-button"
+            >
+                Refresh
+            </button>
+
+            <a href="/dashboard" class="back-link">
+                Dashboard
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <section
+        id="loadingState"
+        class="state-card"
+    >
+        Loading election information...
+    </section>
+
+
+    <section
+        id="errorState"
+        class="state-card error-state hidden"
+    >
+        Unable to load election information.
+    </section>
+
+
+    <section id="mainContent" class="hidden">
+
+        <section class="election-banner">
+
+            <div>
+                <div class="section-kicker">
+                    THE LEGACY CIRCLE GROUP
+                </div>
+
+                <h2 id="electionName">
+                    General Election
+                </h2>
+
+                <p id="electionDescription">
+                    Official TLC General Election.
+                </p>
+            </div>
+
+            <div class="election-status" id="electionStatus">
+                NOT CONFIGURED
+            </div>
+
+        </section>
+
+
+        <div class="summary-grid">
+
+            <article class="summary-card">
+                <span class="summary-label">
+                    POSITIONS
+                </span>
+
+                <strong id="positionCount">0</strong>
+
+                <span class="summary-note">
+                    Election positions
+                </span>
+            </article>
+
+
+            <article class="summary-card">
+                <span class="summary-label">
+                    CANDIDATES
+                </span>
+
+                <strong id="candidateCount">0</strong>
+
+                <span class="summary-note">
+                    Approved candidates
+                </span>
+            </article>
+
+
+            <article class="summary-card">
+                <span class="summary-label">
+                    VOTING
+                </span>
+
+                <strong id="votingState">
+                    CLOSED
+                </strong>
+
+                <span class="summary-note">
+                    Current voting status
+                </span>
+            </article>
+
+        </div>
+
+
+        <section class="section-card">
+
+            <div class="section-header">
+
+                <div>
+                    <div class="section-kicker">
+                        TLC ELECTION
+                    </div>
+
+                    <h2>Election Information</h2>
+                </div>
+
+            </div>
+
+            <div class="information-grid">
+
+                <div class="information-item">
+                    <span>Election ID</span>
+                    <strong id="electionId">?</strong>
+                </div>
+
+                <div class="information-item">
+                    <span>Election Type</span>
+                    <strong id="electionType">?</strong>
+                </div>
+
+                <div class="information-item">
+                    <span>Nomination Period</span>
+                    <strong id="nominationPeriod">?</strong>
+                </div>
+
+                <div class="information-item">
+                    <span>Voting Period</span>
+                    <strong id="votingPeriod">?</strong>
+                </div>
+
+                <div class="information-item full">
+                    <span>Eligibility</span>
+                    <strong id="eligibilityRule">?</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section class="section-card">
+
+            <div class="section-header">
+
+                <div>
+                    <div class="section-kicker">
+                        ELECTED OFFICES
+                    </div>
+
+                    <h2>Election Positions</h2>
+                </div>
+
+                <div
+                    id="positionRecordCount"
+                    class="record-count"
+                >
+                    0 positions
+                </div>
+
+            </div>
+
+            <div
+                id="positionsGrid"
+                class="positions-grid"
+            ></div>
+
+        </section>
+
+
+
+        <!-- CANDIDATE APPLICATION -->
+
+        <section
+            id="candidateApplicationSection"
+            class="section-card"
+        >
+
+            <div class="section-header">
+
+                <div>
+                    <div class="section-kicker">
+                        CANDIDATE APPLICATION
+                    </div>
+
+                    <h2>Apply for an Election Position</h2>
+                </div>
+
+                <div
+                    id="applicationWindowStatus"
+                    class="record-count"
+                >
+                    Applications open
+                </div>
+
+            </div>
+
+            <form
+                id="candidateApplicationForm"
+                class="application-form"
+            >
+
+                <div class="application-grid">
+
+                    <div class="information-item">
+
+                        <span>Membership ID</span>
+
+                        <input
+                            type="text"
+                            id="applicationMemberId"
+                            name="member_id"
+                            readonly
+                            placeholder="Loading membership ID..."
+                        >
+
+                    </div>
+
+                    <div class="information-item">
+
+                        <span>Full Name</span>
+
+                        <input
+                            type="text"
+                            id="applicationFullName"
+                            name="full_name"
+                            required
+                            maxlength="150"
+                            placeholder="Enter your full name"
+                        >
+
+                    </div>
+
+                    <div class="information-item">
+
+                        <span>Position</span>
+
+                        <select
+                            id="applicationPosition"
+                            name="position_id"
+                            required
+                        >
+
+                            <option value="">
+                                Select a position
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="information-item full">
+
+                        <span>Manifesto</span>
+
+                        <textarea
+                            id="applicationManifesto"
+                            name="manifesto"
+                            required
+                            maxlength="2000"
+                            rows="7"
+                            placeholder="Enter your manifesto..."
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+                <div
+                    id="applicationMessage"
+                    class="ballot-message hidden"
+                    aria-live="polite"
+                ></div>
+
+                <div class="ballot-actions">
+
+                    <button
+                        type="submit"
+                        id="submitApplicationButton"
+                        class="cast-vote-button"
+                    >
+                        Submit Application
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+
+        <!-- MY APPLICATION STATUS -->
+
+        <section class="section-card">
+
+            <div class="section-header">
+
+                <div>
+                    <div class="section-kicker">
+                        MY APPLICATIONS
+                    </div>
+
+                    <h2>Candidate Application Status</h2>
+                </div>
+
+                <div
+                    id="applicationRecordCount"
+                    class="record-count"
+                >
+                    0 applications
+                </div>
+
+            </div>
+
+            <div
+                id="applicationStatusLoading"
+                class="state-card"
+            >
+                Checking your applications...
+            </div>
+
+            <div
+                id="applicationStatusError"
+                class="state-card error-state hidden"
+            >
+                Unable to check application status.
+            </div>
+
+            <div
+                id="applicationStatusEmpty"
+                class="empty-state hidden"
+            >
+                <h3>No Applications Found</h3>
+
+                <p>
+                    Your candidate applications will appear here after submission.
+                </p>
+            </div>
+
+            <div
+                id="applicationStatusGrid"
+                class="application-status-grid"
+            ></div>
+
+        </section>
+
+
+
+        <!-- VOTING -->
+
+        <section
+            id="votingSection"
+            class="section-card hidden"
+        >
+
+            <div class="section-header">
+
+                <div>
+                    <div class="section-kicker">
+                        OFFICIAL BALLOT
+                    </div>
+
+                    <h2>Cast Your Vote</h2>
+
+                    <p class="section-description">
+                        Select one candidate for each position.
+                    </p>
+                </div>
+
+                <div
+                    id="votingWindowStatus"
+                    class="record-count"
+                >
+                    Voting closed
+                </div>
+
+            </div>
+
+            <form id="electionBallot">
+
+                <div
+                    id="ballotPositions"
+                    class="ballot-positions"
+                ></div>
+
+                <div
+                    id="ballotMessage"
+                    class="ballot-message hidden"
+                    aria-live="polite"
+                ></div>
+
+                <div class="ballot-actions">
+
+                    <button
+                        type="submit"
+                        id="castVoteButton"
+                        class="cast-vote-button"
+                    >
+                        Cast Vote
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <section
+            id="votingClosedNotice"
+            class="state-card voting-closed-notice"
+        >
+            Voting is not currently open.
+        </section>
+
+        <section class="section-card">
+
+            <div class="section-header">
+
+                <div>
+                    <div class="section-kicker">
+                        ELECTION RESULTS
+                    </div>
+
+                    <h2>Automatic Results</h2>
+                </div>
+
+                <div class="heading-actions">
+                    <button
+                        type="button"
+                        id="refreshResults"
+                        class="header-button"
+                    >
+                        Refresh Results
+                    </button>
+
+                    <div
+                        id="resultsRecordCount"
+                        class="record-count"
+                    >
+                        0 result records
+                    </div>
+                </div>
+
+            </div>
+
+            <div
+                id="resultsLoading"
+                class="state-card"
+            >
+                Loading election results...
+            </div>
+
+            <div
+                id="resultsError"
+                class="state-card error-state hidden"
+            >
+                Unable to load election results.
+            </div>
+
+            <div
+                id="resultsEmpty"
+                class="empty-state hidden"
+            >
+                <h3>No Results Available Yet</h3>
+
+                <p>
+                    Election results will appear here once valid votes
+                    have been counted.
+                </p>
+            </div>
+
+            <div
+                id="resultsGrid"
+                class="results-grid"
+            ></div>
+
+            <div class="results-footer">
+
+                <span>
+                    Last calculated:
+                    <strong id="resultsCalculatedAt">
+                        Not calculated
+                    </strong>
+                </span>
+
+                <span>
+                    Results refresh automatically.
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <section class="section-card">
+
+            <div class="section-header">
+
+                <div>
+                    <div class="section-kicker">
+                        OFFICIAL CANDIDATES
+                    </div>
+
+                    <h2>Candidates</h2>
+                </div>
+
+                <div
+                    id="candidateRecordCount"
+                    class="record-count"
+                >
+                    0 candidates
+                </div>
+
+            </div>
+
+            <div
+                id="candidatesEmpty"
+                class="empty-state"
+            >
+                <h3>No Candidates Added Yet</h3>
+
+                <p>
+                    Approved candidates will appear here once they are
+                    recorded in the election register.
+                </p>
+            </div>
+
+            <div
+                id="candidatesGrid"
+                class="candidates-grid"
+            ></div>
+
+        </section>
+
+    </section>
+
+
+    <footer class="page-footer">
+
+        <span>
+            Powered by Alvin Tech Solutions
+        </span>
+
+        <span>
+            &copy; 2026 Thee Alvin Tech Solutions ? All Rights Reserved
+        </span>
+
+    </footer>
+
+</main>
+
+
+<script src="/static/js/elections.js"></script>
+<script src="/static/js/results.js"></script>
+
+</body>
+</html>

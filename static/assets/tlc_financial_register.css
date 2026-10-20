@@ -1,0 +1,1075 @@
+﻿:root {
+    --navy: #071522;
+    --navy-2: #0d263b;
+    --blue: #1687f7;
+    --gold: #d4af37;
+    --gold-dark: #9d7c16;
+    --white: #ffffff;
+    --ink: #172534;
+    --muted: #69798a;
+    --line: #dfe6ee;
+    --soft: #f5f7fa;
+    --soft-blue: #eef6ff;
+    --success: #18794e;
+    --shadow: 0 16px 40px rgba(7, 21, 34, 0.10);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #eef2f6;
+    color: var(--ink);
+    font-family:
+        Inter,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+}
+
+button,
+select {
+    font: inherit;
+}
+
+.register-page {
+    width: min(1500px, calc(100% - 32px));
+    margin: 20px auto 30px;
+}
+
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.report-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+
+    padding: 28px 30px;
+
+    background:
+        linear-gradient(
+            120deg,
+            var(--navy),
+            var(--navy-2)
+        );
+
+    border-radius: 20px 20px 0 0;
+    box-shadow: var(--shadow);
+
+    color: var(--white);
+}
+
+.brand-block {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+}
+
+.logo {
+    width: 68px;
+    height: 68px;
+
+    object-fit: cover;
+
+    padding: 4px;
+
+    border-radius: 14px;
+
+    background: var(--white);
+}
+
+.brand-name {
+    color: #eadc9d;
+
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.20em;
+}
+
+.report-header h1 {
+    margin: 5px 0 5px;
+
+    font-size: clamp(26px, 3vw, 39px);
+    line-height: 1;
+
+    letter-spacing: -0.03em;
+}
+
+.report-header p {
+    margin: 0;
+
+    color: rgba(255,255,255,0.67);
+    font-size: 13px;
+}
+
+.header-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.control-button {
+    min-height: 40px;
+
+    padding: 0 16px;
+
+    border-radius: 9px;
+
+    cursor: pointer;
+
+    font-size: 12px;
+    font-weight: 900;
+
+    transition:
+        transform 0.15s ease,
+        opacity 0.15s ease;
+}
+
+.control-button:hover {
+    transform: translateY(-1px);
+}
+
+.control-button.dark {
+    color: var(--white);
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+.control-button.gold {
+    color: #261e09;
+    background: var(--gold);
+}
+
+.control-button.blue {
+    color: var(--white);
+    background: var(--blue);
+}
+
+.control-button.light {
+    color: var(--ink);
+    background: var(--white);
+    border: 1px solid var(--line);
+}
+
+
+/* ============================================================
+   FILTER BAR
+   ============================================================ */
+
+.control-bar {
+    display: flex;
+    align-items: end;
+    gap: 12px;
+    flex-wrap: wrap;
+
+    padding: 16px 20px;
+
+    background: var(--white);
+
+    border-bottom: 1px solid var(--line);
+
+    box-shadow: 0 7px 18px rgba(7, 21, 34, 0.05);
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.control-group label {
+    color: var(--muted);
+
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.control-group select {
+    min-width: 145px;
+    min-height: 39px;
+
+    padding: 0 11px;
+
+    color: var(--ink);
+    background: var(--white);
+
+    border: 1px solid var(--line);
+    border-radius: 8px;
+
+    outline: none;
+
+    cursor: pointer;
+}
+
+.control-group select:focus {
+    border-color: var(--blue);
+}
+
+
+/* ============================================================
+   SUMMARY STRIP
+   ============================================================ */
+
+.summary-strip {
+    display: grid;
+
+    grid-template-columns:
+        repeat(6, minmax(0, 1fr));
+
+    background: var(--white);
+
+    border-bottom: 1px solid var(--line);
+}
+
+.summary-item {
+    min-width: 0;
+
+    padding: 18px 16px;
+
+    border-right: 1px solid var(--line);
+}
+
+.summary-item:last-child {
+    border-right: 0;
+}
+
+.summary-item span {
+    display: block;
+
+    color: var(--muted);
+
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.summary-item strong {
+    display: block;
+
+    margin-top: 6px;
+
+    color: var(--navy);
+
+    font-size: 18px;
+    line-height: 1.2;
+}
+
+.summary-item.emphasized {
+    background: #fbfaf1;
+}
+
+.summary-item.emphasized strong {
+    color: var(--gold-dark);
+}
+
+.summary-item.total-funds {
+    background:
+        linear-gradient(
+            135deg,
+            #f8f3dc,
+            #fefcf3
+        );
+}
+
+.summary-item.total-funds strong {
+    font-size: 20px;
+    color: var(--navy);
+}
+
+
+/* ============================================================
+   REGISTER TITLE
+   ============================================================ */
+
+.register-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 25px;
+
+    padding: 26px 6px 16px;
+}
+
+.eyebrow {
+    color: var(--gold-dark);
+
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+}
+
+.register-heading h2 {
+    margin: 6px 0 5px;
+
+    color: var(--navy);
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(25px, 3vw, 34px);
+
+    letter-spacing: -0.02em;
+}
+
+.register-heading p {
+    margin: 0;
+
+    color: var(--muted);
+
+    font-size: 12px;
+}
+
+.register-meta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.register-meta span {
+    padding: 8px 11px;
+
+    border: 1px solid var(--line);
+    border-radius: 999px;
+
+    background: var(--white);
+
+    color: var(--muted);
+
+    font-size: 10px;
+    font-weight: 900;
+}
+
+
+/* ============================================================
+   MEMBER REGISTER
+   ============================================================ */
+
+.ledger-container {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+
+/* ============================================================
+   MEMBER BLOCK
+   ============================================================ */
+
+.member-block {
+    overflow: hidden;
+
+    background: var(--white);
+
+    border: 1px solid var(--line);
+
+    border-radius: 15px;
+
+    box-shadow: 0 8px 25px rgba(7, 21, 34, 0.06);
+}
+
+.member-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    padding: 18px 20px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #091a29,
+            #11344e
+        );
+
+    color: var(--white);
+}
+
+.member-name-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.member-number {
+    display: grid;
+    place-items: center;
+
+    width: 38px;
+    height: 38px;
+
+    flex: 0 0 auto;
+
+    border-radius: 9px;
+
+    background: rgba(212,175,55,0.16);
+
+    color: #f2df91;
+
+    font-size: 11px;
+    font-weight: 950;
+}
+
+.member-name {
+    font-size: 16px;
+    font-weight: 900;
+}
+
+.member-id {
+    margin-top: 3px;
+
+    color: rgba(255,255,255,0.56);
+
+    font-family:
+        Consolas,
+        monospace;
+
+    font-size: 10px;
+}
+
+.member-totals {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.member-total-box {
+    text-align: right;
+}
+
+.member-total-box span {
+    display: block;
+
+    color: rgba(255,255,255,0.56);
+
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.member-total-box strong {
+    display: block;
+
+    margin-top: 3px;
+
+    color: var(--white);
+
+    font-size: 15px;
+}
+
+.member-total-box.main strong {
+    color: #f0d875;
+    font-size: 18px;
+}
+
+
+/* ============================================================
+   TRANSACTION TABLE
+   ============================================================ */
+
+.transaction-table-wrap {
+    overflow-x: auto;
+}
+
+.transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    min-width: 760px;
+}
+
+.transaction-table thead th {
+    padding: 11px 14px;
+
+    color: #637383;
+
+    background: #f5f7fa;
+
+    border-bottom: 1px solid var(--line);
+
+    font-size: 9px;
+    font-weight: 950;
+    letter-spacing: 0.08em;
+    text-align: left;
+    text-transform: uppercase;
+
+    white-space: nowrap;
+}
+
+.transaction-table tbody td {
+    padding: 12px 14px;
+
+    border-bottom: 1px solid #edf1f5;
+
+    color: var(--ink);
+
+    font-size: 12px;
+    vertical-align: middle;
+}
+
+.transaction-table tbody tr:hover {
+    background: #fafcff;
+}
+
+.transaction-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.transaction-table .amount-cell {
+    text-align: right;
+
+    color: var(--navy);
+
+    font-weight: 950;
+
+    white-space: nowrap;
+}
+
+.transaction-table .receipt-cell {
+    color: var(--blue);
+
+    font-family:
+        Consolas,
+        "Courier New",
+        monospace;
+
+    font-size: 10px;
+
+    white-space: nowrap;
+}
+
+.transaction-table .type-cell {
+    font-weight: 900;
+}
+
+.transaction-table .date-cell,
+.transaction-table .time-cell {
+    white-space: nowrap;
+}
+
+.member-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 25px;
+    flex-wrap: wrap;
+
+    padding: 12px 18px;
+
+    background: #fafbfc;
+
+    border-top: 1px solid var(--line);
+}
+
+.member-footer-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.member-footer-item span {
+    color: var(--muted);
+
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.member-footer-item strong {
+    color: var(--navy);
+
+    font-size: 12px;
+}
+
+
+/* ============================================================
+   GRAND TOTAL
+   ============================================================ */
+
+.grand-total {
+    padding: 22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #071522,
+            #123b59
+        );
+
+    border-radius: 15px;
+
+    color: var(--white);
+
+    box-shadow: var(--shadow);
+}
+
+.grand-total-title {
+    margin-bottom: 15px;
+
+    color: #e9da8e;
+
+    font-size: 11px;
+    font-weight: 950;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.grand-total-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(6, minmax(0, 1fr));
+
+    gap: 10px;
+}
+
+.grand-total-item {
+    padding: 12px 13px;
+
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 9px;
+
+    background: rgba(255,255,255,0.05);
+}
+
+.grand-total-item span {
+    display: block;
+
+    color: rgba(255,255,255,0.55);
+
+    font-size: 8px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.grand-total-item strong {
+    display: block;
+
+    margin-top: 5px;
+
+    color: var(--white);
+
+    font-size: 14px;
+}
+
+.grand-total-item.main {
+    border-color: rgba(212,175,55,0.35);
+    background: rgba(212,175,55,0.10);
+}
+
+.grand-total-item.main strong {
+    color: #f0d875;
+    font-size: 17px;
+}
+
+
+/* ============================================================
+   STATES
+   ============================================================ */
+
+.empty-state {
+    margin: 15px 0;
+    padding: 45px 20px;
+
+    text-align: center;
+
+    color: var(--muted);
+
+    background: var(--white);
+
+    border: 1px solid var(--line);
+    border-radius: 15px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+.report-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+
+    padding: 18px 4px;
+
+    color: #748393;
+
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+
+/* ============================================================
+   PRINT
+   ============================================================ */
+
+@media print {
+
+    body {
+        background: #ffffff;
+    }
+
+    .register-page {
+        width: 100%;
+        margin: 0;
+    }
+
+    .header-actions,
+    .control-bar {
+        display: none !important;
+    }
+
+    .report-header {
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .member-block {
+        break-inside: avoid;
+        box-shadow: none;
+    }
+
+    .grand-total {
+        break-inside: avoid;
+        box-shadow: none;
+    }
+
+    .register-heading {
+        padding-top: 15px;
+    }
+
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 1150px) {
+
+    .summary-strip {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+
+    .summary-item:nth-child(3) {
+        border-right: 0;
+    }
+
+    .grand-total-grid {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+
+}
+
+@media (max-width: 800px) {
+
+    .register-page {
+        width: min(100% - 16px, 1500px);
+        margin-top: 8px;
+    }
+
+    .report-header {
+        align-items: flex-start;
+        flex-direction: column;
+
+        padding: 22px;
+    }
+
+    .header-actions {
+        width: 100%;
+    }
+
+    .header-actions .control-button {
+        flex: 1;
+    }
+
+    .summary-strip {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .summary-item:nth-child(2n) {
+        border-right: 0;
+    }
+
+    .register-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .member-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .member-totals {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+}
+
+@media (max-width: 520px) {
+
+    .brand-block {
+        align-items: flex-start;
+    }
+
+    .logo {
+        width: 55px;
+        height: 55px;
+    }
+
+    .report-header h1 {
+        font-size: 25px;
+    }
+
+    .summary-strip {
+        grid-template-columns: 1fr;
+    }
+
+    .summary-item {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .summary-item:last-child {
+        border-bottom: 0;
+    }
+
+    .grand-total-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .member-totals {
+        gap: 12px;
+    }
+
+}
+
+/* ============================================================
+   OFFICIAL REGISTER AUTHORITY
+   ============================================================ */
+
+.official-register-authority {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 30px;
+
+    align-items: center;
+
+    margin-top: 20px;
+
+    padding: 28px;
+
+    background: #ffffff;
+
+    border: 1px solid #dfe6ee;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 10px 28px rgba(7, 21, 34, 0.06);
+}
+
+.authority-seals {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 45px;
+}
+
+.register-seal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 8px;
+
+    text-align: center;
+}
+
+.register-seal img {
+    width: 112px;
+    height: 112px;
+
+    object-fit: contain;
+
+    border-radius: 50%;
+}
+
+.register-seal span {
+    color: #69798a;
+
+    font-size: 9px;
+    font-weight: 950;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+}
+
+.authority-signature {
+    padding-left: 30px;
+
+    border-left: 1px solid #dfe6ee;
+
+    text-align: center;
+}
+
+.authority-label {
+    display: block;
+
+    color: #9d7c16;
+
+    font-size: 9px;
+    font-weight: 950;
+
+    letter-spacing: 0.16em;
+
+    text-transform: uppercase;
+}
+
+.authority-signature strong {
+    display: block;
+
+    margin-top: 8px;
+
+    color: #071522;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 23px;
+}
+
+.treasurer-title {
+    display: block;
+
+    margin-top: 2px;
+
+    color: #1687f7;
+
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.authority-signature small {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #69798a;
+
+    font-size: 10px;
+}
+
+.electronic-signature {
+    margin-top: 17px;
+
+    color: #071522;
+
+    font-family:
+        "Brush Script MT",
+        "Segoe Script",
+        cursive;
+
+    font-size: 28px;
+}
+
+.signature-line {
+    width: 220px;
+    max-width: 90%;
+
+    margin: 2px auto 6px;
+
+    border-bottom: 1px solid #071522;
+}
+
+.signature-caption {
+    color: #69798a;
+
+    font-size: 9px;
+    font-weight: 900;
+
+    letter-spacing: 0.07em;
+
+    text-transform: uppercase;
+}
+
+
+@media print {
+
+    .official-register-authority {
+        break-inside: avoid;
+
+        box-shadow: none;
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .official-register-authority {
+        grid-template-columns: 1fr;
+    }
+
+    .authority-signature {
+        padding-left: 0;
+        padding-top: 25px;
+
+        border-left: 0;
+        border-top: 1px solid #dfe6ee;
+    }
+
+    .authority-seals {
+        gap: 25px;
+    }
+
+}
+
+
+@media (max-width: 420px) {
+
+    .authority-seals {
+        gap: 12px;
+    }
+
+    .register-seal img {
+        width: 88px;
+        height: 88px;
+    }
+
+}

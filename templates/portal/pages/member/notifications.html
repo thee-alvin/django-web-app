@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TLC Notifications</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            color: #0b1f3a;
+        }
+
+        .notifications-layout {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        .notifications-sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100vh;
+            background: #071d36;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .notifications-logo {
+            height: 150px;
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .notifications-logo img {
+            width: 210px;
+            height: 115px;
+            object-fit: contain;
+        }
+
+        .notifications-nav {
+            padding-top: 15px;
+        }
+
+        .notifications-nav a {
+            height: 52px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 22px;
+            color: #d9e1ec;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            border-left: 3px solid transparent;
+        }
+
+        .notifications-nav a:hover {
+            background: rgba(255,255,255,.05);
+        }
+
+        .notifications-nav a.active {
+            background: rgba(201,162,39,.13);
+            color: #fff;
+            border-left-color: #c9a227;
+        }
+
+        .notifications-content {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            min-height: 100vh;
+            padding: 35px 40px;
+            background: #f5f7fb;
+        }
+
+        .notifications-header {
+            margin-bottom: 25px;
+        }
+
+        .notifications-header h1 {
+            margin: 0;
+            font-size: 30px;
+            color: #0b1f3a;
+        }
+
+        .notifications-header p {
+            margin: 7px 0 0;
+            color: #718096;
+        }
+
+        .notifications-toolbar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .notifications-toolbar input,
+        .notifications-toolbar select {
+            height: 44px;
+            background: #fff;
+            border: 1px solid #d8dee8;
+            border-radius: 8px;
+            padding: 0 14px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .notifications-toolbar input {
+            flex: 1;
+        }
+
+        .notifications-toolbar select {
+            width: 210px;
+        }
+
+        .notifications-grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .notification-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+            width: 100%;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #e1e7ef;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(11,31,58,.05);
+        }
+
+        .notification-icon {
+            width: 50px;
+            height: 50px;
+            flex: 0 0 50px;
+            border-radius: 10px;
+            background: #0b1f3a;
+            color: #c9a227;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 23px;
+        }
+
+        .notification-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .notification-type {
+            display: block;
+            margin-bottom: 5px;
+            color: #c9a227;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+        }
+
+        .notification-info h3 {
+            margin: 0 0 7px;
+            font-size: 17px;
+            color: #0b1f3a;
+        }
+
+        .notification-info p {
+            margin: 0 0 10px;
+            color: #66758a;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .notification-meta {
+            color: #98a2b1;
+            font-size: 11px;
+        }
+
+        .notifications-empty {
+            padding: 60px 25px;
+            text-align: center;
+            background: #fff;
+            border: 1px solid #e1e7ef;
+            border-radius: 12px;
+        }
+
+        .notifications-empty h3 {
+            margin: 0 0 8px;
+            color: #0b1f3a;
+        }
+
+        .notifications-empty p {
+            margin: 0;
+            color: #718096;
+        }
+
+        .notifications-footer {
+            margin-top: 35px;
+            padding: 20px 0;
+            text-align: center;
+            color: #98a2b1;
+            font-size: 12px;
+        }
+
+        @media (max-width: 700px) {
+            .notifications-sidebar {
+                width: 210px;
+            }
+
+            .notifications-content {
+                margin-left: 210px;
+                width: calc(100% - 210px);
+                padding: 25px;
+            }
+
+            .notifications-logo {
+                width: 210px;
+            }
+
+            .notifications-toolbar {
+                flex-direction: column;
+            }
+
+            .notifications-toolbar select {
+                width: 100%;
+            }
+        }
+    </style>
+<style>
+.notifications-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+}
+
+.notification-summary {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.notification-summary button {
+    height: 40px;
+    padding: 0 15px;
+    border-radius: 7px;
+    border: 1px solid #0b1f3a;
+    background: #0b1f3a;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.unread-summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: #718096;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.unread-summary strong {
+    min-width: 24px;
+    height: 24px;
+    padding: 0 7px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    background: #c9a227;
+    color: #111;
+    font-size: 12px;
+}
+
+.read-filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.read-filters button {
+    height: 36px;
+    padding: 0 14px;
+    border-radius: 7px;
+    border: 1px solid #d5dce6;
+    background: #fff;
+    color: #0b1f3a;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.notification-card.unread {
+    border-left: 4px solid #c9a227;
+    background: #fff;
+}
+
+.notification-card.read {
+    opacity: .82;
+}
+
+.notification-card.read .notification-icon {
+    background: #e8edf3;
+    color: #64748b;
+}
+
+.notification-topline {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.priority-badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 21px;
+    padding: 0 8px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.priority-normal {
+    background: #eef2f7;
+    color: #586579;
+}
+
+.priority-important {
+    background: #fff3c4;
+    color: #8a6b00;
+}
+
+.priority-urgent {
+    background: #fde2e2;
+    color: #a51d1d;
+}
+
+.notification-action {
+    flex: 0 0 auto;
+}
+
+.notification-action button {
+    height: 36px;
+    padding: 0 12px;
+    border-radius: 7px;
+    border: 1px solid #c9a227;
+    background: #fffaf0;
+    color: #8a6b00;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.read-label {
+    color: #7b8798;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+@media (max-width: 800px) {
+    .notifications-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .notification-summary {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .notification-card {
+        flex-wrap: wrap;
+    }
+
+    .notification-action {
+        width: 100%;
+    }
+}
+/* =========================================================
+   TLC NOTIFICATIONS — FINAL MOBILE RESPONSIVE
+   ========================================================= */
+@media (max-width: 700px) {
+    .notifications-layout {
+        display: block !important;
+        width: 100% !important;
+        min-height: 100vh !important;
+    }
+
+    .notifications-sidebar {
+        position: relative !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: auto !important;
+        overflow: visible !important;
+    }
+
+    .notifications-logo {
+        width: 100% !important;
+        height: 105px !important;
+        padding: 12px !important;
+    }
+
+    .notifications-logo img {
+        width: 150px !important;
+        height: 80px !important;
+        max-width: 150px !important;
+        max-height: 80px !important;
+    }
+
+    .notifications-nav {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        width: 100% !important;
+        padding: 0 !important;
+    }
+
+    .notifications-nav a {
+        flex: 1 1 50% !important;
+        width: 50% !important;
+        min-height: 48px !important;
+        height: 48px !important;
+        padding: 0 10px !important;
+        justify-content: center !important;
+        border-left: 0 !important;
+        border-bottom: 2px solid transparent !important;
+        font-size: 12px !important;
+        gap: 7px !important;
+    }
+
+    .notifications-nav a.active {
+        border-left: 0 !important;
+        border-bottom-color: #c9a227 !important;
+    }
+
+    .notifications-content {
+        margin-left: 0 !important;
+        width: 100% !important;
+        min-height: auto !important;
+        padding: 18px 14px 30px !important;
+    }
+
+    .notifications-header {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 15px !important;
+        margin-bottom: 18px !important;
+    }
+
+    .notifications-header h1 {
+        font-size: 24px !important;
+    }
+
+    .notifications-header p {
+        font-size: 13px !important;
+        line-height: 1.45 !important;
+    }
+
+    .notification-summary {
+        width: 100% !important;
+        justify-content: space-between !important;
+        gap: 10px !important;
+        flex-wrap: wrap !important;
+    }
+
+    .notification-summary button {
+        min-height: 42px !important;
+        height: auto !important;
+        padding: 9px 12px !important;
+        font-size: 12px !important;
+    }
+
+    .notifications-toolbar {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 10px !important;
+        margin-bottom: 18px !important;
+    }
+
+    .notifications-toolbar input,
+    .notifications-toolbar select {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    .read-filters {
+        flex-wrap: wrap !important;
+        width: 100% !important;
+    }
+
+    .read-filters button {
+        flex: 1 1 30% !important;
+        min-width: 90px !important;
+    }
+
+    .notification-card {
+        width: 100% !important;
+        min-width: 0 !important;
+        display: grid !important;
+        grid-template-columns: 44px minmax(0, 1fr) !important;
+        gap: 12px !important;
+        padding: 15px !important;
+    }
+
+    .notification-icon {
+        width: 44px !important;
+        height: 44px !important;
+        font-size: 19px !important;
+    }
+
+    .notification-info {
+        min-width: 0 !important;
+    }
+
+    .notification-topline {
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+    }
+
+    .notification-info h3 {
+        font-size: 15px !important;
+        line-height: 1.35 !important;
+        overflow-wrap: anywhere !important;
+    }
+
+    .notification-info p {
+        font-size: 12px !important;
+        line-height: 1.5 !important;
+        overflow-wrap: anywhere !important;
+    }
+
+    .notification-action {
+        grid-column: 1 / -1 !important;
+        width: 100% !important;
+    }
+
+    .notification-action button {
+        width: 100% !important;
+        min-height: 42px !important;
+    }
+
+    .notifications-footer {
+        margin-top: 25px !important;
+    }
+}</style>
+</head>
+
+<body>
+
+<div class="notifications-layout">
+
+    <aside class="notifications-sidebar">
+
+        <div class="notifications-logo">
+            <img src="/static/assets/tlc_logo.jpeg" alt="The Legacy Circle">
+        </div>
+
+        <nav class="notifications-nav">
+
+            <a href="/dashboard">
+                <span>▣</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="/member/documents">
+                <span>▣</span>
+                <span>Documents</span>
+            </a>
+
+            <a href="/member/elections">
+                <span>✓</span>
+                <span>Elections</span>
+            </a>
+
+            <a href="/member/constitution">
+                <span>▣</span>
+                <span>Constitution</span>
+            </a>
+
+            <a href="/member/notifications" class="active">
+                <span>●</span>
+                <span>Notifications</span>
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <main class="notifications-content">
+
+        <header class="notifications-header">
+        <div>
+
+            <h1>TLC Notifications</h1>
+            <p>Important updates and announcements from The Legacy Circle</p>
+        </div>
+        <div class="notification-summary">
+            <span class="unread-summary">
+                Unread <strong id="unreadCount">0</strong>
+            </span>
+            <button type="button" onclick="markAllAsRead()">
+                Mark All as Read
+            </button>
+        </div>
+        </header>
+
+        <section class="notifications-toolbar">
+
+            <input
+                id="notificationSearch"
+                type="text"
+                placeholder="Search notifications..."
+            >
+
+            <select id="notificationType">
+                <option value="">All Types</option>
+            </select>
+
+        </section>
+
+        <section id="notificationsGrid" class="notifications-grid">
+            <div class="notifications-empty">
+                Loading notifications...
+            </div>
+        </section>
+
+        <footer class="notifications-footer">
+            Powered by Alvin Tech Solutions
+        </footer>
+
+    </main>
+
+</div>
+
+<script>
+let notifications = [];
+let activeReadFilter = "all";
+
+function getReadState() {
+    try {
+        return JSON.parse(
+            localStorage.getItem("tlc_notification_read_state") || "{}"
+        );
+    } catch {
+        return {};
+    }
+}
+
+function saveReadState(state) {
+    localStorage.setItem(
+        "tlc_notification_read_state",
+        JSON.stringify(state)
+    );
+}
+
+function isRead(id) {
+    const state = getReadState();
+    return state[id] === true;
+}
+
+function markAsRead(id) {
+    const state = getReadState();
+    state[id] = true;
+    saveReadState(state);
+    renderNotifications();
+    updateUnreadCount();
+}
+
+function markAllAsRead() {
+    const state = getReadState();
+
+    notifications.forEach(item => {
+        state[item.notification_id] = true;
+    });
+
+    saveReadState(state);
+    renderNotifications();
+    updateUnreadCount();
+}
+
+function updateUnreadCount() {
+    const unread = notifications.filter(
+        item => !isRead(item.notification_id)
+    ).length;
+
+    const badge = document.getElementById("unreadCount");
+
+    if (badge) {
+        badge.textContent = unread;
+        badge.style.display = unread ? "inline-flex" : "none";
+    }
+}
+
+async function loadNotifications() {
+
+    const grid = document.getElementById("notificationsGrid");
+
+    try {
+        const response =
+            await fetch("/api/member/notifications");
+
+        const data = await response.json();
+
+        if (!data.success) {
+            throw new Error("Unable to load notifications");
+        }
+
+        notifications = data.notifications || [];
+
+        const types = [
+            ...new Set(
+                notifications
+                    .map(item => item.type)
+                    .filter(Boolean)
+            )
+        ];
+
+        const filter =
+            document.getElementById("notificationType");
+
+        filter.innerHTML = `<option value="">All Types</option>`;
+
+        types.forEach(type => {
+            const option = document.createElement("option");
+            option.value = type;
+            option.textContent = type;
+            filter.appendChild(option);
+        });
+
+        renderNotifications();
+        updateUnreadCount();
+
+    } catch (error) {
+
+        console.error(error);
+
+        grid.innerHTML = `
+            <div class="notifications-empty">
+                <h3>Notifications unavailable</h3>
+                <p>Unable to load notifications.</p>
+            </div>
+        `;
+    }
+}
+
+function renderNotifications() {
+
+    const grid =
+        document.getElementById("notificationsGrid");
+
+    const search =
+        document.getElementById("notificationSearch")
+        .value
+        .trim()
+        .toLowerCase();
+
+    const type =
+        document.getElementById("notificationType").value;
+
+    const filtered =
+        notifications.filter(item => {
+
+            const read = isRead(item.notification_id);
+
+            const matchesSearch = (
+                !search ||
+                (
+                    (item.title || "") + " " +
+                    (item.message || "") + " " +
+                    (item.type || "")
+                ).toLowerCase().includes(search)
+            );
+
+            const matchesType =
+                !type || item.type === type;
+
+            const matchesRead =
+                activeReadFilter === "all" ||
+                (activeReadFilter === "read" && read) ||
+                (activeReadFilter === "unread" && !read);
+
+            return matchesSearch && matchesType && matchesRead;
+        });
+
+    if (!filtered.length) {
+
+        grid.innerHTML = `
+            <div class="notifications-empty">
+                <h3>No notifications</h3>
+                <p>No notifications match the selected filter.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+    grid.innerHTML = filtered.map(item => {
+
+        const read = isRead(item.notification_id);
+
+        const priority =
+            (item.priority || "Normal").toLowerCase();
+
+        return `
+
+        <article class="notification-card ${read ? "read" : "unread"}">
+
+            <div class="notification-icon">
+                ${read ? "✓" : "●"}
+            </div>
+
+            <div class="notification-info">
+
+                <div class="notification-topline">
+
+                    <span class="notification-type">
+                        ${escapeHtml(item.type || "General")}
+                    </span>
+
+                    <span class="priority-badge priority-${priority}">
+                        ${escapeHtml(item.priority || "Normal")}
+                    </span>
+
+                </div>
+
+                <h3>
+                    ${escapeHtml(item.title)}
+                </h3>
+
+                <p>
+                    ${escapeHtml(item.message)}
+                </p>
+
+                <div class="notification-meta">
+                    ${escapeHtml(String(item.date || ""))}
+                    ${item.time ? " • " + escapeHtml(String(item.time)) : ""}
+                </div>
+
+            </div>
+
+            <div class="notification-action">
+
+                ${
+                    read
+                    ? `<span class="read-label">Read</span>`
+                    : `
+                        <button
+                            type="button"
+                            onclick="markAsRead('${escapeHtml(item.notification_id)}')">
+                            Mark as Read
+                        </button>
+                    `
+                }
+
+            </div>
+
+        </article>
+        `;
+    }).join("");
+}
+
+function escapeHtml(value) {
+    const div = document.createElement("div");
+    div.textContent = value ?? "";
+    return div.innerHTML;
+}
+
+document.getElementById("notificationSearch")
+    .addEventListener("input", renderNotifications);
+
+document.getElementById("notificationType")
+    .addEventListener("change", renderNotifications);
+
+loadNotifications();
+</script>
+
+</body>
+</html>
+
+

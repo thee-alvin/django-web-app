@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Welfare | The Legacy Circle</title>
+
+    <link rel="stylesheet" href="/static/assets/welfare.css">
+</head>
+
+<body>
+
+<main class="welfare-page">
+
+    <header class="page-heading">
+
+        <div>
+            <div class="eyebrow">
+                THE LEGACY CIRCLE
+            </div>
+
+            <h1>My Welfare</h1>
+
+            <p>
+                View your welfare information, requests,
+                support history and welfare records.
+            </p>
+
+            <div class="member-label" id="memberId">
+                Member ID: —
+            </div>
+        </div>
+
+        <div class="heading-actions">
+
+            <button
+                type="button"
+                id="refreshWelfare"
+                class="header-button"
+            >
+                ↻ Refresh
+            </button>
+
+            <a
+                href="/dashboard"
+                class="back-link"
+            >
+                ← Dashboard
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <section
+        id="loadingState"
+        class="loading-state"
+    >
+        Loading your welfare information...
+    </section>
+
+
+    <section
+        id="errorState"
+        class="error-state hidden"
+    >
+        Unable to load your welfare information.
+        Please refresh and try again.
+    </section>
+
+
+    <section
+        id="mainContent"
+        class="hidden"
+    >
+
+        <!-- WELFARE STATUS -->
+
+        <section class="status-panel">
+
+            <div class="status-content">
+
+                <div class="section-kicker">
+                    WELFARE STATUS
+                </div>
+
+                <h2>Member Welfare Overview</h2>
+
+                <p>
+                    Your welfare records shown here are based on
+                    the information recorded for your member account.
+                </p>
+
+            </div>
+
+            <div class="status-badge">
+                ACTIVE
+            </div>
+
+        </section>
+
+
+        <!-- SUMMARY -->
+
+        <section class="summary-grid">
+
+            <article class="summary-card">
+
+                <div class="summary-label">
+                    REQUESTS
+                </div>
+
+                <div
+                    id="requestCount"
+                    class="summary-value"
+                >
+                    0
+                </div>
+
+                <div class="summary-note">
+                    Welfare requests recorded
+                </div>
+
+            </article>
+
+
+            <article class="summary-card">
+
+                <div class="summary-label">
+                    WELFARE CONTRIBUTIONS
+                </div>
+
+                <div
+                    id="contributionCount"
+                    class="summary-value"
+                >
+                    0
+                </div>
+
+                <div class="summary-note">
+                    Welfare contribution records
+                </div>
+
+            </article>
+
+
+            <article class="summary-card">
+
+                <div class="summary-label">
+                    SUPPORT RECORDS
+                </div>
+
+                <div
+                    id="supportCount"
+                    class="summary-value"
+                >
+                    0
+                </div>
+
+                <div class="summary-note">
+                    Support records available
+                </div>
+
+            </article>
+
+
+            <article class="summary-card">
+
+                <div class="summary-label">
+                    WELFARE CASES
+                </div>
+
+                <div
+                    id="caseCount"
+                    class="summary-value"
+                >
+                    0
+                </div>
+
+                <div class="summary-note">
+                    Permitted case records
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <!-- WELFARE INFORMATION -->
+
+        <section class="section-card information-card">
+
+            <div class="section-header">
+
+                <div>
+                    <div class="section-kicker">
+                        WELFARE INFORMATION
+                    </div>
+
+                    <h2>Support & Welfare Guidance</h2>
+                </div>
+
+            </div>
+
+            <div class="information-body">
+
+                <div class="information-item">
+                    <div class="information-icon">
+                        i
+                    </div>
+
+                    <div>
+                        <strong>
+                            Welfare assistance
+                        </strong>
+
+                        <p>
+                            Welfare requests and support are handled
+                            according to TLC rules and approved procedures.
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="information-item">
+                    <div class="information-icon">
+                        ✓
+                    </div>
+
+                    <div>
+                        <strong>
+                            Member records
+                        </strong>
+
+                        <p>
+                            This page displays welfare information
+                            associated with your member account.
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="information-item">
+                    <div class="information-icon">
+                        !
+                    </div>
+
+                    <div>
+                        <strong>
+                            Privacy
+                        </strong>
+
+                        <p>
+                            Sensitive welfare information is restricted
+                            according to member permissions.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- REQUESTS -->
+
+        <section class="section-card">
+
+            <div class="section-header">
+
+                <div>
+                    <div class="section-kicker">
+                        MY WELFARE REQUESTS
+                    </div>
+
+                    <h2>Request History</h2>
+                </div>
+
+                <div
+                    id="requestRecordCount"
+                    class="record-count"
+                >
+                    0 records
+                </div>
+<div class="request-actions">
+    <button
+        type="button"
+        id="openWelfareRequestForm"
+        class="header-button"
+    >
+        + Submit Welfare Request
+    </button>
+</div>
+
+
+            </div>
+
+
+            
+<div
+    id="welfareRequestFormWrap"
+    class="request-form-wrap hidden"
+>
+    <div class="request-form-header">
+        <div>
+            <div class="section-kicker">NEW WELFARE REQUEST</div>
+            <h3>Submit a Welfare Request</h3>
+            <p>
+                Provide the details below. Your request will be submitted
+                for review by the appropriate TLC welfare officer.
+            </p>
+        </div>
+    </div>
+
+    <form id="welfareRequestForm">
+        <div class="request-form-grid">
+
+            <div class="form-group">
+                <label for="welfareCategory">
+                    Welfare Category
+                </label>
+
+                <select
+                    id="welfareCategory"
+                    name="welfare_category"
+                    required
+                >
+                    <option value="">Select category</option>
+                    <option value="Medical">Medical</option>
+                    <option value="Bereavement">Bereavement</option>
+                    <option value="Emergency">Emergency</option>
+                    <option value="Education">Education</option>
+                    <option value="Family Support">Family Support</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="amountRequested">
+                    Amount Requested (KES)
+                </label>
+
+                <input
+                    type="number"
+                    id="amountRequested"
+                    name="amount_requested"
+                    min="1"
+                    step="0.01"
+                    inputmode="decimal"
+                    placeholder="e.g. 5000"
+                    required
+                >
+            </div>
+
+            <div class="form-group form-group-full">
+                <label for="welfareDescription">
+                    Description
+                </label>
+
+                <textarea
+                    id="welfareDescription"
+                    name="description"
+                    rows="5"
+                    maxlength="2000"
+                    placeholder="Explain the reason for your welfare request..."
+                    required
+                ></textarea>
+
+                <div class="field-note">
+                    Maximum 2,000 characters.
+                </div>
+            </div>
+
+        </div>
+
+        <div
+            id="welfareRequestMessage"
+            class="request-form-message hidden"
+            aria-live="polite"
+        ></div>
+
+        <div class="request-form-actions">
+            <button
+                type="button"
+                id="cancelWelfareRequest"
+                class="secondary-form-button"
+            >
+                Cancel
+            </button>
+
+            <button
+                type="submit"
+                id="submitWelfareRequest"
+                class="primary-form-button"
+            >
+                Submit Request
+            </button>
+        </div>
+    </form>
+</div>
+
+<div
+                id="requestsEmpty"
+                class="empty-state hidden"
+            >
+                You do not have any welfare requests recorded yet.
+            </div>
+
+
+            <div
+                id="requestsTableWrap"
+                class="table-wrap hidden"
+            >
+
+                <table class="welfare-table">
+
+                    <thead>
+                        <tr>
+                            <th>Request Date</th>
+                            <th>Category</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Decision Date</th><th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="requestsTableBody"></tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+<!-- WELFARE REQUEST DETAILS -->
+<div
+    id="welfareRequestDetails"
+    class="welfare-modal hidden"
+    aria-hidden="true"
+>
+    <div class="welfare-modal-backdrop" id="closeWelfareDetailsBackdrop"></div>
+
+    <div
+        class="welfare-modal-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="welfareDetailsTitle"
+    >
+        <div class="welfare-modal-header">
+            <div>
+                <div class="section-kicker">WELFARE REQUEST</div>
+                <h3 id="welfareDetailsTitle">Request Details</h3>
+            </div>
+
+            <button
+                type="button"
+                id="closeWelfareDetails"
+                class="modal-close-button"
+                aria-label="Close request details"
+            >
+                ?
+            </button>
+        </div>
+
+        <div class="welfare-details-grid">
+
+            <div class="detail-item">
+                <span>Request ID</span>
+                <strong id="detailRequestId">?</strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Request Date</span>
+                <strong id="detailRequestDate">?</strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Welfare Category</span>
+                <strong id="detailCategory">?</strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Amount Requested</span>
+                <strong id="detailAmount">?</strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Status</span>
+                <strong id="detailStatus">?</strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Decision Date</span>
+                <strong id="detailDecisionDate">?</strong>
+            </div>
+
+            <div class="detail-item detail-full">
+                <span>Description</span>
+                <div id="detailDescription">?</div>
+            </div>
+
+            <div class="detail-item detail-full">
+                <span>Officer Remarks</span>
+                <div id="detailOfficerRemarks">?</div>
+            </div>
+
+            <div class="detail-item">
+                <span>Reviewed By</span>
+                <strong id="detailReviewedBy">?</strong>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+        <!-- SUPPORT -->
+
+        <section class="section-card">
+
+            <div class="section-header">
+
+                <div>
+                    <div class="section-kicker">
+                        MY WELFARE SUPPORT
+                    </div>
+
+                    <h2>Support History</h2>
+                </div>
+
+                <div
+                    id="supportRecordCount"
+                    class="record-count"
+                >
+                    0 records
+                </div>
+
+            </div>
+
+
+            <div
+                id="supportEmpty"
+                class="empty-state hidden"
+            >
+                No welfare support records are currently available.
+            </div>
+
+
+            <div
+                id="supportTableWrap"
+                class="table-wrap hidden"
+            >
+
+                <table class="welfare-table">
+
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Support Type</th>
+                            <th>Request ID</th>
+                            <th>Amount / Value</th>
+                            <th>Status</th>
+                            <th>Reference</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="supportTableBody"></tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- CONTRIBUTIONS -->
+
+        <section class="section-card">
+
+            <div class="section-header">
+
+                <div>
+                    <div class="section-kicker">
+                        WELFARE CONTRIBUTIONS
+                    </div>
+
+                    <h2>Contribution History</h2>
+                </div>
+
+                <div
+                    id="welfareContributionRecordCount"
+                    class="record-count"
+                >
+                    0 records
+                </div>
+
+            </div>
+
+
+            <div
+                id="welfareContributionsEmpty"
+                class="empty-state hidden"
+            >
+                No welfare contribution records are currently available.
+            </div>
+
+
+            <div
+                id="welfareContributionsTableWrap"
+                class="table-wrap hidden"
+            >
+
+                <table class="welfare-table">
+
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Payment Method</th>
+                            <th>Reference</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="welfareContributionsTableBody"></tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- CASES -->
+
+        <section class="section-card">
+
+            <div class="section-header">
+
+                <div>
+                    <div class="section-kicker">
+                        WELFARE CASES
+                    </div>
+
+                    <h2>Permitted Case Information</h2>
+                </div>
+
+            </div>
+
+
+            <div
+                id="casesEmpty"
+                class="empty-state hidden"
+            >
+                No permitted welfare case information is available.
+            </div>
+
+
+            <div
+                id="casesTableWrap"
+                class="table-wrap hidden"
+            >
+
+                <table class="welfare-table">
+
+                    <thead>
+                        <tr>
+                            <th>Case Type</th>
+                            <th>Case Date</th>
+                            <th>Status</th>
+                            <th>Assigned Officer</th>
+                            <th>Closed Date</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="casesTableBody"></tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <footer class="page-footer">
+
+            <span></span>
+
+            <p>
+                Last updated:
+                <strong id="lastUpdated">
+                    —
+                </strong>
+            </p>
+
+            <span></span>
+
+        </footer>
+
+    </section>
+
+</main>
+
+
+<script src="/static/js/welfare.js"></script>
+
+</body>
+</html>
+

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>TLC | My Payment Statements</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/css/member/payment-statements.css?v=20260927-1"
+    >
+
+</head>
+
+<body>
+
+<main class="statement-page">
+
+    <header class="statement-header">
+
+        <div class="brand">
+
+            <div class="logo-frame">
+                <img
+                    src="/static/assets/tlc_logo.jpeg"
+                    alt="The Legacy Circle"
+                >
+            </div>
+
+            <div>
+                <span class="brand-kicker">
+                    THE LEGACY CIRCLE
+                </span>
+
+                <h1>
+                    My Payment Statements
+                </h1>
+
+                <p>
+                    Your personal official TLC financial record
+                </p>
+            </div>
+
+        </div>
+
+        <div class="header-actions">
+
+            <a
+                href="/dashboard"
+                class="secondary-button"
+            >
+                ← Dashboard
+            </a>
+
+            <button
+                type="button"
+                id="printStatement"
+                class="primary-button"
+            >
+                Print Statement
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <section class="account-card">
+
+        <div class="account-badge">
+            TLC
+        </div>
+
+        <div class="account-info">
+
+            <span>
+                PERSONAL MEMBER ACCOUNT
+            </span>
+
+            <strong id="memberName">
+                Loading...
+            </strong>
+
+            <small id="memberId">
+                Member ID
+            </small>
+
+        </div>
+
+        <div class="period-box">
+
+            <span>
+                CURRENT VIEW
+            </span>
+
+            <strong id="statementPeriod">
+                All Recorded Transactions
+            </strong>
+
+        </div>
+
+    </section>
+
+
+    <section class="filter-card">
+
+        <div class="filter-heading">
+
+            <span>
+                STATEMENT PERIOD
+            </span>
+
+            <p>
+                Select a year or month to view your payment history.
+            </p>
+
+        </div>
+
+        <div class="filters">
+
+            <div class="field">
+
+                <label for="yearSelect">
+                    Year
+                </label>
+
+                <select id="yearSelect">
+
+                    <option value="">
+                        All Years
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="monthSelect">
+                    Month
+                </label>
+
+                <select
+                    id="monthSelect"
+                    disabled
+                >
+
+                    <option value="">
+                        All Months
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <button
+                type="button"
+                id="viewStatement"
+                class="view-button"
+            >
+                View Statement
+            </button>
+
+
+            <button
+                type="button"
+                id="refreshStatement"
+                class="refresh-button"
+            >
+                Refresh
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <div
+        id="statementMessage"
+        class="statement-message"
+    ></div>
+
+
+    <section
+        id="statementArea"
+        class="statement-area"
+    >
+
+        <div class="loading-card">
+
+            <div class="loading-icon">
+                TLC
+            </div>
+
+            <h2>
+                Loading your statement
+            </h2>
+
+            <p>
+                Preparing your official payment record...
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <footer class="page-footer">
+
+        <div>
+            <strong>
+                THE LEGACY CIRCLE (TLC)
+            </strong>
+
+            <span>
+                Private Member Financial Record
+            </span>
+        </div>
+
+        <div>
+            Powered by
+            <strong>
+                THEE ALVIN TECH SOLUTIONS
+            </strong>
+        </div>
+
+    </footer>
+
+</main>
+
+
+<script
+    src="/static/js/member/payment-statements.js?v=20260927-1"
+></script>
+
+</body>
+
+</html>

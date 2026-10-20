@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>TLC Fines Register</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/assets/tlc_fines_register.css?v=20260926-1"
+    >
+</head>
+
+<body>
+
+<div class="page-shell">
+
+    <header class="page-header">
+
+        <div class="header-brand">
+
+            <div class="brand-mark">
+                <img
+                    src="/static/assets/tlc_logo.jpeg"
+                    alt="The Legacy Circle"
+                >
+            </div>
+
+            <div>
+
+                <span class="eyebrow">
+                    TREASURY ADMINISTRATION
+                </span>
+
+                <h1>
+                    Fines Register
+                </h1>
+
+                <p>
+                    Official record of all recorded TLC fines.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <button
+            id="refreshButton"
+            class="refresh-button"
+            type="button"
+        >
+            ↻ Refresh
+        </button>
+
+    </header>
+
+
+    <main>
+
+        <section class="filter-card">
+
+            <div class="filter-heading">
+
+                <div>
+                    <span class="eyebrow">
+                        REGISTER FILTER
+                    </span>
+
+                    <h2>
+                        Review Period
+                    </h2>
+                </div>
+
+                <span
+                    id="periodLabel"
+                    class="period-badge"
+                >
+                    All Recorded Fines
+                </span>
+
+            </div>
+
+
+            <div class="filters">
+
+                <div class="field">
+
+                    <label for="yearSelect">
+                        Year
+                    </label>
+
+                    <select id="yearSelect">
+                        <option value="">
+                            All Years
+                        </option>
+                    </select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="monthSelect">
+                        Month
+                    </label>
+
+                    <select id="monthSelect">
+
+                        <option value="">
+                            All Months
+                        </option>
+
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+
+                    </select>
+
+                </div>
+
+
+                <button
+                    id="applyButton"
+                    class="apply-button"
+                    type="button"
+                >
+                    Apply Filter
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <section class="summary-grid">
+
+            <article class="summary-card">
+
+                <span>
+                    MEMBERS WITH FINES
+                </span>
+
+                <strong id="membersWithFines">
+                    —
+                </strong>
+
+            </article>
+
+
+            <article class="summary-card">
+
+                <span>
+                    FINE TRANSACTIONS
+                </span>
+
+                <strong id="fineTransactions">
+                    —
+                </strong>
+
+            </article>
+
+
+            <article class="summary-card featured">
+
+                <span>
+                    TOTAL FINES
+                </span>
+
+                <strong id="totalFines">
+                    —
+                </strong>
+
+            </article>
+
+        </section>
+
+
+        <section class="register-card">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="eyebrow">
+                        OFFICIAL REGISTER
+                    </span>
+
+                    <h2>
+                        Member Fine Accounts
+                    </h2>
+                </div>
+
+                <span
+                    id="recordCount"
+                    class="record-count"
+                >
+                    0 records
+                </span>
+
+            </div>
+
+
+            <div id="membersArea">
+
+                <div class="loading-state">
+                    Loading fines register…
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section class="transaction-card">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="eyebrow">
+                        TRANSACTION LEDGER
+                    </span>
+
+                    <h2>
+                        Fine Transactions
+                    </h2>
+                </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Date</th>
+                            <th>Member</th>
+                            <th>Receipt</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="transactionBody">
+
+                        <tr>
+                            <td
+                                colspan="5"
+                                class="table-message"
+                            >
+                                Loading…
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <section class="authority-card">
+
+            <div class="authority-seals">
+
+                <div class="seal">
+
+                    <img
+                        src="/static/assets/tlc_official_stamp.jpeg"
+                        alt="The Legacy Circle Official Seal"
+                    >
+
+                    <span>
+                        OFFICIAL TLC SEAL
+                    </span>
+
+                </div>
+
+
+                <div class="seal">
+
+                    <img
+                        src="/static/assets/tlc_treasury_seal.jpeg"
+                        alt="The Legacy Circle Treasury Seal"
+                    >
+
+                    <span>
+                        GROUP TREASURY SEAL
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="authority-text">
+
+                <span class="eyebrow">
+                    FINANCIAL AUTHORITY
+                </span>
+
+                <strong>
+                    Alvin Owuor
+                </strong>
+
+                <span>
+                    Treasurer
+                </span>
+
+                <small>
+                    The Legacy Circle (TLC)
+                </small>
+
+                <div class="signature">
+                    Alvin Owuor
+                </div>
+
+                <div class="signature-line"></div>
+
+                <small>
+                    Authorized Treasurer
+                </small>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        Powered by Thee Alvin Tech Solutions
+    </footer>
+
+</div>
+
+
+<script
+    src="/static/assets/tlc_fines_register.js?v=20260926-1"
+></script>
+
+</body>
+</html>

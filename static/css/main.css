@@ -1,0 +1,242 @@
+﻿* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #07111f;
+    color: #ffffff;
+}
+
+.topbar {
+    height: 86px;
+    padding: 0 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    background: rgba(7,17,31,.94);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.brand-mark {
+    width: 50px;
+    height: 50px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #d6ad55, #f4d58a);
+    color: #07111f;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.brand h1 {
+    font-size: 16px;
+    letter-spacing: 2px;
+}
+
+.brand p {
+    margin-top: 3px;
+    color: #9ba8b8;
+    font-size: 11px;
+}
+
+.login-button,
+.primary-button {
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: 10px;
+}
+
+.login-button {
+    color: #f4d58a;
+    border: 1px solid rgba(244,213,138,.45);
+    padding: 11px 20px;
+}
+
+.hero {
+    min-height: calc(100vh - 140px);
+    padding: 90px 7%;
+    display: grid;
+    grid-template-columns: 1.15fr .85fr;
+    gap: 70px;
+    align-items: center;
+    background:
+        radial-gradient(circle at 80% 35%, rgba(214,173,85,.12), transparent 30%),
+        radial-gradient(circle at 15% 70%, rgba(38,98,140,.16), transparent 30%);
+}
+
+.hero-content {
+    max-width: 700px;
+}
+
+.eyebrow {
+    color: #d6ad55;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 4px;
+}
+
+.hero h2 {
+    margin: 20px 0;
+    font-size: clamp(42px, 6vw, 76px);
+    line-height: .98;
+    letter-spacing: -3px;
+}
+
+.hero h2 span {
+    display: block;
+    color: #d6ad55;
+}
+
+.hero-content > p {
+    max-width: 620px;
+    color: #aab5c4;
+    line-height: 1.8;
+    font-size: 17px;
+}
+
+.primary-button {
+    display: inline-block;
+    margin-top: 32px;
+    padding: 15px 24px;
+    background: #d6ad55;
+    color: #07111f;
+}
+
+.hero-card {
+    position: relative;
+    min-height: 390px;
+    padding: 42px;
+    border-radius: 28px;
+    border: 1px solid rgba(214,173,85,.28);
+    background: linear-gradient(145deg, rgba(255,255,255,.09), rgba(255,255,255,.025));
+    box-shadow: 0 30px 80px rgba(0,0,0,.35);
+    overflow: hidden;
+}
+
+.card-glow {
+    position: absolute;
+    width: 240px;
+    height: 240px;
+    right: -90px;
+    top: -90px;
+    border-radius: 50%;
+    background: rgba(214,173,85,.18);
+    filter: blur(30px);
+}
+
+.card-label {
+    color: #d6ad55;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 3px;
+}
+
+.hero-card h3 {
+    position: relative;
+    margin-top: 70px;
+    font-size: 37px;
+    line-height: 1.12;
+}
+
+.card-line {
+    width: 70px;
+    height: 3px;
+    margin: 30px 0 15px;
+    background: #d6ad55;
+}
+
+.hero-card p {
+    color: #aab5c4;
+}
+
+footer {
+    height: 54px;
+    display: grid;
+    place-items: center;
+    border-top: 1px solid rgba(255,255,255,.08);
+    color: #697688;
+    font-size: 12px;
+}
+
+@media (max-width: 850px) {
+    .hero {
+        grid-template-columns: 1fr;
+        padding-top: 60px;
+    }
+
+    .hero-card {
+        min-height: 300px;
+    }
+
+    .topbar {
+        padding: 0 5%;
+    }
+}
+.tlc-logo {
+    width: 58px;
+    height: 58px;
+    object-fit: contain;
+    border-radius: 50%;
+}
+
+.brand-text h1 {
+    font-size: 16px;
+    letter-spacing: 2px;
+}
+
+.hero-logo {
+    position: relative;
+    display: block;
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin-bottom: 25px;
+}
+
+footer {
+    min-height: 70px;
+    padding: 12px 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border-top: 1px solid rgba(255,255,255,.08);
+    color: #697688;
+    font-size: 12px;
+}
+
+footer div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+footer strong {
+    color: #d6ad55;
+}
+
+.developer-credit {
+    text-align: right;
+}
+
+@media (max-width: 650px) {
+    footer {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .developer-credit {
+        text-align: center;
+    }
+}

@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TLC Documents</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            color: #0b1f3a;
+        }
+
+        .documents-layout {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        .documents-sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100vh;
+            background: #071d36;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .documents-logo {
+            height: 150px;
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .documents-logo img {
+            width: 210px;
+            height: 115px;
+            object-fit: contain;
+        }
+
+        .documents-nav {
+            padding-top: 15px;
+        }
+
+        .documents-nav a {
+            height: 52px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 22px;
+            color: #d9e1ec;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            border-left: 3px solid transparent;
+        }
+
+        .documents-nav a.active {
+            background: rgba(201,162,39,.13);
+            color: #fff;
+            border-left-color: #c9a227;
+        }
+
+        .documents-content {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            min-height: 100vh;
+            padding: 35px 40px;
+            background: #f5f7fb;
+        }
+
+        .documents-header {
+            margin-bottom: 25px;
+        }
+
+        .documents-header h1 {
+            margin: 0;
+            font-size: 30px;
+            color: #0b1f3a;
+        }
+
+        .documents-header p {
+            margin: 7px 0 0;
+            color: #718096;
+        }
+
+        .documents-toolbar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .documents-toolbar input,
+        .documents-toolbar select {
+            height: 44px;
+            background: #fff;
+            border: 1px solid #d8dee8;
+            border-radius: 8px;
+            padding: 0 14px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .documents-toolbar input {
+            flex: 1;
+        }
+
+        .documents-toolbar select {
+            width: 210px;
+        }
+
+        .documents-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .document-card {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            width: 100%;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #e1e7ef;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(11,31,58,.05);
+        }
+
+        .document-icon {
+            width: 54px;
+            height: 54px;
+            flex: 0 0 54px;
+            border-radius: 10px;
+            background: #0b1f3a;
+            color: #c9a227;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .document-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .document-category {
+            display: block;
+            margin-bottom: 5px;
+            color: #c9a227;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+        }
+
+        .document-info h3 {
+            margin: 0 0 6px;
+            color: #0b1f3a;
+            font-size: 17px;
+        }
+
+        .document-info p {
+            margin: 0 0 9px;
+            color: #6b7889;
+            font-size: 13px;
+        }
+
+        .document-meta {
+            display: flex;
+            gap: 18px;
+            color: #97a1af;
+            font-size: 11px;
+        }
+
+        .document-actions {
+            display: flex;
+            gap: 9px;
+        }
+
+        .document-actions a {
+            height: 38px;
+            min-width: 82px;
+            padding: 0 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 7px;
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .document-view-btn {
+            background: #fff;
+            color: #0b1f3a;
+            border: 1px solid #ccd5e1;
+        }
+
+        .document-download-btn {
+            background: #0b1f3a;
+            color: #fff;
+            border: 1px solid #0b1f3a;
+        }
+
+        .documents-empty {
+            padding: 55px 25px;
+            text-align: center;
+            background: #fff;
+            border: 1px solid #e3e8ef;
+            border-radius: 12px;
+        }
+
+        .documents-footer {
+            margin-top: 35px;
+            padding: 20px 0;
+            text-align: center;
+            color: #98a2b1;
+            font-size: 12px;
+        }
+
+        @media (max-width: 700px) {
+            .documents-sidebar { width: 210px; }
+            .documents-content {
+                margin-left: 210px;
+                width: calc(100% - 210px);
+                padding: 25px;
+            }
+
+            .document-card {
+                flex-wrap: wrap;
+            }
+        }
+    /* =========================================================
+   TLC DOCUMENTS — FINAL MOBILE RESPONSIVE
+   ========================================================= */
+@media (max-width: 700px) {
+    .documents-layout {
+        display: block !important;
+        width: 100% !important;
+        min-height: 100vh !important;
+    }
+
+    .documents-sidebar {
+        position: relative !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: auto !important;
+        overflow: visible !important;
+    }
+
+    .documents-logo {
+        width: 100% !important;
+        height: 105px !important;
+        padding: 12px !important;
+    }
+
+    .documents-logo img {
+        width: 150px !important;
+        height: 80px !important;
+        max-width: 150px !important;
+        max-height: 80px !important;
+    }
+
+    .documents-nav {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        width: 100% !important;
+        padding: 0 !important;
+    }
+
+    .documents-nav a {
+        flex: 1 1 50% !important;
+        width: 50% !important;
+        min-height: 48px !important;
+        height: 48px !important;
+        padding: 0 10px !important;
+        justify-content: center !important;
+        border-left: 0 !important;
+        border-bottom: 2px solid transparent !important;
+        font-size: 12px !important;
+        gap: 7px !important;
+    }
+
+    .documents-nav a.active {
+        border-left: 0 !important;
+        border-bottom-color: #c9a227 !important;
+    }
+
+    .documents-content {
+        margin-left: 0 !important;
+        width: 100% !important;
+        min-height: auto !important;
+        padding: 18px 14px 30px !important;
+    }
+
+    .documents-header {
+        margin-bottom: 18px !important;
+    }
+
+    .documents-header h1 {
+        font-size: 24px !important;
+    }
+
+    .documents-header p {
+        font-size: 13px !important;
+        line-height: 1.45 !important;
+    }
+
+    .documents-toolbar {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 10px !important;
+        margin-bottom: 18px !important;
+    }
+
+    .documents-toolbar input,
+    .documents-toolbar select {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    .document-card {
+        width: 100% !important;
+        min-width: 0 !important;
+        display: grid !important;
+        grid-template-columns: 48px minmax(0, 1fr) !important;
+        gap: 12px !important;
+        padding: 15px !important;
+        align-items: start !important;
+    }
+
+    .document-icon {
+        width: 48px !important;
+        height: 48px !important;
+        font-size: 20px !important;
+    }
+
+    .document-info h3 {
+        font-size: 15px !important;
+        line-height: 1.35 !important;
+    }
+
+    .document-info p {
+        font-size: 12px !important;
+        line-height: 1.45 !important;
+    }
+
+    .document-meta {
+        flex-wrap: wrap !important;
+        gap: 7px 12px !important;
+    }
+
+    .document-actions {
+        grid-column: 1 / -1 !important;
+        width: 100% !important;
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+    }
+
+    .document-actions a {
+        width: 100% !important;
+        min-width: 0 !important;
+        height: 42px !important;
+    }
+
+    .documents-footer {
+        margin-top: 25px !important;
+    }
+}</style>
+</head>
+
+<body>
+
+<div class="documents-layout">
+
+    <aside class="documents-sidebar">
+        <div class="documents-logo">
+            <img src="/static/assets/tlc_logo.jpeg" alt="The Legacy Circle">
+        </div>
+
+        <nav class="documents-nav">
+            <a href="/dashboard">
+                <span>▣</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="/member/documents" class="active">
+                <span>▣</span>
+                <span>Documents</span>
+            </a>
+
+            <a href="/member/elections">
+                <span>✓</span>
+                <span>Elections</span>
+            </a>
+
+            <a href="/member/constitution">
+                <span>▣</span>
+                <span>Constitution</span>
+            </a>
+        </nav>
+    </aside>
+
+    <main class="documents-content">
+
+        <header class="documents-header">
+            <h1>TLC Documents</h1>
+            <p>Official documents of The Legacy Circle</p>
+        </header>
+
+        <section class="documents-toolbar">
+            <input id="documentSearch" type="text"
+                   placeholder="Search documents...">
+
+            <select id="categoryFilter">
+                <option value="">All Categories</option>
+            </select>
+        </section>
+
+        <section id="documentsGrid" class="documents-grid">
+            <div class="documents-empty">
+                Loading documents...
+            </div>
+        </section>
+
+        <footer class="documents-footer">
+            Powered by Alvin Tech Solutions
+        </footer>
+
+    </main>
+
+</div>
+
+<script>
+let documents = [];
+
+async function loadDocuments() {
+    const grid = document.getElementById("documentsGrid");
+
+    try {
+        const response = await fetch("/api/member/documents");
+        const data = await response.json();
+
+        if (!data.success) {
+            throw new Error("Unable to load documents");
+        }
+
+        documents = data.documents || [];
+
+        const categories = [
+            ...new Set(
+                documents.map(d => d.category).filter(Boolean)
+            )
+        ];
+
+        const filter = document.getElementById("categoryFilter");
+
+        categories.forEach(category => {
+            const option = document.createElement("option");
+            option.value = category;
+            option.textContent = category;
+            filter.appendChild(option);
+        });
+
+        renderDocuments();
+
+    } catch (error) {
+        console.error(error);
+
+        grid.innerHTML = `
+            <div class="documents-empty">
+                <h3>Documents unavailable</h3>
+                <p>Unable to load official documents.</p>
+            </div>
+        `;
+    }
+}
+
+function renderDocuments() {
+    const grid = document.getElementById("documentsGrid");
+
+    const search =
+        document.getElementById("documentSearch")
+        .value
+        .trim()
+        .toLowerCase();
+
+    const category =
+        document.getElementById("categoryFilter").value;
+
+    const filtered = documents.filter(doc => {
+
+        const text = (
+            (doc.document_name || "") + " " +
+            (doc.description || "") + " " +
+            (doc.category || "")
+        ).toLowerCase();
+
+        return (!search || text.includes(search)) &&
+               (!category || doc.category === category);
+    });
+
+    if (!filtered.length) {
+        grid.innerHTML = `
+            <div class="documents-empty">
+                <h3>No documents found</h3>
+                <p>There are currently no matching official documents.</p>
+            </div>
+        `;
+        return;
+    }
+
+    grid.innerHTML = filtered.map(doc => {
+
+        const fileUrl =
+            "/api/member/documents/files/" +
+            encodeURIComponent(doc.file_name);
+
+        return `
+            <article class="document-card">
+
+                <div class="document-icon">▤</div>
+
+                <div class="document-info">
+                    <span class="document-category">
+                        ${escapeHtml(doc.category || "Official Document")}
+                    </span>
+
+                    <h3>${escapeHtml(doc.document_name)}</h3>
+
+                    <p>${escapeHtml(
+                        doc.description || "Official TLC document."
+                    )}</p>
+
+                    <div class="document-meta">
+                        <span>${escapeHtml(doc.document_id)}</span>
+                        <span>${escapeHtml(String(doc.date_added || ""))}</span>
+                    </div>
+                </div>
+
+                <div class="document-actions">
+
+                    <a
+                        href="${fileUrl}"
+                        target="_blank"
+                        rel="noopener"
+                        class="document-view-btn">
+                        View
+                    </a>
+
+                    <a
+                        href="${fileUrl}"
+                        download="THE_LEGACY_CIRCLE_OFFICIAL_CONSTITUTION.pdf"
+                        class="document-download-btn">
+                        Download
+                    </a>
+
+                </div>
+
+            </article>
+        `;
+    }).join("");
+}
+
+function escapeHtml(value) {
+    const div = document.createElement("div");
+    div.textContent = value ?? "";
+    return div.innerHTML;
+}
+
+document.getElementById("documentSearch")
+    .addEventListener("input", renderDocuments);
+
+document.getElementById("categoryFilter")
+    .addEventListener("change", renderDocuments);
+
+loadDocuments();
+</script>
+
+</body>
+</html>

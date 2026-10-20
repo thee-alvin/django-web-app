@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TLC | Official Receipt</title>
+
+    <link rel="stylesheet" href="/static/css/member-receipt.css">
+    <link rel="stylesheet" href="/static/assets/responsive.css">
+</head>
+
+<body>
+
+<main class="receipt-page">
+
+    <!-- ACTION BAR -->
+    <div class="receipt-actions">
+
+        <a href="/member/receipts" class="back-button">
+            <span class="button-icon">←</span>
+            <span>Back to Receipts</span>
+        </a>
+
+        <div class="action-buttons">
+
+            <button type="button" id="printReceipt">
+                <span class="button-icon">⎙</span>
+                <span>Print Receipt</span>
+            </button>
+
+            <button type="button" id="downloadReceipt">
+                <span class="button-icon">↓</span>
+                <span>Download Receipt</span>
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- RECEIPT -->
+    <section class="receipt-card" id="receiptCard">
+
+        <!-- OFFICIAL HEADER -->
+        <header class="receipt-header">
+
+            <div class="header-accent"></div>
+
+            <div class="receipt-brand">
+
+                <div class="logo-frame">
+                    <img
+                        src="/static/assets/tlc_logo.jpeg"
+                        alt="The Legacy Circle Logo"
+                        class="receipt-logo"
+                    >
+                </div>
+
+                <div class="brand-copy">
+                    <div class="brand-eyebrow">
+                        THE LEGACY CIRCLE
+                    </div>
+
+                    <h1>
+                        OFFICIAL PAYMENT RECEIPT
+                    </h1>
+
+                    <p>
+                        MEMBER FINANCIAL RECORD
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="header-right">
+
+                <div class="receipt-status">
+                    <span class="status-dot"></span>
+                    <span id="receiptStatus">ISSUED</span>
+                </div>
+
+                <div class="header-receipt-number">
+                    <span>RECEIPT NUMBER</span>
+                    <strong id="receiptNumber">—</strong>
+                </div>
+
+            </div>
+
+        </header>
+
+        <!-- GOLD RULE -->
+        <div class="gold-rule"></div>
+
+        <!-- RECEIPT META -->
+        <section class="receipt-meta-strip">
+
+            <div class="meta-item">
+                <span class="meta-label">DATE</span>
+                <strong id="paymentDate">—</strong>
+            </div>
+
+            <div class="meta-item">
+                <span class="meta-label">PAYMENT METHOD</span>
+                <strong id="paymentMethod">—</strong>
+            </div>
+
+            <div class="meta-item">
+                <span class="meta-label">PAYMENT TYPE</span>
+                <strong id="paymentType">—</strong>
+            </div>
+
+        </section>
+
+        <!-- MEMBER INFORMATION -->
+        <section class="document-section">
+
+            <div class="section-title-row">
+                <div>
+                    <span class="section-kicker">01</span>
+                    <h2>Member Information</h2>
+                </div>
+
+                <span class="section-line"></span>
+            </div>
+
+            <div class="information-grid">
+
+                <div class="information-item large">
+                    <span>Member Name</span>
+                    <strong id="memberName">—</strong>
+                </div>
+
+                <div class="information-item">
+                    <span>Member ID</span>
+                    <strong id="memberId">—</strong>
+                </div>
+
+                <div class="information-item">
+                    <span>Phone Number</span>
+                    <strong id="phoneNumber">—</strong>
+                </div>
+
+                <div class="information-item">
+                    <span>Email Address</span>
+                    <strong id="email">—</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- PAYMENT INFORMATION -->
+        <section class="document-section payment-information">
+
+            <div class="section-title-row">
+                <div>
+                    <span class="section-kicker">02</span>
+                    <h2>Payment Information</h2>
+                </div>
+
+                <span class="section-line"></span>
+            </div>
+
+            <div class="payment-table">
+
+                <div class="payment-row">
+                    <div class="payment-cell">
+                        <span>Payment Reference</span>
+                        <strong id="paymentReference">—</strong>
+                    </div>
+
+                    <div class="payment-cell redundant-reference" aria-hidden="true"><span>Transaction Reference</span><strong id="transactionReference">—</strong></div>
+                </div>
+
+                <div class="payment-row">
+                    <div class="payment-cell">
+                        <span>Payment Time</span>
+                        <strong id="paymentTime">—</strong>
+                    </div>
+
+                    <div class="payment-cell">
+                        <span>Recorded By</span>
+                        <strong id="recordedBy">—</strong>
+                    </div>
+                </div>
+
+                <div class="payment-row full">
+                    <div class="payment-cell">
+                        <span>Description</span>
+                        <strong id="description">—</strong>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- AMOUNT -->
+        <section class="amount-panel">
+
+            <div class="amount-copy">
+
+                <span class="amount-kicker">
+                    AMOUNT RECEIVED
+                </span>
+
+                <p class="amount-caption">
+                    Official payment amount recorded by The Legacy Circle
+                </p>
+
+            </div>
+
+            <strong id="amount" class="amount-value">
+                KES 0.00
+            </strong>
+
+        </section>
+
+        <!-- QR VERIFICATION -->
+        <section class="receipt-qr-section">
+
+            <div class="qr-information">
+
+                <span class="qr-label">
+                    DIGITAL VERIFICATION
+                </span>
+
+                <h3>
+                    Verify This Receipt
+                </h3>
+
+                <p>
+                    Scan the QR code to verify the authenticity
+                    of this official TLC payment receipt.
+                </p>
+
+                <div class="verification-number">
+                    <span>RECEIPT NUMBER</span>
+                    <strong id="qrReceiptNumber">—</strong>
+                </div>
+
+                <div class="verification-note">
+                    <span class="verification-dot"></span>
+                    Secure TLC receipt verification
+                </div>
+
+            </div>
+
+            <div class="qr-code-container">
+
+                <div class="qr-wrapper">
+                    <div id="receiptQRCode"></div>
+                </div>
+
+                <span class="qr-scan-label">
+                    SCAN TO VERIFY
+                </span>
+
+            </div>
+
+        </section>
+
+        <!-- AUTHORITY -->
+        <section class="receipt-authority">
+
+            <div class="authority-seals">
+
+                <div class="receipt-seal">
+
+                    <div class="seal-image">
+                        <img
+                            src="/static/assets/tlc_official_stamp.jpeg"
+                            alt="The Legacy Circle Official Seal"
+                        >
+                    </div>
+
+                    <span>OFFICIAL TLC SEAL</span>
+
+                </div>
+
+                <div class="seal-divider"></div>
+
+                <div class="receipt-seal">
+
+                    <div class="seal-image">
+                        <img
+                            src="/static/assets/tlc_treasury_seal.jpeg"
+                            alt="The Legacy Circle Treasury Seal"
+                        >
+                    </div>
+
+                    <span>GROUP TREASURY SEAL</span>
+
+                </div>
+
+            </div>
+
+            <div class="treasurer-recognition">
+
+                <span class="authority-label">
+                    OFFICIAL RECEIPT AUTHORITY
+                </span>
+
+                <strong>
+                    Alvin Owuor
+                </strong>
+
+                <span class="treasurer-title">
+                    Treasurer
+                </span>
+
+                <small>
+                    The Legacy Circle (TLC)
+                </small>
+
+                <div class="electronic-signature">
+                    Alvin Owuor
+                </div>
+
+                <div class="signature-line"></div>
+
+                <span class="signature-caption">
+                    Authorized Treasurer
+                </span>
+
+            </div>
+
+        </section>
+
+        <!-- MESSAGE -->
+        <div id="receiptMessage" class="receipt-message"></div>
+
+        <!-- FOOTER -->
+        <footer class="receipt-footer">
+
+            <div class="footer-main">
+
+                <div class="footer-title">
+                    THE LEGACY CIRCLE
+                </div>
+
+                <p>
+                    Thank you for your contribution to
+                    <strong>The Legacy Circle (TLC)</strong>.
+                </p>
+
+                <span class="secure-note">
+                    This is an electronically generated official payment receipt.
+                </span>
+
+            </div>
+
+            <div class="footer-bottom">
+
+                <span>
+                    Powered by THEE ALVIN TECH SOLUTIONS
+                </span>
+
+                <span>
+                    © 2026 All Rights Reserved.
+                </span>
+
+            </div>
+
+        </footer>
+
+    </section>
+
+</main>
+
+<script src="/static/js/member/receipt-details.js"></script>
+<script src="/static/js/member/fine-receipt-theme.js"></script>
+
+</body>
+</html>
+
+

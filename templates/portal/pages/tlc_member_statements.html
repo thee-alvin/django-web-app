@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>TLC Member Statements</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/assets/tlc_member_statements.css?v=20260925-2"
+    >
+</head>
+
+<body>
+
+<div class="statements-page">
+
+    <header class="statement-header">
+
+        <div class="statement-brand">
+
+            <img
+                src="/static/assets/tlc_logo.jpeg"
+                alt="The Legacy Circle"
+                class="statement-logo"
+            >
+
+            <div>
+
+                <span class="brand-label">
+                    THE LEGACY CIRCLE
+                </span>
+
+                <h1>
+                    Member Statements
+                </h1>
+
+                <p>
+                    Private Treasury account statements
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <button
+            type="button"
+            id="printButton"
+            class="print-button"
+        >
+            Print Statement
+        </button>
+
+    </header>
+
+
+    <section class="selector-panel">
+
+        <div class="selector-field">
+
+            <label for="memberSelect">
+                Member
+            </label>
+
+            <select id="memberSelect">
+                <option value="">
+                    Select a member
+                </option>
+            </select>
+
+        </div>
+
+
+        <div class="selector-field">
+
+            <label for="yearSelect">
+                Year
+            </label>
+
+            <select id="yearSelect">
+                <option value="">
+                    All years
+                </option>
+            </select>
+
+        </div>
+
+
+        <div class="selector-field">
+
+            <label for="monthSelect">
+                Month
+            </label>
+
+            <select
+                id="monthSelect"
+                disabled
+            >
+                <option value="">
+                    All months
+                </option>
+            </select>
+
+        </div>
+
+
+        <button
+            type="button"
+            id="loadButton"
+            class="load-button"
+        >
+            View Statement
+        </button>
+
+    </section>
+
+
+    <main id="statementArea">
+
+        <section class="welcome-panel">
+
+            <div class="welcome-icon">
+                TLS
+            </div>
+
+            <h2>
+                Select a Member
+            </h2>
+
+            <p>
+                Choose a TLC member above to view
+                their official contribution statement.
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <footer class="statement-footer">
+
+        <span>
+            PRIVATE TREASURER RECORD
+        </span>
+
+        <span>
+            Powered by Thee Alvin Tech Solutions
+        </span>
+
+    </footer>
+
+</div>
+
+
+<script src="/static/assets/tlc_member_statements.js"></script>
+
+</body>
+</html>
+

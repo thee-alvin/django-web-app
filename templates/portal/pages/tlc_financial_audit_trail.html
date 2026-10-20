@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>TLC Financial Audit Trail</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/assets/tlc_financial_audit_trail.css?v=20260926-1"
+    >
+</head>
+
+<body>
+
+<div class="page-shell">
+
+    <header class="page-header">
+
+        <div class="header-brand">
+
+            <div class="brand-mark">
+                <img
+                    src="/static/assets/tlc_logo.jpeg"
+                    alt="The Legacy Circle"
+                >
+            </div>
+
+            <div>
+
+                <span class="eyebrow">
+                    TREASURY CONTROL
+                </span>
+
+                <h1>
+                    Financial Audit Trail
+                </h1>
+
+                <p>
+                    Chronological record of financial and treasury activity.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <button
+            id="refreshButton"
+            class="refresh-button"
+            type="button"
+        >
+            ↻ Refresh
+        </button>
+
+    </header>
+
+
+    <main>
+
+        <section class="audit-banner">
+
+            <div class="banner-icon">
+                ✓
+            </div>
+
+            <div>
+
+                <span class="eyebrow">
+                    AUDIT CONTROL
+                </span>
+
+                <h2>
+                    Financial Activity History
+                </h2>
+
+                <p>
+                    Existing TLC audit events related to receipts,
+                    contributions, payments and treasury activity.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <section class="summary-grid">
+
+            <article class="summary-card">
+
+                <span>
+                    FINANCIAL EVENTS
+                </span>
+
+                <strong id="totalRecords">
+                    —
+                </strong>
+
+            </article>
+
+
+            <article class="summary-card">
+
+                <span>
+                    DISPLAYED
+                </span>
+
+                <strong id="displayedRecords">
+                    —
+                </strong>
+
+            </article>
+
+
+            <article class="summary-card featured">
+
+                <span>
+                    AUDIT STATUS
+                </span>
+
+                <strong>
+                    ACTIVE
+                </strong>
+
+            </article>
+
+        </section>
+
+
+        <section class="audit-card">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="eyebrow">
+                        OFFICIAL AUDIT LOG
+                    </span>
+
+                    <h2>
+                        Financial Events
+                    </h2>
+
+                </div>
+
+                <span
+                    id="auditUpdated"
+                    class="timestamp-badge"
+                >
+                    Loading…
+                </span>
+
+            </div>
+
+
+            <div
+                id="auditArea"
+                class="audit-area"
+            >
+
+                <div class="loading-state">
+                    Loading financial audit trail…
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section class="authority-card">
+
+            <div class="authority-seals">
+
+                <div class="seal">
+
+                    <img
+                        src="/static/assets/tlc_official_stamp.jpeg"
+                        alt="The Legacy Circle Official Seal"
+                    >
+
+                    <span>
+                        OFFICIAL TLC SEAL
+                    </span>
+
+                </div>
+
+
+                <div class="seal">
+
+                    <img
+                        src="/static/assets/tlc_treasury_seal.jpeg"
+                        alt="The Legacy Circle Treasury Seal"
+                    >
+
+                    <span>
+                        GROUP TREASURY SEAL
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="authority-text">
+
+                <span class="eyebrow">
+                    FINANCIAL AUDIT AUTHORITY
+                </span>
+
+                <strong>
+                    Alvin Owuor
+                </strong>
+
+                <span>
+                    Treasurer
+                </span>
+
+                <small>
+                    The Legacy Circle (TLC)
+                </small>
+
+                <div class="signature">
+                    Alvin Owuor
+                </div>
+
+                <div class="signature-line"></div>
+
+                <small>
+                    Authorized Treasurer
+                </small>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        Powered by Thee Alvin Tech Solutions
+    </footer>
+
+</div>
+
+
+<script
+    src="/static/assets/tlc_financial_audit_trail.js?v=20260926-2"
+></script>
+
+</body>
+</html>
+

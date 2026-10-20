@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Contributions | The Legacy Circle</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/assets/contributions.css"
+    >
+</head>
+
+<body>
+
+<main class="contributions-page">
+
+    <header class="page-heading">
+
+        <div>
+            <h1>My Contributions</h1>
+
+            <p>
+                View your contribution history, payment records
+                and official receipts.
+            </p>
+
+            <div class="member-label" id="memberId">
+                Member ID: —
+            </div>
+        </div>
+
+        <a
+            href="/dashboard"
+            class="back-link"
+        >
+            ← Dashboard
+        </a>
+
+    </header>
+
+
+    <section
+        id="mainContent"
+        class="hidden"
+    >
+
+        <section class="summary-grid">
+
+            <div class="summary-card">
+                <div class="summary-label">
+                    TOTAL CONTRIBUTED
+                </div>
+
+                <div
+                    class="summary-value"
+                    id="totalAmount"
+                >
+                    KES 0.00
+                </div>
+            </div>
+
+
+            <div class="summary-card">
+                <div class="summary-label">
+                    THIS MONTH
+                </div>
+
+                <div
+                    class="summary-value"
+                    id="thisMonth"
+                >
+                    KES 0.00
+                </div>
+            </div>
+
+
+            <div class="summary-card">
+                <div class="summary-label">
+                    NUMBER OF PAYMENTS
+                </div>
+
+                <div
+                    class="summary-value"
+                    id="paymentCount"
+                >
+                    0
+                </div>
+            </div>
+
+
+            <div class="summary-card">
+                <div class="summary-label">
+                    LATEST PAYMENT
+                </div>
+
+                <div
+                    class="summary-value"
+                    id="latestPayment"
+                >
+                    —
+                </div>
+            </div>
+
+        </section>
+
+
+        <section class="history-card">
+
+            <div class="history-header">
+
+                <h2>Contribution History</h2>
+
+                <div class="controls">
+
+                    <input
+                        id="contributionSearch"
+                        class="control search-control"
+                        type="search"
+                        placeholder="Search type, description, reference..."
+                    >
+
+                    <select
+                        id="periodFilter"
+                        class="control"
+                    >
+                        <option value="all">
+                            All Time
+                        </option>
+
+                        <option value="month">
+                            This Month
+                        </option>
+
+                        <option value="year">
+                            This Year
+                        </option>
+                    </select>
+
+
+                    <select
+                        id="statusFilter"
+                        class="control"
+                    >
+                        <option value="all">
+                            All Statuses
+                        </option>
+
+                        <option value="RECORDED">
+                            Recorded
+                        </option>
+
+                        <option value="PAID">
+                            Paid
+                        </option>
+
+                        <option value="PENDING">
+                            Pending
+                        </option>
+
+                        <option value="PROCESSING">
+                            Processing
+                        </option>
+
+                        <option value="CANCELLED">
+                            Cancelled
+                        </option>
+                    </select>
+
+                    <select
+                        id="sortFilter"
+                        class="control"
+                    >
+                        <option value="newest">
+                            Newest First
+                        </option>
+                        <option value="oldest">
+                            Oldest First
+                        </option>
+                    </select>
+
+                    <button
+                        type="button"
+                        id="refreshContributions"
+                        class="action-button refresh-button"
+                    >
+                        ↻ Refresh
+                    </button>
+
+                </div>
+
+                <div class="history-meta">
+                    <span id="recordCount">0 records</span>
+                    <span id="lastUpdated">Not updated yet</span>
+                </div>
+
+            </div>
+
+
+            <div id="tableArea">
+
+                <div
+                    id="noRecordsState"
+                    class="empty-state hidden"
+                >
+                    You currently have no contribution records.
+                </div>
+
+
+                <div
+                    id="filteredEmptyState"
+                    class="empty-state hidden"
+                >
+                    No contribution matches your search or filters.
+                </div>
+
+
+                <div
+                    id="tableWrap"
+                    class="table-wrap"
+                >
+
+                    <table class="contribution-table">
+
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Contribution</th>
+                                <th>Amount</th>
+                                <th>Method</th>
+                                <th>Reference</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody
+                            id="contributionTableBody"
+                        ></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </section>
+
+
+    <div
+        id="loadingState"
+        class="loading-state"
+    >
+        Loading your contribution records...
+    </div>
+
+
+    <div
+        id="errorState"
+        class="error-state hidden"
+    >
+        Unable to load your contribution records.
+        Please refresh the page and try again.
+    </div>
+
+</main>
+
+
+<div
+    id="detailsOverlay"
+    class="modal-overlay hidden"
+>
+
+    <section
+        class="details-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="detailsTitle"
+    >
+
+        <header class="modal-header">
+
+            <h3 id="detailsTitle">
+                Contribution Details
+            </h3>
+
+            <button
+                type="button"
+                id="closeDetails"
+                class="modal-close"
+                aria-label="Close"
+            >
+                ×
+            </button>
+
+        </header>
+
+
+        <div class="modal-body">
+
+            <div class="details-grid">
+
+                <div class="detail-item">
+                    <div class="detail-label">
+                        Contribution ID
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="detailContributionId"
+                    >
+                        —
+                    </div>
+                </div>
+
+
+                <div class="detail-item">
+                    <div class="detail-label">
+                        Date
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="detailDate"
+                    >
+                        —
+                    </div>
+                </div>
+
+
+                <div class="detail-item">
+                    <div class="detail-label">
+                        Time
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="detailTime"
+                    >
+                        —
+                    </div>
+                </div>
+
+
+                <div class="detail-item">
+                    <div class="detail-label">
+                        Contribution Type
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="detailType"
+                    >
+                        —
+                    </div>
+                </div>
+
+
+                <div class="detail-item">
+                    <div class="detail-label">
+                        Description
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="detailDescription"
+                    >
+                        —
+                    </div>
+                </div>
+
+
+                <div class="detail-item">
+                    <div class="detail-label">
+                        Amount
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="detailAmount"
+                    >
+                        —
+                    </div>
+                </div>
+
+
+                <div class="detail-item">
+                    <div class="detail-label">
+                        Payment Method
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="detailMethod"
+                    >
+                        —
+                    </div>
+                </div>
+
+
+                <div class="detail-item">
+                    <div class="detail-label">
+                        Transaction Reference
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="detailReference"
+                    >
+                        —
+                    </div>
+                </div>
+
+
+                <div class="detail-item">
+                    <div class="detail-label">
+                        Status
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="detailStatus"
+                    >
+                        —
+                    </div>
+                </div>
+
+
+                <div class="detail-item">
+                    <div class="detail-label">
+                        Receipt Number
+                    </div>
+
+                    <div
+                        class="detail-value"
+                        id="detailReceipt"
+                    >
+                        —
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    id="detailReceiptButton"
+                    class="action-button hidden"
+                >
+                    View Official Receipt
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<script
+    src="/static/js/contributions.js"
+></script>
+
+</body>
+</html>
+
