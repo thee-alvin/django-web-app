@@ -4,8 +4,10 @@ from django.http import Http404, JsonResponse
 from django.shortcuts import render
 from django.template import TemplateDoesNotExist
 from django.views.decorators.http import require_GET
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 
+@ensure_csrf_cookie
 @require_GET
 def home(request):
     return render(request, "portal/index.html")
@@ -22,11 +24,13 @@ def status(request):
     )
 
 
+@ensure_csrf_cookie
 @require_GET
 def system_health(request):
     return render(request, "portal/pages/tlc_health.html")
 
 
+@ensure_csrf_cookie
 @require_GET
 def page(request, page_path):
     requested = PurePosixPath(page_path)

@@ -15,10 +15,7 @@ urlpatterns = [
     path("api/member/constitution/text", receipts.constitution_text, name="member-constitution-text"),
     path("api/member/constitution/download", receipts.download_constitution, name="member-constitution-download"),
     path("api/member/constitution/print", receipts.print_constitution, name="member-constitution-print"),
-    path("api/tlc/verify-receipt", receipts.verify_receipt, name="verify-receipt"),
     path("api/tlc/search-receipts", receipts.search_receipts, name="search-receipts"),
-    path("api/tlc/receipt-options", receipts.receipt_options, name="receipt-options"),
     path("member/receipts", receipts.receipts_page, name="receipts-page"),
     path("member/receipt/<path:receipt_number>", receipts.receipt_details_page, name="receipt-details-page"),
-    path("tlc-receipt-verification", receipts.receipt_verification_page, name="receipt-verification-page"),
 ]

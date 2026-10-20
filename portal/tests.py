@@ -8,7 +8,7 @@ from django.urls import resolve
 
 from app.config.data_paths import DATA_DIR
 from portal.api_urls.receipts import urlpatterns as receipt_urlpatterns
-from portal.api_views import receipts
+from portal.api_views import finance, receipts
 
 
 class PortalPageTests(SimpleTestCase):
@@ -58,12 +58,9 @@ class ReceiptRouteTests(SimpleTestCase):
             "api/member/constitution/text": "member-constitution-text",
             "api/member/constitution/download": "member-constitution-download",
             "api/member/constitution/print": "member-constitution-print",
-            "api/tlc/verify-receipt": "verify-receipt",
             "api/tlc/search-receipts": "search-receipts",
-            "api/tlc/receipt-options": "receipt-options",
             "member/receipts": "receipts-page",
             "member/receipt/<path:receipt_number>": "receipt-details-page",
-            "tlc-receipt-verification": "receipt-verification-page",
         }
         self.assertEqual(
             {str(pattern.pattern): pattern.name for pattern in receipt_urlpatterns},
@@ -81,12 +78,9 @@ class ReceiptRouteTests(SimpleTestCase):
             "api/member/constitution/text": "/api/member/constitution/text",
             "api/member/constitution/download": "/api/member/constitution/download",
             "api/member/constitution/print": "/api/member/constitution/print",
-            "api/tlc/verify-receipt": "/api/tlc/verify-receipt",
             "api/tlc/search-receipts": "/api/tlc/search-receipts",
-            "api/tlc/receipt-options": "/api/tlc/receipt-options",
             "member/receipts": "/member/receipts",
             "member/receipt/<path:receipt_number>": "/member/receipt/TLC/RCPT/2026/000001",
-            "tlc-receipt-verification": "/tlc-receipt-verification",
         }
         with override_settings(ROOT_URLCONF="portal.api_urls.receipts"):
             for route, path in sample_paths.items():
@@ -108,17 +102,18 @@ class ReceiptRouteTests(SimpleTestCase):
         )
 
     @override_settings(ROOT_URLCONF="portal.api_urls.receipts")
-    def test_verification_endpoints_and_page_require_financial_admin(self):
-        for path in (
-            "/api/tlc/verify-receipt",
-            "/api/tlc/search-receipts?q=123",
-            "/api/tlc/receipt-options",
-            "/tlc-receipt-verification",
-        ):
-            with self.subTest(path=path):
-                response = self.client.get(path)
-                self.assertEqual(response.status_code, 403)
-                self.assertEqual(response.json()["message"], "Access denied.")
+    def test_receipt_search_requires_financial_admin(self):
+        response = self.client.get("/api/tlc/search-receipts?q=123")
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.json()["message"], "Access denied.")
+
+    def test_finance_verification_routes_are_the_root_routes(self):
+        self.assertEqual(resolve("/api/tlc/verify-receipt").func, finance.verify_receipt)
+        self.assertEqual(resolve("/api/tlc/receipt-options").func, finance.receipt_options)
+        self.assertEqual(
+            resolve("/tlc-receipt-verification").func,
+            finance.receipt_verification_page,
+        )
 
     @override_settings(ROOT_URLCONF="portal.api_urls.receipts")
     def test_constitution_text_api_preserves_success_payload(self):
