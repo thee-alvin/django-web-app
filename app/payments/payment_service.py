@@ -1,12 +1,13 @@
-﻿from pathlib import Path
+from pathlib import Path
 from datetime import datetime, date
 
 from openpyxl import load_workbook
+from app.config.data_paths import DATA_DIR
 
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 CONTRIBUTIONS_FILE = (
-    BASE_DIR / "data" / "spreadsheets" / "02_CONTRIBUTIONS.xlsx"
+    DATA_DIR / "spreadsheets" / "02_CONTRIBUTIONS.xlsx"
 )
 
 

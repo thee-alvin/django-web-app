@@ -2,13 +2,13 @@ from pathlib import Path
 
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Alignment, Font, PatternFill, Border, Side
+from app.config.data_paths import DATA_DIR
 
 
 BASE_DIR = Path(__file__).resolve().parents[3]
 
 COVERAGE_FILE = (
-    BASE_DIR
-    / "data"
+    DATA_DIR
     / "spreadsheets"
     / "03_CONTRIBUTION_COVERAGE.xlsx"
 )

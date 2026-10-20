@@ -21,11 +21,19 @@ class AccountApiTests(TestCase):
         self.assertEqual(response.status_code, 401)
         self.assertEqual(response.json()["success"], False)
 
-    def test_session_uses_existing_member_keys(self):
+    def test_payment_statement_requires_a_session(self):
+        response = self.client.get("/api/member/payment-statement")
+
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.json()["success"], False)
+
+    def test_logout_clears_member_session(self):
         session = self.client.session
         session["member_id"] = "TLC/001/2026"
         session["role"] = "MEMBER"
         session.save()
 
-        self.assertEqual(self.client.session["member_id"], "TLC/001/2026")
-        self.assertEqual(self.client.session["role"], "MEMBER")
+        response = self.client.post("/api/logout")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertNotIn("member_id", self.client.session)

@@ -1,4 +1,4 @@
-﻿from pathlib import Path
+from pathlib import Path
 from datetime import datetime
 import uuid
 
@@ -7,20 +7,19 @@ from openpyxl import load_workbook
 from flask import Blueprint, jsonify, request, session
 
 from app.security.audit_log import record_activity
+from app.config.data_paths import DATA_DIR
 
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 
 ELECTIONS_FILE = (
-    BASE_DIR
-    / "data"
+    DATA_DIR
     / "spreadsheets"
     / "06_ELECTIONS.xlsx"
 )
 
 CANDIDATES_FILE = (
-    BASE_DIR
-    / "data"
+    DATA_DIR
     / "spreadsheets"
     / "07_CANDIDATES.xlsx"
 )

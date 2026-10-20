@@ -1,13 +1,14 @@
-﻿from pathlib import Path
+from pathlib import Path
+from app.config.data_paths import DATA_DIR
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 
 CONSTITUTION_PDF = (
-    BASE_DIR / "data" / "documents" / "TLC_Constitution.pdf"
+    DATA_DIR / "documents" / "TLC_Constitution.pdf"
 )
 
 CONSTITUTION_TEXT = (
-    BASE_DIR / "data" / "documents" / "TLC_Constitution.txt"
+    DATA_DIR / "documents" / "TLC_Constitution.txt"
 )
 
 

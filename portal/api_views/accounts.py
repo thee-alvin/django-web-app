@@ -92,10 +92,9 @@ def _werkzeug_password_hash(password):
         n=32768,
         r=8,
         p=1,
-        maxmem=128 * 1024 * 1024,
+        maxmem=132 * 32768 * 8,
     )
-    encoded_digest = base64.urlsafe_b64encode(digest).decode("ascii").rstrip("=")
-    return f"scrypt:32768:8:1${salt}${encoded_digest}"
+    return f"scrypt:32768:8:1${salt}${digest.hex()}"
 
 
 def _check_password_hash(encoded, password):
@@ -103,20 +102,21 @@ def _check_password_hash(encoded, password):
         method, salt, expected = str(encoded).split("$", 2)
         if method.startswith("scrypt:"):
             _, n, r, p = method.split(":")
-            expected_bytes = base64.urlsafe_b64decode(expected + "=" * (-len(expected) % 4))
+            expected_bytes = bytes.fromhex(expected)
+            n, r, p = int(n), int(r), int(p)
             actual = hashlib.scrypt(
                 str(password).encode("utf-8"),
                 salt=salt.encode("utf-8"),
-                n=int(n),
-                r=int(r),
-                p=int(p),
+                n=n,
+                r=r,
+                p=p,
                 dklen=len(expected_bytes),
-                maxmem=128 * 1024 * 1024,
+                maxmem=132 * n * r * p,
             )
             return hmac.compare_digest(actual, expected_bytes)
         if method.startswith("pbkdf2:"):
             _, algorithm, iterations = method.split(":")
-            expected_bytes = base64.urlsafe_b64decode(expected + "=" * (-len(expected) % 4))
+            expected_bytes = bytes.fromhex(expected)
             actual = hashlib.pbkdf2_hmac(
                 algorithm,
                 str(password).encode("utf-8"),

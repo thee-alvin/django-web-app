@@ -1,24 +1,23 @@
-﻿from pathlib import Path
+from pathlib import Path
 import json
 
 from openpyxl import load_workbook
+from app.config.data_paths import DATA_DIR
 
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 
-RECEIPTS_DIR = BASE_DIR / "data" / "receipts"
+RECEIPTS_DIR = DATA_DIR / "receipts"
 RECEIPTS_FILE = RECEIPTS_DIR / "receipts.json"
 
 MEMBERS_FILE = (
-    BASE_DIR
-    / "data"
+    DATA_DIR
     / "spreadsheets"
     / "01_MEMBERS.xlsx"
 )
 
 CONTRIBUTIONS_FILE = (
-    BASE_DIR
-    / "data"
+    DATA_DIR
     / "spreadsheets"
     / "02_CONTRIBUTIONS.xlsx"
 )

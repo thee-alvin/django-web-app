@@ -1,13 +1,14 @@
-﻿from pathlib import Path
+from pathlib import Path
 from datetime import datetime, timedelta
 from openpyxl import load_workbook
 import os
 from dotenv import load_dotenv, dotenv_values
+from app.config.data_paths import DATA_DIR
 
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 
-DATA_DIR = BASE_DIR / "data"
+DATA_DIR = DATA_DIR
 SPREADSHEETS_DIR = DATA_DIR / "spreadsheets"
 RECEIPTS_DIR = DATA_DIR / "receipts"
 CLOUDFLARE_LOG = DATA_DIR / "cloudflare" / "tunnel.log"

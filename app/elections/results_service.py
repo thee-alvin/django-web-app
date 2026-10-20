@@ -1,11 +1,12 @@
-﻿from pathlib import Path
+from pathlib import Path
 from datetime import datetime
 from collections import Counter
 from openpyxl import load_workbook
+from app.config.data_paths import DATA_DIR
 
 BASE_DIR = Path(__file__).resolve().parents[2]
-ELECTIONS_FILE = BASE_DIR / "data" / "spreadsheets" / "06_ELECTIONS.xlsx"
-CANDIDATES_FILE = BASE_DIR / "data" / "spreadsheets" / "07_CANDIDATES.xlsx"
+ELECTIONS_FILE = DATA_DIR / "spreadsheets" / "06_ELECTIONS.xlsx"
+CANDIDATES_FILE = DATA_DIR / "spreadsheets" / "07_CANDIDATES.xlsx"
 
 
 def clean(value):

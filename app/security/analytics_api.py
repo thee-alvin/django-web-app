@@ -1,4 +1,4 @@
-﻿from pathlib import Path
+from pathlib import Path
 from datetime import datetime, timezone, timedelta
 
 from flask import Blueprint, jsonify, request, send_from_directory
@@ -6,6 +6,7 @@ from openpyxl import load_workbook
 
 from app.auth.session import get_current_member_id
 from app.security.audit_log import _read_records
+from app.config.data_paths import DATA_DIR
 
 
 analytics_api = Blueprint(
@@ -18,15 +19,13 @@ BASE_DIR = Path(__file__).resolve().parents[2]
 FRONTEND_DIR = BASE_DIR / "frontend"
 
 MEMBERS_FILE = (
-    BASE_DIR
-    / "data"
+    DATA_DIR
     / "spreadsheets"
     / "01_MEMBERS.xlsx"
 )
 
 ANALYTICS_RESET_FILE = (
-    BASE_DIR
-    / "data"
+    DATA_DIR
     / "activity"
     / "analytics_reset.json"
 )

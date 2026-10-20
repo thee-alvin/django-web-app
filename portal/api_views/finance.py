@@ -1,11 +1,12 @@
 from pathlib import Path
-from datetime import date, datetime
+import re
+from datetime import date, datetime, timedelta
 
 from django.conf import settings
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_GET
-from django.views.decorators.http import require_http_methods
+from django.views.decorators.http import require_POST, require_http_methods
 
 from app.financial_register import ledger_service
 from app.financial_register import service as financial_register_service
@@ -22,7 +23,6 @@ from app.financial_register.contribution_monitoring import (
     service as contribution_monitoring_service,
 )
 from app.financial_register.audit_trail import service as audit_trail_service
-from app.payments import payment_service
 from app.security import audit_log
 
 
@@ -47,7 +47,6 @@ def _configure_data_paths():
     financial_register_service.MEMBERS_FILE = members_file
     financial_register_service.CONTRIBUTIONS_FILE = contributions_file
     verification_service.CONTRIBUTIONS_FILE = contributions_file
-    payment_service.CONTRIBUTIONS_FILE = contributions_file
     coverage_workbook.COVERAGE_FILE = coverage_file
     coverage_service.COVERAGE_FILE = coverage_file
     coverage_service.CONTRIBUTIONS_FILE = contributions_file
@@ -729,6 +728,310 @@ def member_financial_summary(request):
             {
                 "success": False,
                 "message": "Unable to load your financial summary.",
+            },
+            status=500,
+        )
+
+
+def _payment_transaction_date(transaction):
+    for key in (
+        "date",
+        "payment_date",
+        "transaction_date",
+        "received_date",
+        "created_at",
+        "received_at",
+    ):
+        value = transaction.get(key)
+        if isinstance(value, datetime):
+            return value.date()
+        if isinstance(value, date):
+            return value
+        text = _clean(value)
+        for date_format in (
+            "%Y-%m-%d",
+            "%Y/%m/%d",
+            "%d-%m-%Y",
+            "%d/%m/%Y",
+            "%d %B %Y",
+            "%d %b %Y",
+            "%B %d, %Y",
+            "%b %d, %Y",
+            "%Y-%m-%dT%H:%M:%S",
+            "%Y-%m-%dT%H:%M:%S.%f",
+        ):
+            try:
+                return datetime.strptime(text, date_format).date()
+            except ValueError:
+                continue
+        match = re.search(r"\d{1,2}\s+[A-Za-z]+\s+\d{4}", text)
+        if match:
+            for date_format in ("%d %B %Y", "%d %b %Y"):
+                try:
+                    return datetime.strptime(
+                        match.group(0), date_format
+                    ).date()
+                except ValueError:
+                    continue
+    return None
+
+
+def _payment_transaction_text(transaction):
+    return " ".join(
+        str(transaction[key])
+        for key in (
+            "description",
+            "payment_type",
+            "type",
+            "transaction_type",
+            "details",
+            "notes",
+            "remarks",
+        )
+        if transaction.get(key)
+    )
+
+
+def _payment_week_count(transaction):
+    for key in ("weeks", "week_count", "coverage_weeks", "number_of_weeks"):
+        value = transaction.get(key)
+        if value is not None:
+            try:
+                count = int(float(str(value).strip()))
+                if count > 0:
+                    return count
+            except (TypeError, ValueError):
+                pass
+    match = re.search(
+        r"(\d+)\s*[- ]?\s*WEEKS?",
+        _payment_transaction_text(transaction),
+        flags=re.IGNORECASE,
+    )
+    return int(match.group(1)) if match else 0
+
+
+def _payment_transaction_amount(transaction):
+    value = (
+        transaction.get("amount")
+        or transaction.get("amount_paid")
+        or transaction.get("paid_amount")
+        or transaction.get("value")
+    )
+    if value is None:
+        return 0.0
+    if isinstance(value, (int, float)):
+        return float(value)
+    match = re.search(r"-?\d+(?:\.\d+)?", str(value).replace(",", ""))
+    return float(match.group(0)) if match else 0.0
+
+
+def _build_member_payment_coverage(history_statement, year, month):
+    if not year or not month:
+        weeks = []
+        return {
+            "year": None,
+            "month": None,
+            "month_label": "",
+            "period": "",
+            "amount": 0.0,
+            "week_count": 0,
+            "weeks_catered_for": 0,
+            "weeks": weeks,
+            "coverageWeeks": weeks,
+            "coverageAmount": 0.0,
+            "coverageWeekCount": 0,
+        }
+
+    target_year = int(year)
+    target_month = int(month)
+    member = history_statement.get("member") or {}
+    transactions = member.get("transactions")
+    if not isinstance(transactions, list):
+        transactions = history_statement.get("transactions") or []
+    coverage_rows = []
+    for transaction in transactions:
+        if not isinstance(transaction, dict):
+            continue
+        paid_date = _payment_transaction_date(transaction)
+        week_count = _payment_week_count(transaction)
+        total_amount = _payment_transaction_amount(transaction)
+        if (
+            paid_date is None
+            or paid_date.year not in (target_year - 1, target_year)
+            or week_count <= 0
+            or total_amount <= 0
+        ):
+            continue
+        weekly_amount = total_amount / week_count
+        for index in range(week_count):
+            covered_date = paid_date + timedelta(weeks=index)
+            if covered_date.year == target_year and covered_date.month == target_month:
+                received = paid_date.strftime("%d %B %Y")
+                formatted_covered = covered_date.strftime("%d %B %Y")
+                coverage_rows.append(
+                    {
+                        "week": index + 1,
+                        "week_number": index + 1,
+                        "label": f"WEEK {index + 1}",
+                        "date": formatted_covered,
+                        "coverage_date": formatted_covered,
+                        "payment_received": received,
+                        "payment_received_date": received,
+                        "amount": round(weekly_amount, 2),
+                        "description": f"Payment received {received}",
+                        "source_amount": round(total_amount, 2),
+                        "source_week_count": week_count,
+                    }
+                )
+    coverage_rows.sort(
+        key=lambda row: _payment_transaction_date({"date": row["coverage_date"]})
+        or date.min
+    )
+    amount = round(sum(row["amount"] for row in coverage_rows), 2)
+    week_count = len(coverage_rows)
+    month_label = f"{target_year}-{target_month:02d}"
+    return {
+        "year": target_year,
+        "month": target_month,
+        "month_label": month_label,
+        "period": month_label,
+        "amount": amount,
+        "coverageAmount": amount,
+        "week_count": week_count,
+        "coverageWeekCount": week_count,
+        "weeks_catered_for": week_count,
+        "weeks": coverage_rows,
+        "coverageWeeks": coverage_rows,
+    }
+
+
+@require_GET
+def member_payment_statement(request):
+    member_id = _clean(request.session.get("member_id")).upper()
+    if not member_id:
+        return JsonResponse(
+            {
+                "success": False,
+                "message": "Please log in to view your payment statement.",
+            },
+            status=401,
+        )
+    year = _clean(request.GET.get("year"))
+    month = _clean(request.GET.get("month"))
+    if year and (not year.isdigit() or len(year) != 4):
+        return JsonResponse(
+            {"success": False, "message": "Invalid year."},
+            status=400,
+        )
+    if month:
+        if not year:
+            return JsonResponse(
+                {"success": False, "message": "A month requires a year."},
+                status=400,
+            )
+        if not month.isdigit() or not 1 <= int(month) <= 12:
+            return JsonResponse(
+                {"success": False, "message": "Invalid month."},
+                status=400,
+            )
+        month = str(int(month)).zfill(2)
+    try:
+        _configure_data_paths()
+        statement = statement_service.build_member_statement(
+            member_id=member_id,
+            year=year or None,
+            month=month or None,
+        )
+        if statement is None:
+            return JsonResponse(
+                {
+                    "success": False,
+                    "message": "Your member statement was not found.",
+                },
+                status=404,
+            )
+        history_statement = (
+            statement_service.build_member_statement(
+                member_id=member_id,
+                year=year,
+                month=None,
+            )
+            if year and month
+            else statement
+        )
+        coverage = _build_member_payment_coverage(
+            history_statement,
+            year,
+            month,
+        )
+        if year and month and coverage["weeks"]:
+            covered_dates = {
+                _payment_transaction_date({"date": row["coverage_date"]})
+                for row in coverage["weeks"]
+            }
+            covered_dates.discard(None)
+            source_transactions = []
+            history_member = (history_statement or {}).get("member") or {}
+            history_transactions = history_member.get("transactions")
+            if not isinstance(history_transactions, list):
+                history_transactions = (history_statement or {}).get(
+                    "transactions", []
+                )
+            for transaction in history_transactions:
+                if not isinstance(transaction, dict):
+                    continue
+                paid_date = _payment_transaction_date(transaction)
+                count = _payment_week_count(transaction)
+                if not paid_date or count <= 0:
+                    continue
+                coverage_end = paid_date + timedelta(weeks=count) - timedelta(days=1)
+                if any(paid_date <= covered <= coverage_end for covered in covered_dates):
+                    source_transactions.append(transaction)
+
+            member = statement.setdefault("member", {})
+            current = member.get("transactions")
+            if not isinstance(current, list):
+                current = []
+
+            def transaction_key(transaction):
+                return (
+                    _clean(
+                        transaction.get("receipt")
+                        or transaction.get("receipt_number")
+                        or transaction.get("reference")
+                        or transaction.get("payment_reference")
+                    ),
+                    str(_payment_transaction_date(transaction) or ""),
+                    round(_payment_transaction_amount(transaction), 2),
+                    _payment_transaction_text(transaction),
+                )
+
+            existing = {transaction_key(item) for item in current}
+            for transaction in source_transactions:
+                key = transaction_key(transaction)
+                if key not in existing:
+                    current.append(transaction)
+                    existing.add(key)
+            current.sort(
+                key=lambda item: _payment_transaction_date(item) or date.min,
+                reverse=True,
+            )
+            member["transactions"] = current
+        statement["coverage"] = coverage
+        statement["coverageWeeks"] = coverage["coverageWeeks"]
+        statement["coverageAmount"] = coverage["coverageAmount"]
+        statement["coverageWeekCount"] = coverage["coverageWeekCount"]
+        return JsonResponse({"success": True, "statement": statement})
+    except ValueError as error:
+        return JsonResponse(
+            {"success": False, "message": str(error)},
+            status=400,
+        )
+    except Exception:
+        return JsonResponse(
+            {
+                "success": False,
+                "message": "Unable to load your payment statement.",
             },
             status=500,
         )

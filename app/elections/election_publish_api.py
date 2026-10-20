@@ -1,4 +1,4 @@
-﻿from datetime import datetime
+from datetime import datetime
 from pathlib import Path
 import uuid
 
@@ -6,10 +6,11 @@ from flask import Blueprint, jsonify, session
 from openpyxl import load_workbook
 
 from app.elections.results_service import calculate_and_store_results
+from app.config.data_paths import DATA_DIR
 
 
 BASE_DIR = Path(__file__).resolve().parents[2]
-ELECTIONS_FILE = BASE_DIR / "data" / "spreadsheets" / "06_ELECTIONS.xlsx"
+ELECTIONS_FILE = DATA_DIR / "spreadsheets" / "06_ELECTIONS.xlsx"
 
 election_publish_bp = Blueprint(
     "election_publish",

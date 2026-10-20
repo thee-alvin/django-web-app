@@ -1,9 +1,10 @@
-﻿from pathlib import Path
+from pathlib import Path
 from openpyxl import load_workbook
+from app.config.data_paths import DATA_DIR
 
 
 BASE_DIR = Path(__file__).resolve().parents[2]
-NOTIFICATIONS_WORKBOOK = BASE_DIR / "data" / "spreadsheets" / "09_NOTIFICATIONS.xlsx"
+NOTIFICATIONS_WORKBOOK = DATA_DIR / "spreadsheets" / "09_NOTIFICATIONS.xlsx"
 
 
 def get_notifications():

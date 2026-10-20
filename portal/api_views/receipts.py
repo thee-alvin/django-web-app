@@ -35,7 +35,11 @@ def _read_json(path, fallback):
 def _load_receipts():
     path = _data_path("receipts", "receipts.json")
     if not path.exists():
-        return []
+        try:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text("[]", encoding="utf-8")
+        except OSError:
+            return []
     data = _read_json(path, [])
     return data if isinstance(data, list) else []
 

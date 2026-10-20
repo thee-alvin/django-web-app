@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import json
 import threading
@@ -6,11 +6,12 @@ import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+from app.config.data_paths import DATA_DIR
 
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 
-ACTIVITY_DIR = BASE_DIR / "data" / "activity"
+ACTIVITY_DIR = DATA_DIR / "activity"
 ACTIVITY_FILE = ACTIVITY_DIR / "recent_activity.json"
 
 MAX_ACTIVITY_RECORDS = 2000

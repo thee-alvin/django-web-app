@@ -1,11 +1,12 @@
-﻿from pathlib import Path
+from pathlib import Path
 from flask import Blueprint, jsonify, send_file
 from app.auth.session import get_current_member_id
 from app.security.audit_log import record_activity
 from app.documents.document_service import get_documents, get_document
+from app.config.data_paths import DATA_DIR
 
 BASE_DIR = Path(__file__).resolve().parents[2]
-DOCUMENTS_DIR = BASE_DIR / "data" / "documents"
+DOCUMENTS_DIR = DATA_DIR / "documents"
 
 documents_bp = Blueprint(
     "documents",

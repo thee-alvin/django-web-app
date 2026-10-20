@@ -2,13 +2,13 @@
 from pathlib import Path
 
 from openpyxl import load_workbook
+from app.config.data_paths import DATA_DIR
 
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 
 MEETINGS_FILE = (
-    BASE_DIR
-    / "data"
+    DATA_DIR
     / "spreadsheets"
     / "04_MEETINGS.xlsx"
 )

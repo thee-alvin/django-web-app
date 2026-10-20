@@ -17,6 +17,11 @@ urlpatterns = [
         name="member-financial-summary",
     ),
     path(
+        "api/member/payment-statement",
+        finance.member_payment_statement,
+        name="member-payment-statement",
+    ),
+    path(
         "api/tlc/financial-register",
         finance.financial_register,
         name="financial-register",

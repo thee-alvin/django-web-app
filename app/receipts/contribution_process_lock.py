@@ -1,13 +1,13 @@
-﻿from pathlib import Path
+from pathlib import Path
 import os
 import time
+from app.config.data_paths import DATA_DIR
 
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 
 LOCK_FILE = (
-    BASE_DIR
-    / "data"
+    DATA_DIR
     / "receipts"
     / ".contribution_processor.lock"
 )

@@ -1,4 +1,4 @@
-﻿from pathlib import Path
+from pathlib import Path
 from datetime import datetime
 
 from openpyxl import load_workbook
@@ -26,13 +26,13 @@ from app.security.audit_log import record_activity
 from app.receipts.contribution_process_lock import (
     process_lock
 )
+from app.config.data_paths import DATA_DIR
 
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 
 CONTRIBUTIONS_FILE = (
-    BASE_DIR
-    / "data"
+    DATA_DIR
     / "spreadsheets"
     / "02_CONTRIBUTIONS.xlsx"
 )

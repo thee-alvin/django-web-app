@@ -1,10 +1,11 @@
-﻿from datetime import datetime
+from datetime import datetime
 from pathlib import Path
 
 from flask import Blueprint, jsonify, request, session
 from openpyxl import load_workbook
 
 from app.security.audit_log import record_activity
+from app.config.data_paths import DATA_DIR
 
 
 welfare_requests_bp = Blueprint(
@@ -14,8 +15,8 @@ welfare_requests_bp = Blueprint(
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 
-MEMBERS_FILE = BASE_DIR / "data" / "spreadsheets" / "01_MEMBERS.xlsx"
-WELFARE_FILE = BASE_DIR / "data" / "spreadsheets" / "05_WELFARE.xlsx"
+MEMBERS_FILE = DATA_DIR / "spreadsheets" / "01_MEMBERS.xlsx"
+WELFARE_FILE = DATA_DIR / "spreadsheets" / "05_WELFARE.xlsx"
 
 
 REQUEST_HEADERS = [

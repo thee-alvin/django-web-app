@@ -1,4 +1,4 @@
-﻿from pathlib import Path
+from pathlib import Path
 import hashlib
 import json
 import threading
@@ -8,27 +8,25 @@ from openpyxl import load_workbook
 from app.meetings.meeting_email_service import (
     send_meeting_email
 )
+from app.config.data_paths import DATA_DIR
 
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 
 MEETINGS_FILE = (
-    BASE_DIR
-    / "data"
+    DATA_DIR
     / "spreadsheets"
     / "04_MEETINGS.xlsx"
 )
 
 MEMBERS_FILE = (
-    BASE_DIR
-    / "data"
+    DATA_DIR
     / "spreadsheets"
     / "01_MEMBERS.xlsx"
 )
 
 STATE_DIR = (
-    BASE_DIR
-    / "data"
+    DATA_DIR
     / "meetings"
 )
 

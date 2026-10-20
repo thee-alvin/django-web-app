@@ -1,4 +1,4 @@
-﻿from pathlib import Path
+from pathlib import Path
 from datetime import date, datetime, timedelta
 import json
 import threading
@@ -10,29 +10,27 @@ from openpyxl import load_workbook
 from app.payments.weekly_contribution_email import (
     send_weekly_contribution_reminder
 )
+from app.config.data_paths import DATA_DIR
 
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 
 
 MEMBERS_FILE = (
-    BASE_DIR
-    / "data"
+    DATA_DIR
     / "spreadsheets"
     / "01_MEMBERS.xlsx"
 )
 
 CONTRIBUTIONS_FILE = (
-    BASE_DIR
-    / "data"
+    DATA_DIR
     / "spreadsheets"
     / "02_CONTRIBUTIONS.xlsx"
 )
 
 
 STATE_DIR = (
-    BASE_DIR
-    / "data"
+    DATA_DIR
     / "weekly_contributions"
 )
 

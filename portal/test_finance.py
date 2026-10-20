@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 from unittest.mock import patch
 
 from django.test import RequestFactory, SimpleTestCase
@@ -24,6 +25,7 @@ class FinanceApiTests(SimpleTestCase):
             [
                 "api/member/contributions",
                 "api/member/financial-summary",
+                "api/member/payment-statement",
                 "api/tlc/financial-register",
                 "tlc-financial-register",
                 "api/tlc/financial-register/excel",
@@ -47,7 +49,7 @@ class FinanceApiTests(SimpleTestCase):
             ],
         )
         self.assertEqual(
-            urlpatterns[1].callback,
+            urlpatterns[3].callback,
             finance.financial_register,
         )
 
@@ -155,3 +157,61 @@ class FinanceApiTests(SimpleTestCase):
             json.loads(response.content),
             {"success": False, "message": "You must be logged in."},
         )
+
+    def test_member_payment_statement_requires_member_session(self):
+        response = finance.member_payment_statement(
+            self.request("/api/member/payment-statement")
+        )
+
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(
+            json.loads(response.content)["message"],
+            "Please log in to view your payment statement.",
+        )
+
+    def test_service_workbooks_are_redirected_to_django_data_dir(self):
+        data_dir = Path("custom-tlc-data")
+        path_names = {
+            finance.ledger_service: ("MEMBERS_FILE", "CONTRIBUTIONS_FILE"),
+            finance.disbursement_service: ("DISBURSEMENTS_FILE",),
+            finance.financial_register_service: (
+                "MEMBERS_FILE",
+                "CONTRIBUTIONS_FILE",
+            ),
+            finance.verification_service: ("CONTRIBUTIONS_FILE",),
+            finance.coverage_service: ("COVERAGE_FILE", "CONTRIBUTIONS_FILE"),
+            finance.coverage_workbook: ("COVERAGE_FILE",),
+            finance.reconciliation_service: ("MEMBERS_FILE", "CONTRIBUTIONS_FILE"),
+            finance.audit_log: ("ACTIVITY_DIR", "ACTIVITY_FILE"),
+        }
+        old_paths = {
+            module: {
+                name: getattr(module, name)
+                for name in names
+            }
+            for module, names in path_names.items()
+        }
+        try:
+            with patch.object(finance.settings, "TLC_DATA_DIR", data_dir):
+                finance._configure_data_paths()
+
+            self.assertEqual(
+                finance.ledger_service.CONTRIBUTIONS_FILE,
+                data_dir / "spreadsheets" / "02_CONTRIBUTIONS.xlsx",
+            )
+            self.assertEqual(
+                finance.disbursement_service.DISBURSEMENTS_FILE,
+                data_dir / "spreadsheets" / "11_TREASURY_DISBURSEMENTS.xlsx",
+            )
+            self.assertEqual(
+                finance.coverage_service.CONTRIBUTIONS_FILE,
+                data_dir / "spreadsheets" / "02_CONTRIBUTIONS.xlsx",
+            )
+            self.assertEqual(
+                finance.audit_log.ACTIVITY_FILE,
+                data_dir / "activity" / "recent_activity.json",
+            )
+        finally:
+            for module, values in old_paths.items():
+                for name, value in values.items():
+                    setattr(module, name, value)

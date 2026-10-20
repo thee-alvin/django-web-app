@@ -1,4 +1,4 @@
-﻿from pathlib import Path
+from pathlib import Path
 import json
 import hashlib
 import threading
@@ -8,27 +8,25 @@ from openpyxl import load_workbook
 from app.announcements.announcement_email_service import (
     send_announcement_email
 )
+from app.config.data_paths import DATA_DIR
 
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 
 ANNOUNCEMENTS_FILE = (
-    BASE_DIR
-    / "data"
+    DATA_DIR
     / "spreadsheets"
     / "03_ANNOUNCEMENTS.xlsx"
 )
 
 MEMBERS_FILE = (
-    BASE_DIR
-    / "data"
+    DATA_DIR
     / "spreadsheets"
     / "01_MEMBERS.xlsx"
 )
 
 STATE_DIR = (
-    BASE_DIR
-    / "data"
+    DATA_DIR
     / "announcements"
 )
 

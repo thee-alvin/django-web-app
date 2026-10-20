@@ -1,9 +1,10 @@
-﻿from pathlib import Path
+from pathlib import Path
 from flask import Blueprint, jsonify, session
 from openpyxl import load_workbook
+from app.config.data_paths import DATA_DIR
 
 BASE_DIR = Path(__file__).resolve().parents[2]
-CANDIDATES_FILE = BASE_DIR / "data" / "spreadsheets" / "07_CANDIDATES.xlsx"
+CANDIDATES_FILE = DATA_DIR / "spreadsheets" / "07_CANDIDATES.xlsx"
 
 candidate_status_bp = Blueprint(
     "candidate_status",
